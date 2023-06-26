@@ -1,4 +1,4 @@
-# vegarden
+# Vegarden
 Vegarden is a social blogging platform focused on promoting veganism and creating a community of people interested in vegan philosophy.
 This project aims to create a space where users, known as Zenytes, can express themselves, share experiences, and contribute to the vegan community through their personal blogs.
 
