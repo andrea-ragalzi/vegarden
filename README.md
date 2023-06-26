@@ -18,14 +18,13 @@ vegan community through their personal blogs.
 ## Tech stack
 
 ### Backend:
-
-- [Java Spring Boot](https://spring.io/projects/spring-boot)
-- [PostgreSQL](https://www.postgresql.org/)
+- [Java 17](https://www.java.com/en/)
+- [Spring Boot 3.11](https://spring.io/projects/spring-boot)
+- [PostgreSQL 14.8](https://www.postgresql.org/)
 
 ### Frontend:
-
-- [React](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [React](https://react.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Sass](https://sass-lang.com/)
 
