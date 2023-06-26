@@ -10,4 +10,16 @@ This project aims to create a space where users, known as Zenytes, can express t
 - Instant messaging chat
 - Follow system to connect with other Zenytes
 
+## Tech stack:
+
+### Backend:
+- Java Spring Boot
+- PostgreSQL
+
+### Frontend:
+- React
+- TypeScript
+- Tailwind CSS
+- Sass
+
 Thank you for your interest in Vegarden!
