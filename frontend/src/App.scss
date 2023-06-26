@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-$primary-color: #007bff;
+$primary-color: #e8f1ff;
+
+
 
 // Define a mixin
 @mixin button-style {
@@ -10,7 +12,7 @@ $primary-color: #007bff;
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: bold;
-  color: green;
+  color: red;
   background-color: $primary-color;
   border: none;
   border-radius: 0.25rem;
