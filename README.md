@@ -22,4 +22,4 @@ This project aims to create a space where users, known as Zenytes, can express t
 - Tailwind CSS
 - Sass
 
-Thank you for your interest in Vegarden!
+## Thank you for your interest in Vegarden!
