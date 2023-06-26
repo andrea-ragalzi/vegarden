@@ -7,7 +7,7 @@ This project aims to create a space where users, known as Zenytes, can express t
 - Personalized blogs for each user within their ZenHub
 - Text editor for writing and formatting articles
 - Article creation, liking, saving, commenting, and sharing functionality
-- Instant messaging chat feature
-- Follow system to connect with other users
+- Instant messaging chat
+- Follow system to connect with other Zenytes
 
 Thank you for your interest in Vegarden!
