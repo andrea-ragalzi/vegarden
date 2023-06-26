@@ -1,0 +1,5 @@
+Run Vite Project
+
+cd frontend
+npm install
+npm run dev
