@@ -67,5 +67,5 @@ public class Profile {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zenyte_id", referencedColumnName = "id", nullable = false)
-    private Zenyte zenyte;
+    private Zenyte owner;
 }

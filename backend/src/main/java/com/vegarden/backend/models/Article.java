@@ -2,7 +2,7 @@
  * Represents an article published on a zenyte's personal blog on the
  * Vegarden platform.
  * Contains information about the article, such as the title, description,
- * content, and creation and update timestamps.
+ * body, and creation and update timestamps.
  * Additionally, has a ManyToOne relationship with the Blog class,
  * representing the blog on which the article was published.
  * Also has a ManyToMany relationship with the Zenyte class,
@@ -51,7 +51,10 @@ public class Article {
     private String description;
 
     @Column(nullable = false)
-    private String content;
+    private String body;
+
+    @Column(nullable = false)
+    private String bodyHtml;
 
     @Column(nullable = false)
     private Timestamp createdAt;

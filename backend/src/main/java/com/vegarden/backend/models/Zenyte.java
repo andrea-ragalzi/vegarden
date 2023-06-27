@@ -51,9 +51,9 @@ public class Zenyte {
     @Column
     private Timestamp updatedAt;
 
-    @OneToOne(mappedBy = "zenyte", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private Profile profile;
 
-    @OneToOne(mappedBy = "zenyte", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private Blog blog;
 }
