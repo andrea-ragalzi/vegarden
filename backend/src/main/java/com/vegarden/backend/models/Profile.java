@@ -1,3 +1,11 @@
+/**
+ * Represents a user profile on the Vegarden platform.
+ * Contains basic information about the user, such as first name, middle name,
+ * last name, pronouns, bio, location, avatar image and cover image.
+ * Additionally, has a OneToOne relationship with the Zenyte class,
+ * representing the owner of the profile.
+ */
+
 package com.vegarden.backend.models;
 
 import lombok.AllArgsConstructor;
@@ -14,8 +22,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "profiles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,7 +54,7 @@ public class Profile {
     private String location;
 
     @Column
-    private String avaterImage;
+    private String avatarImage;
 
     @Column
     private String coverImage;

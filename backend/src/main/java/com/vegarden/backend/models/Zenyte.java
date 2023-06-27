@@ -4,6 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This file contains the Zenyte class, which represents a user of the
+ * Vegarden platform.
+ * The Zenyte class contains basic profile information for the user,
+ * such as the username,
+ * email address, password, and creation date. Additionally, the Zenyte class
+ * has a OneToOne relationship with the Profile and Blog classes,
+ * which represent the user's public profile and personal blog, respectively.
+ */
+
 import java.sql.Timestamp;
 
 import jakarta.persistence.CascadeType;
@@ -13,8 +23,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "zenytes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

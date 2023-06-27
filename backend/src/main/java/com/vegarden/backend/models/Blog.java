@@ -1,3 +1,12 @@
+/**
+ * Represents a Zenyte's personal blog on the Vegarden platform.
+ * Contains basic information about the blog, such as the title and
+ * description, as well as the creation and update timestamps.
+ * Additionally, has a OneToOne relationship with the Zenyte class,
+ * representing the owner of the blog, and a OneToMany relationship with
+ * the Article class, representing the articles published on the blog.
+ */
+
 package com.vegarden.backend.models;
 
 import lombok.AllArgsConstructor;
@@ -17,8 +26,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "blogs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,7 +53,7 @@ public class Blog {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zenyte_id", referencedColumnName = "id", nullable = false)
-    private Zenyte zenyte;
+    private Zenyte owner;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles;
