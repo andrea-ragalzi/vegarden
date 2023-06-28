@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.vegarden.backend.models.Article;
 import com.vegarden.backend.models.Blog;
-import com.vegarden.backend.models.Zenyte;
 import com.vegarden.backend.repositories.ArticleRepository;
 
 @Service
@@ -56,15 +55,6 @@ public class ArticleService {
 
     public boolean existsById(Long id) {
         return articleRepository.existsById(id);
-    }
-
-    public List<Article> findArticlesByAuthor(Zenyte author) {
-        return articleRepository.findByAuthor(author);
-    }
-
-    public List<Article> findArticlesByAuthorAndDisabled(
-            Zenyte author, Boolean disabled) {
-        return articleRepository.findByAuthorAndDisabled(author, disabled);
     }
 
     public List<Article> findArticlesByBlog(Blog blog) {
