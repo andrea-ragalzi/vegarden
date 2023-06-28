@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "articles_comments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
