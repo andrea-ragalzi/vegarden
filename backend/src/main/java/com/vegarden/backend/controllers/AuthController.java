@@ -1,5 +1,6 @@
 package com.vegarden.backend.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,11 +19,8 @@ import com.vegarden.backend.services.AuthService;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    @Autowired
     private AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
 
     @PostMapping(value = { "/login", "/signin" })
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto) {
