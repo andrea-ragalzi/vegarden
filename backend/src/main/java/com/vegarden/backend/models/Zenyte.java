@@ -19,6 +19,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,7 +48,7 @@ public class Zenyte {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "zenyte_roles", joinColumns = @JoinColumn(name = "zenyte_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Column(nullable = false)
     private Set<Role> roles;
