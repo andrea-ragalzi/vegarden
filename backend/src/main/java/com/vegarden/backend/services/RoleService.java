@@ -57,7 +57,7 @@ public class RoleService {
         return roleRepository.existsById(id);
     }
 
-    public Optional<Role> findRoleByRole(RoleType role) {
+    public Optional<Role> findRoleByName(RoleType role) {
         return roleRepository.findByRole(role);
     }
 

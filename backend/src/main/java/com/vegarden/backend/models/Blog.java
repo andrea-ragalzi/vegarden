@@ -52,7 +52,7 @@ public class Blog {
     private Timestamp updatedAt;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "zenyte", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "zenyte_id", referencedColumnName = "id", nullable = false)
     private Zenyte owner;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -62,7 +62,6 @@ public class Profile {
     @Column(nullable = false)
     private Timestamp createdAt;
 
-    @Column(nullable = false)
     private Timestamp updatedAt;
 
     @OneToOne(fetch = FetchType.LAZY)

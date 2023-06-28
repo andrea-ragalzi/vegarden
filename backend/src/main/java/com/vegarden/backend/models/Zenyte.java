@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +25,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -51,6 +49,7 @@ public class Zenyte {
 
     @ManyToMany
     @JoinTable(name = "zenyte_roles", joinColumns = @JoinColumn(name = "zenyte_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Column(nullable = false)
     private Set<Role> roles;
 
     @Column(nullable = false)
@@ -59,9 +58,4 @@ public class Zenyte {
     @Column
     private Timestamp updatedAt;
 
-    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
-    private Profile profile;
-
-    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
-    private Blog blog;
 }
