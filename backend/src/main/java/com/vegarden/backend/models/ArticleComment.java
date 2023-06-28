@@ -1,10 +1,13 @@
 /**
- * Represents a reaction given by a Zenyte to an article on the
+ * Represents a comment made by a zenyte on an article in the
  * Vegarden platform.
  * Contains a ManyToOne relationship with the Article class, representing
- * the article that received the reaction, and a ManyToOne relationship
- * with the Zenyte class, representing the user who gave the reaction.
- * Also has a createdAt timestamp indicating the moment the reaction was given.
+ * the article to which the comment was posted, and a ManyToOne relationship
+ * with the Zenyte class, representing the zenyte who posted the comment.
+ * Also has a body property containing the text of the comment,
+ * and a disabled property indicating whether the comment has been disabled.
+ * Also has a "createdAt" timestamp indicating the moment the
+ * comment was posted.
  */
 
 package com.vegarden.backend.models;
@@ -20,16 +23,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "reactions")
+@Table(name = "comments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reaction {
+public class ArticleComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +43,14 @@ public class Reaction {
     private Article article;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "zenyte_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private Zenyte author;
+
+    @Column(nullable = false)
+    private String body;
+
+    @Column(nullable = false)
+    private Boolean disabled;
 
     @Column(nullable = false)
     private Timestamp createdAt;

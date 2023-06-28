@@ -1,20 +1,21 @@
+/**
+ * This class represents a user of the Vegarden platform.
+ * The Zenyte class contains basic profile information for the user,
+ * such as the username, email address, password, and creation date.
+ * Additionally, the Zenyte class has a OneToOne relationship with the Profile and Blog classes,
+ * which represent the user's public profile and personal blog, respectively.
+ * The Zenyte class also has a ManyToMany relationship with the Role class,
+ * which represents the roles assigned to the user.
+ */
+
 package com.vegarden.backend.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * This file contains the Zenyte class, which represents a user of the
- * Vegarden platform.
- * The Zenyte class contains basic profile information for the user,
- * such as the username,
- * email address, password, and creation date. Additionally, the Zenyte class
- * has a OneToOne relationship with the Profile and Blog classes,
- * which represent the user's public profile and personal blog, respectively.
- */
-
 import java.sql.Timestamp;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,6 +23,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -44,6 +48,10 @@ public class Zenyte {
 
     @Column(nullable = false)
     private String password;
+
+    @ManyToMany
+    @JoinTable(name = "zenyte_roles", joinColumns = @JoinColumn(name = "zenyte_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     @Column(nullable = false)
     private Timestamp createdAt;
