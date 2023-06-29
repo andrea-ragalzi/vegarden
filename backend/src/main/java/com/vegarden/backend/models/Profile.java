@@ -45,6 +45,7 @@ public class Profile {
     @Column(nullable = false)
     private String lastname;
 
+
     @Column
     private String pronouns;
 
@@ -65,7 +66,7 @@ public class Profile {
 
     private Timestamp updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "zenyte_id", referencedColumnName = "id", nullable = false)
     private Zenyte owner;
 }
