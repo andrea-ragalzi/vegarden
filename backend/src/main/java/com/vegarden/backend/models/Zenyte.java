@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,18 +40,17 @@ public class Zenyte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "zenyte_roles", joinColumns = @JoinColumn(name = "zenyte_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @Column(nullable = false)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "zenyte_roles", joinColumns = @JoinColumn(name = "zenyte_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role"))
     private Set<Role> roles;
 
     @Column(nullable = false)
