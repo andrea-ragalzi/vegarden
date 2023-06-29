@@ -9,9 +9,11 @@ import com.vegarden.backend.services.ZenyteService;
 
 import java.sql.Timestamp;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +32,15 @@ public class ZenyteController {
     @Autowired
     private BlogService blogService;
 
+    @GetMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Zenyte>> getAllZenytes() {
+        List<Zenyte> zenytes = zenyteService.getAllZenytes();
+        return ResponseEntity.ok(zenytes);
+    }
+
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Zenyte> getZenyteById(
             @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println(userDetails);
@@ -50,6 +60,7 @@ public class ZenyteController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Zenyte> updateZenyte(
             @PathVariable Long id, @RequestBody Zenyte updatedZenyte,
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -64,18 +75,23 @@ public class ZenyteController {
                         zenyteService.findZenyteById(id).getUsername())) {
             Timestamp now = new Timestamp(System.currentTimeMillis());
             Zenyte zenyte = zenyteService.findZenyteById(id);
-            zenyte.setUsername(updatedZenyte.getUsername());
-            zenyte.setEmail(updatedZenyte.getEmail());
+            if (updatedZenyte.getUsername() != null) {
+                zenyte.setUsername(updatedZenyte.getUsername());
+            }
+            if (updatedZenyte.getEmail() != null) {
+                zenyte.setEmail(updatedZenyte.getEmail());
+            }
             // TODO: add password update
             zenyte.setUpdatedAt(now);
-            zenyteService.saveZenyte(zenyte);
-            return ResponseEntity.ok(zenyteService.findZenyteById(id));
+            zenyteService.updateZenyte(zenyte);
+            return ResponseEntity.ok(zenyte);
         }
         // Return an error or unauthorized response
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> deleteZenyte(
             @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
