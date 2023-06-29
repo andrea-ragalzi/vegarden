@@ -58,17 +58,17 @@ public class ZenyteService {
         return zenyteRepository.existsById(id);
     }
 
-    public Optional<Zenyte> findZenyteByEmail(String email) {
-        return zenyteRepository.findByEmail(email);
+    public Zenyte findZenyteByEmail(String email) {
+        return zenyteRepository.findByEmail(email).get();
     }
 
-    public Optional<Zenyte> findZenyteByUsername(String username) {
-        return zenyteRepository.findByUsername(username);
+    public Zenyte findZenyteByUsername(String username) {
+        return zenyteRepository.findByUsername(username).get();
     }
 
-    public Optional<Zenyte> findZenyteByUsernameOrEmail(
+    public Zenyte findZenyteByUsernameOrEmail(
             String username, String email) {
-        return zenyteRepository.findByUsernameOrEmail(username, email);
+        return zenyteRepository.findByUsernameOrEmail(username, email).get();
     }
 
     public boolean existsByUsername(String username) {
