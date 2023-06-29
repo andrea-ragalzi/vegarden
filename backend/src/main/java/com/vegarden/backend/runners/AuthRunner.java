@@ -15,20 +15,20 @@ import com.vegarden.backend.models.Blog;
 import com.vegarden.backend.models.Profile;
 import com.vegarden.backend.models.Role;
 import com.vegarden.backend.models.Zenyte;
-import com.vegarden.backend.repositories.RoleRepository;
-import com.vegarden.backend.repositories.ZenyteRepository;
 import com.vegarden.backend.services.AuthService;
 import com.vegarden.backend.services.BlogService;
 import com.vegarden.backend.services.ProfileService;
+import com.vegarden.backend.services.RoleService;
+import com.vegarden.backend.services.ZenyteService;
 
 @Component
 public class AuthRunner implements ApplicationRunner {
 
 	@Autowired
-	RoleRepository roleRepository;
+	RoleService roleService;
 
 	@Autowired
-	ZenyteRepository zenyteRepository;
+	ZenyteService zenyteService;
 
 	@Autowired
 	ProfileService profileService;
@@ -69,15 +69,16 @@ public class AuthRunner implements ApplicationRunner {
 		moderator.setRole(RoleType.ROLE_MODERATOR);
 		user.setRole(RoleType.ROLE_USER);
 
-		if (!roleRepository.existsByRole(RoleType.ROLE_ADMIN)) {
-			roleRepository.save(admin);
-		}
-		if (!roleRepository.existsByRole(RoleType.ROLE_MODERATOR)) {
-			roleRepository.save(moderator);
+		if (!roleService.existsByType(RoleType.ROLE_ADMIN)) {
+			roleService.saveRole(admin);
 		}
 
-		if (!roleRepository.existsByRole(RoleType.ROLE_USER)) {
-			roleRepository.save(user);
+		if (!roleService.existsByType(RoleType.ROLE_MODERATOR)) {
+			roleService.saveRole(moderator);
+		}
+
+		if (!roleService.existsByType(RoleType.ROLE_USER)) {
+			roleService.saveRole(user);
 		}
 
 		adminRole = new HashSet<Role>();
@@ -94,7 +95,7 @@ public class AuthRunner implements ApplicationRunner {
 	}
 
 	public void saveAdminDefault() {
-		if (zenyteRepository.findByEmail("andrea.ragalzi@vegarden.com").isEmpty()) {
+		if (!zenyteService.existsByUsername("andrea.ragalzi")) {
 			Zenyte admin = new Zenyte();
 			Profile adminProfile = new Profile();
 			Blog adminBlog = new Blog();
@@ -104,6 +105,7 @@ public class AuthRunner implements ApplicationRunner {
 			admin.setPassword(passwordEncoder.encode("admin"));
 			admin.setRoles(adminRole);
 			admin.setCreatedAt(now);
+			zenyteService.saveZenyte(admin);
 
 			adminProfile.setFirstname("Andrea");
 			adminProfile.setLastname("Ragalzi");
@@ -112,22 +114,19 @@ public class AuthRunner implements ApplicationRunner {
 			adminProfile.setLocation("Italy");
 			adminProfile.setCreatedAt(now);
 			adminProfile.setOwner(admin);
+			profileService.saveProfile(adminProfile);
 
 			adminBlog.setTitle("First blog on Vegarden :)");
 			adminBlog.setDescription(
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 			adminBlog.setCreatedAt(now);
 			adminBlog.setOwner(admin);
-
-			zenyteRepository.save(admin);
-			profileService.saveProfile(adminProfile);
 			blogService.saveBlog(adminBlog);
 		}
-
 	}
 
 	public void saveModeratorDefault() {
-		if (zenyteRepository.findByEmail("emma.goldman@vegarden.com").isEmpty()) {
+		if (!zenyteService.existsByUsername("emma.goldman")) {
 
 			Zenyte moderator = new Zenyte();
 			Profile moderatorProfile = new Profile();
@@ -138,6 +137,7 @@ public class AuthRunner implements ApplicationRunner {
 			moderator.setPassword(passwordEncoder.encode("moderator"));
 			moderator.setRoles(moderatorRole);
 			moderator.setCreatedAt(now);
+			zenyteService.saveZenyte(moderator);
 
 			moderatorProfile.setFirstname("Moderator");
 			moderatorProfile.setLastname("User");
@@ -145,21 +145,18 @@ public class AuthRunner implements ApplicationRunner {
 			moderatorProfile.setBio("Hi, I'm a moderator");
 			moderatorProfile.setCreatedAt(now);
 			moderatorProfile.setOwner(moderator);
+			profileService.saveProfile(moderatorProfile);
 
 			moderatorBlog.setTitle("Emma's Blog");
-			moderatorBlog.setDescription("This is the blog of the Emma.");
+			moderatorBlog.setDescription("This is the blog of Emma.");
 			moderatorBlog.setCreatedAt(now);
 			moderatorBlog.setOwner(moderator);
-
-			zenyteRepository.save(moderator);
-			profileService.saveProfile(moderatorProfile);
 			blogService.saveBlog(moderatorBlog);
-
 		}
 	}
 
 	public void saveUserDefault() {
-		if (zenyteRepository.findByEmail("lucy.person@vegarden.com").isEmpty()) {
+		if (!zenyteService.existsByUsername("lucy.person")) {
 
 			Zenyte user = new Zenyte();
 			Profile userProfile = new Profile();
@@ -170,6 +167,7 @@ public class AuthRunner implements ApplicationRunner {
 			user.setPassword(passwordEncoder.encode("user"));
 			user.setRoles(userRole);
 			user.setCreatedAt(now);
+			zenyteService.saveZenyte(user);
 
 			userProfile.setFirstname("Lucy");
 			userProfile.setLastname("Person");
@@ -178,16 +176,13 @@ public class AuthRunner implements ApplicationRunner {
 			userProfile.setLocation("Italy");
 			userProfile.setCreatedAt(now);
 			userProfile.setOwner(user);
+			profileService.saveProfile(userProfile);
 
 			userBlog.setTitle("Lucy's Blog");
 			userBlog.setDescription("This is the blog of Lucy.");
 			userBlog.setCreatedAt(now);
 			userBlog.setOwner(user);
-
-			zenyteRepository.save(user);
-			profileService.saveProfile(userProfile);
 			blogService.saveBlog(userBlog);
 		}
 	}
-
 }
