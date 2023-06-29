@@ -22,9 +22,10 @@ public class ZenyteDetailsService implements UserDetailsService {
 
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                Zenyte zenyte = zenyteService.findZenyteByUsername(username)
-                                .orElseThrow(() -> new UsernameNotFoundException(
-                                                "User not found with username: " + username));
+                Zenyte zenyte = zenyteService.findZenyteByUsername(username);
+                if (zenyte == null) {
+                        throw new UsernameNotFoundException("Zenyte not found with username: " + username);
+                }
 
                 Set<GrantedAuthority> authorities = zenyte.getRoles().stream()
                                 .map(role -> new SimpleGrantedAuthority(role.getRole().toString()))
