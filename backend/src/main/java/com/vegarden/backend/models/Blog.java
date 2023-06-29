@@ -51,10 +51,10 @@ public class Blog {
     @Column
     private Timestamp updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "zenyte_id", referencedColumnName = "id", nullable = false)
     private Zenyte owner;
 
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Article> articles;
 }
