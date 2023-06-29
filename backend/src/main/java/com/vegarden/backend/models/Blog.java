@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,7 +56,8 @@ public class Blog {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "zenyte_id", referencedColumnName = "id", nullable = false)
     private Zenyte owner;
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "blog", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Article> articles;
 }
