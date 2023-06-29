@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -64,7 +65,7 @@ public class Profile {
 
     private Timestamp updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "zenyte_id", referencedColumnName = "id", nullable = false)
     private Zenyte owner;
 }
