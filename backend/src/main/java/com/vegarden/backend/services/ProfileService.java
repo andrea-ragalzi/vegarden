@@ -19,8 +19,8 @@ public class ProfileService {
         return profileRepository.save(profile);
     }
 
-    public Optional<Profile> findProfileById(Long id) {
-        return profileRepository.findById(id);
+    public Profile findProfileById(Long id) {
+        return profileRepository.findById(id).get();
     }
 
     public List<Profile> getAllProfiles() {
@@ -35,7 +35,7 @@ public class ProfileService {
         return profileRepository.findByLocation(location);
     }
 
-    public Optional<Profile> findProfileByOwner(Zenyte owner) {
-        return profileRepository.findByOwner(owner);
+    public Profile findProfileByOwner(Zenyte owner) {
+        return profileRepository.findByOwner(owner).get();
     }
 }

@@ -57,11 +57,11 @@ public class RoleService {
         return roleRepository.existsById(id);
     }
 
-    public Optional<Role> findRoleByName(RoleType role) {
-        return roleRepository.findByRole(role);
+    public Role findRoleByType(RoleType role) {
+        return roleRepository.findByRole(role).get();
     }
 
-    public boolean existsByRole(RoleType role) {
+    public boolean existsByType(RoleType role) {
         return roleRepository.existsByRole(role);
     }
 
