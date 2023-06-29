@@ -81,7 +81,7 @@ public class AuthService implements AuthServiceInterface {
         Blog blog = new Blog();
         Timestamp now = new Timestamp(System.currentTimeMillis());
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleService.findRoleByName(RoleType.ROLE_USER).get();
+        Role userRole = roleService.findRoleByType(RoleType.ROLE_USER);
         roles.add(userRole);
 
         zenyte.setUsername(registerDto.getUsername());
