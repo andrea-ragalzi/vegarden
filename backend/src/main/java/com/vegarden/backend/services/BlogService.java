@@ -57,12 +57,12 @@ public class BlogService {
         return blogRepository.existsById(id);
     }
 
-    public Blog findBlogByTitle(String title) {
+    public List<Blog> findBlogByTitle(String title) {
         return blogRepository.findByTitle(title);
     }
 
     public Blog findBlogByOwner(Zenyte owner) {
-        return blogRepository.findByOwner(owner);
+        return blogRepository.findByOwner(owner).get();
     }
 
 }
