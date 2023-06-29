@@ -3,6 +3,8 @@ package com.vegarden.backend.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,15 +25,22 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping(value = { "/login", "/signin" })
-    public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+        try {
+            String token = authService.login(loginDto);
 
-        String token = authService.login(loginDto);
+            JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
+            jwtAuthResponse.setUsername(loginDto.getUsername());
+            jwtAuthResponse.setAccessToken(token);
 
-        JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
-        jwtAuthResponse.setUsername(loginDto.getUsername());
-        jwtAuthResponse.setAccessToken(token);
-
-        return ResponseEntity.ok(jwtAuthResponse);
+            return ResponseEntity.ok(jwtAuthResponse);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid credentials. Please check your username or password.");
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("User does not exist. Please check your credentials.");
+        }
     }
 
     @PostMapping(value = { "/register", "/signup" })
