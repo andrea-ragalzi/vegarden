@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -50,10 +51,10 @@ public class Article {
     @Column
     private String description;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String body;
 
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private String bodyHtml;
 
     @Column(nullable = false)
@@ -62,11 +63,11 @@ public class Article {
     @Column
     private Timestamp updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "blog_id", nullable = false)
     private Blog blog;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "article_collaborators", joinColumns = @JoinColumn(name = "article_id"), inverseJoinColumns = @JoinColumn(name = "zenyte_id"))
     private Set<Zenyte> collaborators = new HashSet<>();
 
