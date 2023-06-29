@@ -12,25 +12,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.vegarden.backend.models.Zenyte;
-import com.vegarden.backend.repositories.ZenyteRepository;
+import com.vegarden.backend.services.ZenyteService;
 
 @Service
 public class ZenyteDetailsService implements UserDetailsService {
 
         @Autowired
-        private ZenyteRepository zenyteRepository;
+        private ZenyteService zenyteService;
 
         @Override
-        public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-                Zenyte zenyte = zenyteRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                Zenyte zenyte = zenyteService.findZenyteByUsername(username)
                                 .orElseThrow(() -> new UsernameNotFoundException(
-                                                "User not found with username or email: " + usernameOrEmail));
+                                                "User not found with username: " + username));
 
                 Set<GrantedAuthority> authorities = zenyte.getRoles().stream()
                                 .map(role -> new SimpleGrantedAuthority(role.getRole().toString()))
                                 .collect(Collectors.toSet());
 
-                return new org.springframework.security.core.userdetails.User(zenyte.getEmail(), zenyte.getPassword(),
+                return new org.springframework.security.core.userdetails.User(zenyte.getUsername(),
+                                zenyte.getPassword(),
                                 authorities);
         }
+
 }
