@@ -1,11 +1,10 @@
-import './App.scss'
-import HomeTest from './pages/HomeTest'
+import LoginPage from './pages/LoginPage'
 
 function App() {
 
   return (
     <div className="App">
-      <HomeTest name="Vite + React"></HomeTest>
+      <LoginPage />
     </div>
   )
 }
