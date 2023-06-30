@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -47,9 +48,9 @@ export default {
       // Configurazione dei colori del tema scuro
       dark: {
         // Esempi di colori del tema scuro
-        primary: '#333333',
-        background: '#333333',
-        text: '#f2f2f2',
+        primary: '#f2f2f2',
+        background: '#f2f2f2',
+        text: '#333333',
       },
     },
   },
