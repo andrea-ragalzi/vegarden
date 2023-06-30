@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+import reactRefresh from '@vitejs/plugin-react-refresh';
+import sassPlugin from 'vite-plugin-sass';
+
 export default {
   darkMode: 'class',
   content: [
@@ -8,28 +11,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        white: '#fff',
-        gray: {
-          100: '#f8f9fa',
-          200: '#f7f7f9',
-          300: '#eceeef',
-          400: '#ced4da',
-          500: '#aaa',
-          600: '#888',
-          700: '#5a5a5a',
-          800: '#343a40',
-          900: '#212529',
-        },
-        blue: '#007bff',
-        indigo: '#6610f2',
-        purple: '#6f42c1',
-        pink: '#e83e8c',
-        red: '#ff7851',
-        orange: '#fd7e14',
-        yellow: '#ffce67',
-        green: '#56cc9d',
-        teal: '#20c997',
-        cyan: '#6cc3d5',
         primary: '#78c2ad',
         secondary: '#f3969a',
         success: '#56cc9d',
@@ -60,5 +41,5 @@ export default {
       textColor: ['dark', 'dark-hover', 'dark-group-hover', 'dark-even', 'dark-odd'],
     },
   },
-  plugins: [],
+  plugins: [reactRefresh(), sassPlugin()],
 }
