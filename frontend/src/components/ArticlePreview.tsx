@@ -8,7 +8,7 @@ const ArticlePreview = () => {
         <Card className='articlePreview'>
             <Row className="justify-content-center align-items-center px-2 mb-1">
                 <Col xs={2}>
-                    <Image className='rounded-5' src="https://picsum.photos/30/30" alt="Avatar"></Image>
+                    <Image className='rounded-circle' src="https://picsum.photos/30/30" alt="Avatar"></Image>
                 </Col>
                 <Col xs={8}>
                     <Card.Header className='border-0 bg-white'>Article Title</Card.Header>
