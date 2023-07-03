@@ -26,7 +26,7 @@ vegan community through their personal blogs.
 - [TypeScript](https://www.typescriptlang.org/)
 - [React](https://react.dev/)
 - [Vite ](https://vitejs.dev/)
-- [Tailwind CSS 3.3.2](https://tailwindcss.com/)
+- [Bootstrap 9.5.1](https://getbootstrap.com/)
 - [Sass](https://sass-lang.com/)
 
 ### Thank you for your interest in Vegarden!
