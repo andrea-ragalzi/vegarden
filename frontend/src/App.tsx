@@ -1,23 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
-import ArticlePage from './pages/ArticlePage'
 import ZenHubPage from './pages/ZenHubPage'
-import EditProfilePage from './pages/EditProfilePage'
+import RegisterPage from "./pages/RegisterPage";
 
 const App = () => {
 
   return (
     <div className="App">
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<LoginPage />} />
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/zenhub" element={<ZenHubPage />} />
-              <Route path="/article" element={<LoginPage />} />
-              <Route path="/profile" element={<LoginPage />} />
-            </Routes>
-          </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/zenhub" element={<ZenHubPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }
