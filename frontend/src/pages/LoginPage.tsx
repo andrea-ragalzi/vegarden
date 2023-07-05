@@ -5,10 +5,12 @@ import { RootState, store, } from '../store/store';
 import { fetchLogin } from '../actions/loginAction';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { fetchZenyte } from '../actions/zenyteAction';
 
 const LoginPage = () => {
     const dispatch = store.dispatch;
     const login = useSelector((state: RootState) => state.login);
+    const zenyte = useSelector((state: RootState) => state.zenyte);
     const [formValues, setFormValues] = useState({
         username: '',
         password: ''
@@ -27,10 +29,10 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (login.loggedIn) {
-            if (login.loggedIn) {
-                // location.assign('/home');
-                console.log('login');
-            }
+            dispatch(fetchZenyte(login.session.username, login.session.accessToken));
+            console.log(zenyte);
+            location.assign('/home');
+
         }
     }, [login.loggedIn]);
 
