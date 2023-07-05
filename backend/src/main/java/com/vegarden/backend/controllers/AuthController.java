@@ -28,11 +28,9 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         try {
             String token = authService.login(loginDto);
-
             JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
             jwtAuthResponse.setUsername(loginDto.getUsername());
             jwtAuthResponse.setAccessToken(token);
-
             return ResponseEntity.ok(jwtAuthResponse);
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -40,6 +38,9 @@ public class AuthController {
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("User does not exist. Please check your credentials.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
         }
     }
 
