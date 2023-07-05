@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { ZenyteActionType, ZenyteAction } from "../types/zenyteType";
+import { ZenyteActionType, ZenyteAction, ZenyteType } from "../types/zenyteType";
 import { AnyAction } from "@reduxjs/toolkit";
 
 const getZenyteRequet = (): ZenyteAction => ({
@@ -8,7 +8,7 @@ const getZenyteRequet = (): ZenyteAction => ({
     error: null
 })
 
-const getZenyteSuccess = (payload: { zenyte: string, accessToken: string, tokenType: string }): ZenyteAction => ({
+const getZenyteSuccess = (payload: ZenyteType): ZenyteAction => ({
     type: ZenyteActionType.GET_ZENYTE_SUCCESS,
     payload: payload,
     loading: false,
@@ -36,6 +36,8 @@ export const fetchZenyte = (username: string, token: string) => {
             });
             if (response.ok) {
                 const data = await response.json();
+                console.log('Zenyte success');
+                console.log(data);
                 dispatch(getZenyteSuccess(data));
                 console.log('Zenyte success');
             } else {
