@@ -1,17 +1,39 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
-import { useLoginInput } from './../hooks/useLoginInput';
 import { Link } from 'react-router-dom';
+import { RootState, store, } from '../store/store';
+import { fetchLogin } from '../actions/loginAction';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
-    const email = useLoginInput('');
-    const password = useLoginInput('');
+    const dispatch = store.dispatch;
+    const login = useSelector((state: RootState) => state.login);
+    const [formValues, setFormValues] = useState({
+        username: '',
+        password: ''
+    });
+
+    const handleChange = (e: { target: { name: string; value: string; }; }) => {
+        setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    };
+
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Email:', email.value);
-        console.log('Password:', password.value);
+        console.log(formValues);
+        dispatch(fetchLogin(formValues.username, formValues.password));
     };
+
+    useEffect(() => {
+        if (login.loggedIn) {
+            if (login.loggedIn) {
+                // location.assign('/home');
+                console.log('login');
+            }
+        }
+    }, [login.loggedIn]);
+
 
     return (
         <Container fluid className='mt-5'>
@@ -22,22 +44,24 @@ const LoginPage = () => {
                     <Form onSubmit={handleSubmit} className='mb-2'>
                         <Form.Group controlId="formBasicEmail" className='mb-3'>
                             <Form.Control
-                                type="email"
-                                placeholder="Email/Zenyte"
-                                value={email.value}
-                                onChange={email.onChange}
+                                type="text"
+                                name="username"  // Add name attribute
+                                placeholder="username"
+                                value={formValues.username}  // Set value from state
+                                onChange={handleChange}  // Handle changes
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicPassword" className='mb-3'>
                             <Form.Control
                                 type="password"
+                                name="password"  // Add name attribute
                                 placeholder="Password"
-                                value={password.value}
-                                onChange={password.onChange}
+                                value={formValues.password}  // Set value from state
+                                onChange={handleChange}  // Handle changes
                             />
                         </Form.Group>
                         <div className="d-grid gap-2">
-                            <Button variant="primary" size="lg">
+                            <Button variant="primary" size="lg" type="submit" onClick={() => handleSubmit}>
                                 Login
                             </Button>
                         </div>
