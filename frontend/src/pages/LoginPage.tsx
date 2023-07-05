@@ -34,6 +34,7 @@ const LoginPage = () => {
             location.assign('/home');
 
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [login.loggedIn]);
 
 
