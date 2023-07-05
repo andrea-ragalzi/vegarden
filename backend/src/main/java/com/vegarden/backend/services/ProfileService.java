@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProfileService {
@@ -16,6 +17,14 @@ public class ProfileService {
 
     public Profile saveProfile(Profile profile) {
         return profileRepository.save(profile);
+    }
+
+    public Profile updateProfile(Profile profile) {
+        if (profileRepository.existsById(profile.getId())) {
+            return profileRepository.save(profile);
+        } else {
+            throw new NoSuchElementException("Profile not found with ID: " + profile.getId());
+        }
     }
 
     public Profile findProfileById(Long id) {
