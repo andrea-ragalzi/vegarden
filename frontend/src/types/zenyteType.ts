@@ -1,12 +1,9 @@
+import RoleType from './roleType';
+
 export enum ZenyteActionType {
     GET_ZENYTE_REQUEST = "GET_ZENYTE_REQUEST",
     GET_ZENYTE_SUCCESS = "GET_ZENYTE_SUCCESS",
     GET_ZENYTE_FAILURE = "GET_ZENYTE_FAILURE"
-}
-
-export interface RoleType {
-    id: number;
-    role: string;
 }
 
 export interface ZenyteType {
