@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vegarden.backend.models.Profile;
+import com.vegarden.backend.models.Zenyte;
 import com.vegarden.backend.services.ProfileService;
+import com.vegarden.backend.services.ZenyteService;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,6 +30,9 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
+    @Autowired
+    private ZenyteService zenyteService;
+
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Profile>> getAllProfiles() {
@@ -35,65 +40,67 @@ public class ProfileController {
         return ResponseEntity.ok(profiles);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Profile> getProfileById(
-            @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+            @PathVariable String username, @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         // Check if the authenticated user has the admin role or if the ID matches the
         // authenticated user
+        Zenyte owner = zenyteService.findZenyteByUsername(username);
         if (userDetails.getAuthorities().stream().anyMatch(
                 role -> role.getAuthority().equals("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(
-                        profileService.findProfileById(id).getOwner().getUsername())) {
-            Profile profile = profileService.findProfileById(id);
+                userDetails.getUsername().equals(userDetails.getUsername())) {
+            Profile profile = profileService.findProfileByOwner(owner);
             return ResponseEntity.ok(profile);
         }
         // Return an error or unauthorized response
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Profile> updateProfile(
-            @PathVariable Long id, @RequestBody Profile updatedProfile,
+            @PathVariable String username, @RequestBody Profile updatedProfile,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         // Check if the authenticated user has the admin role or if the ID matches the
         // authenticated user
+        Zenyte owner = zenyteService.findZenyteByUsername(username);
         if (userDetails.getAuthorities().stream().anyMatch(
                 role -> role.getAuthority().equals("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(
-                        profileService.findProfileById(id).getOwner().getUsername())) {
+                userDetails.getUsername().equals(userDetails.getUsername())) {
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+            Profile profile = profileService.findProfileByOwner(owner);
+            if (updatedProfile.getFirstname() != null) {
+                profile.setFirstname(updatedProfile.getFirstname());
+            }
+            if (updatedProfile.getMiddlename() != null) {
+                profile.setMiddlename(updatedProfile.getMiddlename());
+            }
+            if (updatedProfile.getLastname() != null) {
+                profile.setLastname(updatedProfile.getLastname());
+            }
+            if (updatedProfile.getPronouns() != null) {
+                profile.setPronouns(updatedProfile.getPronouns());
+            }
+            if (updatedProfile.getBio() != null) {
+                profile.setBio(updatedProfile.getBio());
+            }
+            if (updatedProfile.getLocation() != null) {
+                profile.setLocation(updatedProfile.getLocation());
+            }
+            if (updatedProfile.getAvatarImage() != null) {
+                profile.setAvatarImage(updatedProfile.getAvatarImage());
+            }
+            profile.setUpdatedAt(now);
+            profileService.updateProfile(profile);
+            return ResponseEntity.ok(profile);
         }
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        Profile profile = profileService.findProfileById(id);
-        if (updatedProfile.getFirstname() != null) {
-            profile.setFirstname(updatedProfile.getFirstname());
-        }
-        if (updatedProfile.getMiddlename() != null) {
-            profile.setMiddlename(updatedProfile.getMiddlename());
-        }
-        if (updatedProfile.getLastname() != null) {
-            profile.setLastname(updatedProfile.getLastname());
-        }
-        if (updatedProfile.getPronouns() != null) {
-            profile.setPronouns(updatedProfile.getPronouns());
-        }
-        if (updatedProfile.getBio() != null) {
-            profile.setBio(updatedProfile.getBio());
-        }
-        if (updatedProfile.getLocation() != null) {
-            profile.setLocation(updatedProfile.getLocation());
-        }
-        if (updatedProfile.getAvatarImage() != null) {
-            profile.setAvatarImage(updatedProfile.getAvatarImage());
-        }
-        profile.setUpdatedAt(now);
         // Return an error or unauthorized response
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
