@@ -39,11 +39,10 @@ public class ZenyteController {
         return ResponseEntity.ok(zenytes);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Zenyte> getZenyteById(
-            @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println(userDetails);
+            @PathVariable String username, @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -51,18 +50,18 @@ public class ZenyteController {
         // authenticated user
         if (userDetails.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN")) ||
                 userDetails.getUsername().equals(
-                        zenyteService.findZenyteById(id).getUsername())) {
-            Zenyte zenyte = zenyteService.findZenyteById(id);
+                        zenyteService.findZenyteByUsername(username).getUsername())) {
+            Zenyte zenyte = zenyteService.findZenyteByUsername(username);
             return ResponseEntity.ok(zenyte);
         }
         // Return an error or unauthorized response
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Zenyte> updateZenyte(
-            @PathVariable Long id, @RequestBody Zenyte updatedZenyte,
+            @PathVariable String username, @RequestBody Zenyte updatedZenyte,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -72,9 +71,9 @@ public class ZenyteController {
         if (userDetails.getAuthorities().contains(
                 new SimpleGrantedAuthority("ROLE_ADMIN")) ||
                 userDetails.getUsername().equals(
-                        zenyteService.findZenyteById(id).getUsername())) {
+                        zenyteService.findZenyteByUsername(username).getUsername())) {
             Timestamp now = new Timestamp(System.currentTimeMillis());
-            Zenyte zenyte = zenyteService.findZenyteById(id);
+            Zenyte zenyte = zenyteService.findZenyteByUsername(username);
             if (updatedZenyte.getUsername() != null) {
                 zenyte.setUsername(updatedZenyte.getUsername());
             }
@@ -90,10 +89,10 @@ public class ZenyteController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> deleteZenyte(
-            @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+            @PathVariable String username, @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -102,14 +101,15 @@ public class ZenyteController {
         if (userDetails.getAuthorities().contains(
                 new SimpleGrantedAuthority("ROLE_ADMIN")) ||
                 userDetails.getUsername().equals(
-                        zenyteService.findZenyteById(id).getUsername())) {
+                        zenyteService.findZenyteByUsername(username).getUsername())) {
             Profile profile = profileService.findProfileByOwner(
-                    zenyteService.findZenyteById(id));
+                    zenyteService.findZenyteByUsername(username));
             Blog blog = blogService.findBlogByOwner(
-                    zenyteService.findZenyteById(id));
+                    zenyteService.findZenyteByUsername(username));
+            Zenyte zenyte = zenyteService.findZenyteByUsername(username);
             profileService.deleteProfileById(profile.getId());
             blogService.deleteBlogById(blog.getId());
-            zenyteService.deleteZenyteById(id);
+            zenyteService.deleteZenyteById(zenyte.getId());
             return ResponseEntity.noContent().build();
         }
         // Return an error or unauthorized response
