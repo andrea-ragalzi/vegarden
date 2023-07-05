@@ -4,10 +4,12 @@ import loginReducer from "../reducers/loginReducer";
 import zenyteReducer from "../reducers/zenyteReducer";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import profileReducer from "../reducers/profileReducer";
 
 const allReducers = combineReducers({
   login: loginReducer,
-  zenyte: zenyteReducer
+  zenyte: zenyteReducer,
+  profile: profileReducer
 });
 
 const persistConfig = {
