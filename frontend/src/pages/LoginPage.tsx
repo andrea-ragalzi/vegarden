@@ -6,8 +6,11 @@ import { fetchLogin } from '../actions/loginAction';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchZenyte } from '../actions/zenyteAction';
+import { fetchProfile } from '../actions/profileAction';
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const dispatch = store.dispatch;
     const login = useSelector((state: RootState) => state.login);
     const zenyte = useSelector((state: RootState) => state.zenyte);
@@ -30,9 +33,9 @@ const LoginPage = () => {
     useEffect(() => {
         if (login.loggedIn) {
             dispatch(fetchZenyte(login.session.username, login.session.accessToken));
+            dispatch(fetchProfile(login.session.username, login.session.accessToken));
             console.log(zenyte);
-            location.assign('/home');
-
+            navigate('/home');
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [login.loggedIn]);
