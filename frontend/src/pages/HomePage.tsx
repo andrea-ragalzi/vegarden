@@ -6,14 +6,20 @@ import { useSelector } from 'react-redux';
 import { RootState, store } from '../store/store';
 import { Container, Row, Col } from 'react-bootstrap';
 import { fecthTrendArticles } from '../actions/articleAction';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
     const dispatch = store.dispatch;
-    const accessToken = useSelector((state: RootState) => state.login.session.accessToken);
+    const navigate = useNavigate();
+    const { session, loggedIn } = useSelector((state: RootState) => state.login);
     const { trendArticles, loading, error } = useSelector((state: RootState) => state.article);
     useEffect(() => {
-        dispatch(fecthTrendArticles(accessToken));
-        console.log(trendArticles);
+        if (loggedIn) {
+            dispatch(fecthTrendArticles(session.accessToken));
+            console.log(trendArticles);
+        } else {
+            navigate('/');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
