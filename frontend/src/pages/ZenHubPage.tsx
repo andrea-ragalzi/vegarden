@@ -3,7 +3,7 @@ import TopBar from '../components/TopBar';
 import BottomBar from '../components/BottomBar';
 import Feed from '../components/Feed';
 import Profile from '../components/ProfileSection';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchMyProfile, fetchSelectedProfile } from '../actions/profileAction';
@@ -13,11 +13,21 @@ import { fetchBlog } from '../actions/blogAction';
 
 const ZenHubPage = () => {
     const dispatch = store.dispatch;
-    const session = useSelector((state: RootState) => state.login.session);
+    const navigate = useNavigate();
+    const { session, loggedIn } = useSelector((state: RootState) => state.login);
     const blog = useSelector((state: RootState) => state.blog.myBlog);
     const username = useParams().username?.replace(/-/g, '.');
 
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (loggedIn) {
+            return;
+        } else {
+            navigate('/');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         const loadData = async () => {
