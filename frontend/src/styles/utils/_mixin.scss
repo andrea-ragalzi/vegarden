@@ -1,0 +1,13 @@
+@import "bootswatch/dist/minty/variables";
+@import "bootswatch/dist/minty/bootswatch";
+
+@mixin input-border {
+    border: 1px solid $secondary;
+    color: $black;
+
+    &:focus {
+        border: 2px solid $primary;
+        color: $black;
+    }
+
+}

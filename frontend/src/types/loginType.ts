@@ -4,7 +4,7 @@ export enum LoginActionType {
     LOGIN_FAILURE = "LOGIN_FAILURE"
 }
 
-export interface SessionType {
+export interface Session {
     username: string;
     accessToken: string;
     tokenType: string;
@@ -17,8 +17,9 @@ export interface LoginAction {
     error?: string | null;
 }
 
+
 export interface LoginState {
-    session: SessionType;
+    session: Session;
     loggedIn: boolean;
     loading: boolean;
     error?: string | null;

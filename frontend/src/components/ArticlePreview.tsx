@@ -1,9 +1,15 @@
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { Row, Col, Image, Button } from 'react-bootstrap/';
 import { NavLink } from 'react-router-dom';
 import { BookmarkOutline } from 'react-ionicons';
+import { Article } from "../types/articleType";
 
-const ArticlePreview = () => {
+interface ArticlePreviewProps {
+    article: Article;
+}
+
+const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     return (
         <Card className='articlePreview'>
             <Row className="justify-content-center align-items-center px-2 mb-1">
@@ -11,7 +17,7 @@ const ArticlePreview = () => {
                     <Image className='rounded-circle' src="https://picsum.photos/30/30" alt="Avatar"></Image>
                 </Col>
                 <Col xs={8}>
-                    <Card.Header className='border-0 bg-white'>Article Title</Card.Header>
+                    <Card.Header className='border-0 bg-white'>{article.title}</Card.Header>
                 </Col>
                 <Col xs={2}>
                     <BookmarkOutline
@@ -22,11 +28,10 @@ const ArticlePreview = () => {
                     />
                 </Col>
             </Row>
-            <Card.Img className='rounded-0' src="https://picsum.photos/300/300" />
+            <Card.Img className='rounded-0' src="https://picsum.photos/120/120" />
             <Card.Body>
                 <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    {article.description}
                 </Card.Text>
                 <NavLink to="/home">
                     <Button variant="link" className='text-success'>Read Article</Button>

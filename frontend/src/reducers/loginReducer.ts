@@ -32,7 +32,7 @@ const loginReducer = (state: LoginState = initialState, action: LoginAction): Lo
                 ...state,
                 loggedIn: false,
                 loading: false,
-                error: action.payload,
+                error: action.payload || 'Wrong username or password.',
             }
         default:
             return state;

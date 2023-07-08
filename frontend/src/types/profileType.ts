@@ -1,15 +1,18 @@
-import { ZenyteType } from './zenyteType';
+import { Zenyte } from './zenyteType';
 
 export enum ProfileActionType {
-    GET_PROFILE_REQUEST = "GET_PROFILE_REQUEST",
-    GET_PROFILE_SUCCESS = "GET_PROFILE_SUCCESS",
-    GET_PROFILE_FAILURE = "GET_PROFILE_FAILURE",
-    UPDATE_PROFILE_REQUEST = "UPDATE_PROFILE_REQUEST",
-    UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS",
-    UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE"
+    GET_MY_PROFILE_REQUEST = "GET_MY_PROFILE_REQUEST",
+    GET_MY_PROFILE_SUCCESS = "GET_MY_PROFILE_SUCCESS",
+    GET_MY_PROFILE_FAILURE = "GET_MY_PROFILE_FAILURE",
+    PUT_MY_PROFILE_REQUEST = "PUT_MY_PROFILE_REQUEST",
+    PUT_MY_PROFILE_SUCCESS = "PUT_MY_PROFILE_SUCCESS",
+    PUT_MY_PROFILE_FAILURE = "PUT_MY_PROFILE_FAILURE",
+    GET_SELECTED_PROFILE_REQUEST = "GET_SELECTED_PROFILE_REQUEST",
+    GET_SELECTED_PROFILE_SUCCESS = "GET_SELECTED_PROFILE_SUCCESS",
+    GET_SELECTED_PROFILE_FAILURE = "GET_SELECTED_PROFILE_FAILURE"
 }
 
-export interface ProfileType {
+export interface Profile {
     id: number;
     firstname: string;
     middlename?: string;
@@ -21,18 +24,19 @@ export interface ProfileType {
     coverImage?: string;
     createdAt: string;
     updatedAt?: string | null;
-    owner: ZenyteType;
+    owner: Zenyte;
 }
 
 export interface ProfileAction {
     type: ProfileActionType;
-    payload?: ProfileType;
+    payload?: Profile;
     loading: boolean;
     error?: string | null;
 }
 
 export interface ProfileState {
-    profile?: ProfileType;
+    myProfile?: Profile;
+    selectedProfile?: Profile;
     loading: boolean;
     error?: string | null;
 }

@@ -6,7 +6,7 @@ export enum ZenyteActionType {
     GET_ZENYTE_FAILURE = "GET_ZENYTE_FAILURE"
 }
 
-export interface ZenyteType {
+export interface Zenyte {
     id: number;
     username: string;
     email: string;
@@ -24,7 +24,7 @@ export interface ZenyteAction {
 }
 
 export interface ZenyteState {
-    zenyte: ZenyteType;
+    zenyte: Zenyte;
     loading: boolean;
     error?: string | null;
 }

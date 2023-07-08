@@ -7,7 +7,7 @@ const TopBar = () => {
         <Row className='fixed-top row row-cols-2 g-0 justify-content-around bg-primary'>
             <Col className='d-flex justify-content-center'>
                 <Button className="d-flex align-items-center">
-                    <Link to="/zenhub">
+                    <Link to="/zenhub/me">
                         <PersonCircleOutline
                             color={'#000000'}
                             height="35px"

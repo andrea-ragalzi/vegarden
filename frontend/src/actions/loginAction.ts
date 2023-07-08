@@ -1,6 +1,5 @@
-import { Dispatch } from "redux";
-import { LoginActionType, LoginAction } from "../types/loginType";
-import { AnyAction } from "@reduxjs/toolkit";
+import { LoginActionType, LoginAction, Session } from "../types/loginType";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
 const getLoginRequest = (): LoginAction => ({
     type: LoginActionType.LOGIN_REQUEST,
@@ -8,7 +7,7 @@ const getLoginRequest = (): LoginAction => ({
     error: null,
 });
 
-const getLoginSuccess = (payload: { zenyte: string, accessToken: string, tokenType: string }): LoginAction => ({
+const getLoginSuccess = (payload: Session): LoginAction => ({
     type: LoginActionType.LOGIN_SUCCESS,
     payload: payload,
     loading: false,
@@ -21,7 +20,8 @@ const getLoginFailure = (error: string): LoginAction => ({
     error: error,
 })
 
-export const fetchLogin = (username: string, password: string) => {
+
+const loginFetch = (username: string, password: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(getLoginRequest());
         try {
@@ -47,3 +47,5 @@ export const fetchLogin = (username: string, password: string) => {
         }
     };
 };
+
+export default loginFetch;

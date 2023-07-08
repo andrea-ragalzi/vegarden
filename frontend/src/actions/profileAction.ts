@@ -1,61 +1,107 @@
-import { ProfileActionType, ProfileAction, ProfileType } from './../types/profileType';
+import { ProfileActionType, ProfileAction, Profile } from './../types/profileType';
 import { Dispatch } from 'redux';
 import { AnyAction } from '@reduxjs/toolkit';
 
-export const getProfileRequest = (): ProfileAction => ({
-    type: ProfileActionType.GET_PROFILE_REQUEST,
-    loading: true,
+
+export const getMyProfileRequest = (): ProfileAction => ({
+    type: ProfileActionType.GET_MY_PROFILE_REQUEST,
+    loading: true
 });
 
-export const getProfileSuccess = (profile: ProfileType): ProfileAction => ({
-    type: ProfileActionType.GET_PROFILE_SUCCESS,
+export const getMyProfileSuccess = (profile: Profile): ProfileAction => ({
+    type: ProfileActionType.GET_MY_PROFILE_SUCCESS,
     payload: profile,
-    loading: false,
+    loading: false
 });
 
-export const getProfileFailure = (error: string): ProfileAction => ({
-    type: ProfileActionType.GET_PROFILE_FAILURE,
+export const getMyProfileFailure = (error: string): ProfileAction => ({
+    type: ProfileActionType.GET_MY_PROFILE_FAILURE,
     error: error,
-    loading: false,
+    loading: false
 });
 
-export const updateProfileRequest = (): ProfileAction => ({
-    type: ProfileActionType.UPDATE_PROFILE_REQUEST,
-    loading: true,
+export const putMyProfileRequest = (): ProfileAction => ({
+    type: ProfileActionType.PUT_MY_PROFILE_REQUEST,
+    loading: true
 });
 
-export const updateProfileSuccess = (profile: ProfileType): ProfileAction => ({
-    type: ProfileActionType.UPDATE_PROFILE_SUCCESS,
+export const putMyProfileSuccess = (profile: Profile): ProfileAction => ({
+    type: ProfileActionType.PUT_MY_PROFILE_SUCCESS,
     payload: profile,
-    loading: false,
+    loading: false
 });
 
-export const updateProfileFailure = (error: string): ProfileAction => ({
-    type: ProfileActionType.UPDATE_PROFILE_FAILURE,
+export const putMyProfileFailure = (error: string): ProfileAction => ({
+    type: ProfileActionType.PUT_MY_PROFILE_FAILURE,
     error: error,
-    loading: false,
+    loading: false
 });
 
-export const fetchProfile = (username: string, token: string) => {
+export const getSelectedProfileRequest = (): ProfileAction => ({
+    type: ProfileActionType.GET_SELECTED_PROFILE_REQUEST,
+    loading: true
+});
+
+export const getSelectedProfileSuccess = (profile: Profile): ProfileAction => ({
+    type: ProfileActionType.GET_SELECTED_PROFILE_SUCCESS,
+    payload: profile,
+    loading: false
+});
+
+export const getSelectedProfileFailure = (error: string): ProfileAction => ({
+    type: ProfileActionType.GET_SELECTED_PROFILE_FAILURE,
+    error: error,
+    loading: false
+});
+
+export const fetchMyProfile = (username: string, token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
-        dispatch(getProfileRequest());
+        dispatch(getMyProfileRequest());
         try {
-            const response = await fetch(`http://localhost:8080/api/profiles/${username}`, {
+            const response = await fetch(
+                `http://localhost:8080/api/profiles/${username}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             if (response.ok) {
                 const data = await response.json();
-                dispatch(getProfileSuccess(data));
+                dispatch(getMyProfileSuccess(data));
             } else {
-                throw new Error("Failed reading profile");
+                throw new Error("Failed reading my profile");
             }
         } catch (error: unknown | Error) {
             if (error instanceof Error) {
-                dispatch(getProfileFailure(error.message));
+                dispatch(getMyProfileFailure(error.message));
             } else {
-                dispatch(getProfileFailure("An unknown error occurred profile read."));
+                dispatch(getMyProfileFailure("An unknown error occurred reading my profile."));
+            }
+        }
+    };
+};
+
+export const fetchSelectedProfile = (username: string, token: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        dispatch(getSelectedProfileRequest());
+        try {
+            const response = await fetch(
+                `http://localhost:8080/api/profiles/${username}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(getSelectedProfileSuccess(data));
+            } else {
+                throw new Error("Failed reading selected profile");
+            }
+        } catch (error: unknown | Error) {
+            if (error instanceof Error) {
+                dispatch(getSelectedProfileFailure(error.message));
+            } else {
+                dispatch(getSelectedProfileFailure(
+                    "An unknown error occurred reading selected profile."));
             }
         }
     };

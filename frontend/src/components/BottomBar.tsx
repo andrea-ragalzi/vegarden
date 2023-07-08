@@ -1,7 +1,9 @@
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { HomeOutline, ChatbubbleOutline, AddOutline, SearchOutline } from 'react-ionicons'
+import { useNavigate } from 'react-router-dom';
 
 const BottomBar = () => {
+    const navigate = useNavigate();
     return (
         <Row className='fixed-bottom row row-cols-4 g-0 p-0 justify-content-between bg-primary'>
             <Col className='d-flex justify-content-center'>
@@ -10,7 +12,7 @@ const BottomBar = () => {
                         color={'#000000'}
                         height="35px"
                         width={'35px'}
-                        onClick={() => alert('Hi!')}
+                        onClick={() => navigate('/home')}
                     />
                 </Button>
             </Col>
@@ -20,7 +22,7 @@ const BottomBar = () => {
                         color={'#000000'}
                         height="35px"
                         width={'35px'}
-                        onClick={() => alert('Hi!')}
+                        onClick={() => alert('Work progress!')}
                     />
                 </Button>
             </Col>
@@ -30,7 +32,7 @@ const BottomBar = () => {
                         color={'#000000'}
                         height="35px"
                         width={'35px'}
-                        onClick={() => alert('Hi!')}
+                        onClick={() => navigate('/article-create')}
                     />
                 </Button>
             </Col>
@@ -40,7 +42,7 @@ const BottomBar = () => {
                         color={'#000000'}
                         height="35px"
                         width={'35px'}
-                        onClick={() => alert('Hi!')}
+                        onClick={() => alert('Work in progress!')}
                     />
                 </Button>
             </Col>

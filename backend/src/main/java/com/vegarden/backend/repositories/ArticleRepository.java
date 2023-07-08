@@ -10,4 +10,6 @@ import com.vegarden.backend.models.Blog;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     List<Article> findByBlog(Blog blog);
+
+    List<Article> findAllByOrderByIdDesc();
 }

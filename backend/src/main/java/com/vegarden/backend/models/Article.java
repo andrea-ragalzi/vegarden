@@ -21,6 +21,8 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,6 +50,9 @@ public class Article {
     @Column(nullable = false)
     private String title;
 
+    @Column(name = "cover_image")
+    private String coverImage;
+
     @Column
     private String description;
 
@@ -63,6 +68,7 @@ public class Article {
     @Column
     private Timestamp updatedAt;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "blog_id", nullable = false)
     private Blog blog;

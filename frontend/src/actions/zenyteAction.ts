@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { ZenyteActionType, ZenyteAction, ZenyteType } from "../types/zenyteType";
+import { ZenyteActionType, ZenyteAction, Zenyte } from "../types/zenyteType";
 import { AnyAction } from "@reduxjs/toolkit";
 
 const getZenyteRequet = (): ZenyteAction => ({
@@ -8,7 +8,7 @@ const getZenyteRequet = (): ZenyteAction => ({
     error: null
 })
 
-const getZenyteSuccess = (payload: ZenyteType): ZenyteAction => ({
+const getZenyteSuccess = (payload: Zenyte): ZenyteAction => ({
     type: ZenyteActionType.GET_ZENYTE_SUCCESS,
     payload: payload,
     loading: false,

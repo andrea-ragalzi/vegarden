@@ -19,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.vegarden.backend.models.Blog;
 import com.vegarden.backend.services.BlogService;
+import com.vegarden.backend.services.ZenyteService;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,6 +29,9 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private ZenyteService zenyteService;
+
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Blog>> getAllBlogs() {
@@ -35,10 +39,11 @@ public class BlogController {
         return ResponseEntity.ok(blogs);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Blog> getBlogById(@PathVariable Long id) {
-        Blog blog = blogService.findBlogById(id);
+    public ResponseEntity<Blog> getBlogById(@PathVariable String username) {
+        Blog blog = blogService.findBlogByOwner(
+                zenyteService.findZenyteByUsername(username));
         if (blog != null) {
             return ResponseEntity.ok(blog);
         } else {
@@ -46,22 +51,22 @@ public class BlogController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Blog> updateBlog(
-            @PathVariable Long id, @RequestBody Blog updatedBlog,
+            @PathVariable String username, @RequestBody Blog updatedBlog,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        Blog blog = blogService.findBlogByOwner(
+                zenyteService.findZenyteByUsername(username));
         // Check if the authenticated user has the admin role or if the ID matches the
         // authenticated user
         if (userDetails.getAuthorities().stream().anyMatch(
                 role -> role.getAuthority().equals("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(
-                        blogService.findBlogById(id).getOwner().getUsername())) {
+                userDetails.getUsername().equals(blog.getOwner().getUsername())) {
             Timestamp now = new Timestamp(System.currentTimeMillis());
-            Blog blog = blogService.findBlogById(id);
             // Check if the updatedBlog contains the title field
             if (updatedBlog.getTitle() != null) {
                 blog.setTitle(updatedBlog.getTitle());

@@ -61,4 +61,8 @@ public class ArticleService {
         return articleRepository.findByBlog(blog);
     }
 
+    public List<Article> getTrendArticles() {
+        return articleRepository.findAllByOrderByIdDesc();
+    }
+
 }

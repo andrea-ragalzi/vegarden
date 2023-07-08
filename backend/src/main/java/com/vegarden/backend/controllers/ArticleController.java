@@ -128,7 +128,8 @@ public class ArticleController {
         // authenticated user
         if (userDetails.getAuthorities().stream().anyMatch(
                 role -> role.getAuthority().equals("ROLE_ADMIN") ||
-                role.getAuthority().equals("ROLE_MODERATOR")) ||
+                        role.getAuthority().equals("ROLE_MODERATOR"))
+                ||
                 userDetails.getUsername().equals(
                         articleService.findArticleById(id).getBlog().getOwner().getUsername())) {
             articleService.deleteArticleById(id);
@@ -137,4 +138,12 @@ public class ArticleController {
         // Return an error or unauthorized response
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
+    @GetMapping("/trend")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Article>> getTrendArticles() {
+        List<Article> articles = articleService.getAllArticles();
+        return ResponseEntity.ok(articles);
+    }
+
 }

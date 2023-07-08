@@ -1,9 +1,20 @@
 import { Row, Col, Image } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import { useEffect, useState } from 'react';
+import { Profile } from '../types/profileType';
 
-const Profile = () => {
-    const profile = useSelector((state: RootState) => state.profile.profile);
+const ProfileSection = ({ username }: { username: string }) => {
+    const myProfile = useSelector((state: RootState) => state.profile.myProfile);
+    const selectedProfile = useSelector((state: RootState) => state.profile.selectedProfile);
+    const [profile, setProfile] = useState<Profile | undefined>(undefined);
+    // const articleSize = useSelector((state: RootState) => state.blog.blog!.articles!.length);
+
+    useEffect(() => {
+        setProfile(username === 'me' ? myProfile : selectedProfile);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <>
             <Row className='justify-content-center gx-0 mx-2 text-black'>
@@ -28,4 +39,4 @@ const Profile = () => {
     );
 }
 
-export default Profile;
+export default ProfileSection;

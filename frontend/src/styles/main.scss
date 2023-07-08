@@ -1,6 +1,7 @@
 @import "bootswatch/dist/minty/variables";
 @import "bootstrap/scss/bootstrap";
 @import "bootswatch/dist/minty/bootswatch";
+@import "./utils/_mixin.scss";
 
 html,
 body {
@@ -25,4 +26,8 @@ body {
     border-radius: 0;
     background-color: $white;
     color: $black;
+}
+
+.my-input {
+    @include input-border;
 }

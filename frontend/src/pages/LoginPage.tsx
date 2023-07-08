@@ -1,19 +1,19 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { RootState, store, } from '../store/store';
-import { fetchLogin } from '../actions/loginAction';
+import { RootState, resetStoreAction, store } from '../store/store';
+import loginFetch from '../actions/loginAction';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchZenyte } from '../actions/zenyteAction';
-import { fetchProfile } from '../actions/profileAction';
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-    const navigate = useNavigate();
     const dispatch = store.dispatch;
+    const navigate = useNavigate();
     const login = useSelector((state: RootState) => state.login);
-    const zenyte = useSelector((state: RootState) => state.zenyte);
+    const [error, setError] = useState(false);
+    const formRef = useRef<HTMLFormElement>(null);
     const [formValues, setFormValues] = useState({
         username: '',
         password: ''
@@ -26,20 +26,28 @@ const LoginPage = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(formValues);
-        dispatch(fetchLogin(formValues.username, formValues.password));
+        dispatch(loginFetch(formValues.username, formValues.password));
     };
 
     useEffect(() => {
-        if (login.loggedIn) {
-            dispatch(fetchZenyte(login.session.username, login.session.accessToken));
-            dispatch(fetchProfile(login.session.username, login.session.accessToken));
-            console.log(zenyte);
-            navigate('/home');
+        dispatch(resetStoreAction);
+        if (formRef.current) {
+            formRef.current.reset();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [login.loggedIn]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
+    useEffect(() => {
+        if (login.error) {
+            setError(true);
+        } else {
+            setError(false);
+            if (login.session.accessToken) {
+                dispatch(fetchZenyte(login.session.username, login.session.accessToken));
+                navigate('/home');
+            }        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [login]);
 
     return (
         <Container fluid className='mt-5'>
@@ -52,9 +60,10 @@ const LoginPage = () => {
                             <Form.Control
                                 type="text"
                                 name="username"  // Add name attribute
-                                placeholder="username"
+                                placeholder="Username"
                                 value={formValues.username}  // Set value from state
                                 onChange={handleChange}  // Handle changes
+                                className='my-input'
                             />
                         </Form.Group>
                         <Form.Group controlId="formBasicPassword" className='mb-3'>
@@ -64,15 +73,21 @@ const LoginPage = () => {
                                 placeholder="Password"
                                 value={formValues.password}  // Set value from state
                                 onChange={handleChange}  // Handle changes
+                                className='my-input'
                             />
                         </Form.Group>
+                        {error && (
+                            <p className='text-danger text-center'>Wrong username or password</p>
+                        )}
                         <div className="d-grid gap-2">
-                            <Button variant="primary" size="lg" type="submit" onClick={() => handleSubmit}>
+                            <Button variant="primary" size="lg" type="submit">
                                 Login
                             </Button>
                         </div>
                     </Form>
-                    <p>Don't have an account? <Link to="/register" className='text-secondary'>Register</Link></p>
+                    <div className='d-flex justify-content-end'>
+                        <p>Don't have an account? <Link to="/register" className='text-secondary'>Register</Link></p>
+                    </div>
                 </Col>
                 <Col xs={{ span: 12, order: 1 }} md={{ span: 6, order: 0 }}>
                     <Image src="https://picsum.photos/600/600" alt="Placeholder" fluid />
@@ -83,3 +98,4 @@ const LoginPage = () => {
 }
 
 export default LoginPage;
+
