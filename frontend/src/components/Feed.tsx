@@ -7,7 +7,7 @@ const Feed = ({articles}: {articles: Article[]}) => {
     return (
         <>
             <Row className="row row-cols-1 p-0">
-                {articles?.length ? (
+                {articles.reverse()?.length ? (
                     articles.map((article) => (
                         <Col className="px-0 py-2" key={article.id}>
                             <ArticlePreview article={article} />

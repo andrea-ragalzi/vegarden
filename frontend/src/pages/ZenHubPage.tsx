@@ -37,10 +37,9 @@ const ZenHubPage = () => {
                 setLoading(false);
             }
         };
-
-        // Carica i dati
         loadData();
-    }, [dispatch, session.accessToken, session.username, username]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Container>
