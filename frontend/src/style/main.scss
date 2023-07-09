@@ -1,0 +1,79 @@
+@import "bootswatch/dist/minty/variables";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/minty/bootswatch";
+@import "./utils/_mixin.scss";
+
+html,
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: $light;
+}
+
+.vegarden-text {
+    font-size: 1.5em;
+}
+
+.feed-tab {
+    font-size: 1.2em;
+}
+
+.articlePreview {
+    border-radius: 10px;
+    color: $black;
+    background-color: $white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 1.25em;
+    margin-bottom: 1.25em;
+    transition: transform 0.3s ease-in-out;
+
+    @include media-breakpoint-up(md) {
+        &:hover {
+            transform: translateY(-0.3125em);
+        }
+    }
+
+    .title {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 0.625em;
+    }
+
+    .description {
+        margin-bottom: 0.625em;
+    }
+
+    .author {
+        font-style: italic;
+    }
+
+    .read-more {
+        color: $secondary;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .card-header {
+        background-color: $primary;
+        color: $black;
+        padding: 0.625em;
+        margin-bottom: 0.625em;
+    }
+
+    .card-text {
+        padding: 0.625em;
+        color: $black;
+    }
+
+    .rounded-circle {
+        border: 2px solid $secondary;
+    }
+}
+
+.my-input {
+    @include input-border;
+}
