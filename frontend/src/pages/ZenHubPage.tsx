@@ -1,4 +1,4 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import TopBar from '../components/TopBar';
 import BottomBar from '../components/BottomBar';
 import Feed from '../components/Feed';
@@ -10,6 +10,7 @@ import { fetchMyProfile, fetchSelectedProfile } from '../actions/profileAction';
 import { RootState, store } from '../store/store';
 import { useSelector } from 'react-redux';
 import { fetchBlog } from '../actions/blogAction';
+import Sidebar from '../components/Sidebar';
 
 const ZenHubPage = () => {
     const dispatch = store.dispatch;
@@ -22,7 +23,7 @@ const ZenHubPage = () => {
 
     useEffect(() => {
         if (loggedIn) {
-            return;
+            dispatch(fetchBlog(session.username, session.accessToken));
         } else {
             navigate('/');
         }
@@ -48,40 +49,54 @@ const ZenHubPage = () => {
             }
         };
         loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     return (
-        <Container>
-            <Row className='row row-cols-1 justify-content-center align-items-center gx-0 mx-0 px-0 py-5'>
-                <Col className='mb-4'>
-                    <TopBar />
+        <Container fluid className='vh-100'>
+            <Row>
+                <Col xs={1}>
+                    <Sidebar />
                 </Col>
-                {loading ? (
-                    <Col className='text-center'>
-                        <p>Loading...</p>
-                    </Col>
-                ) : (
-                    <>
+                <Col xs={11}>
+                    <Row>
                         <Col>
-                            <Profile username={username || 'me'} />
+                            <TopBar />
                         </Col>
-                        {username === 'me' && (
-                            <Col className='d-flex justify-content-evenly mb-2'>
-                                <NavLink className='text-decoration-none' to="/zenhub">My Blog</NavLink>
-                                <NavLink className='text-decoration-none' to="/zenhub">Saved</NavLink>
+                    </Row>
+                    {loading ? (
+                        <Row>
+                            <Col>
+                                <Spinner variant='primary' animation='border' className='m-auto' />
                             </Col>
-                        )}
-                        <Col className='d-flex justify-content-center'>
+                        </Row>
+                    ) : (
+                        <>
+                            <Row>
+                                <Col>
+                                    <Profile username={username || 'me'} blogSize={blog?.articles?.length || 0} />
+                                </Col>
+                            </Row>
+                            {username === 'me' && (
+                                <Row>
+                                    <Col className='d-flex justify-content-evenly mb-2'>
+                                        <NavLink className='text-decoration-none' to="/zenhub">My Blog</NavLink>
+                                        <NavLink className='text-decoration-none' to="/zenhub">Saved</NavLink>
+                                    </Col>
+                                </Row>
+                            )}
+                        </>
+                    )}
+                    <Row>
+                        <Col className='text-center'>
                             <h2 className='text-secondary mb-2'>{blog?.title}</h2>
-                        </Col>
-                        <Col>
                             <Feed articles={blog?.articles || []} />
                         </Col>
-                    </>
-                )}
-                <Col>
-                    <BottomBar />
+                    </Row>
+                    <Row>
+                        <Col>
+                            <BottomBar />
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>
@@ -89,4 +104,3 @@ const ZenHubPage = () => {
 }
 
 export default ZenHubPage;
-

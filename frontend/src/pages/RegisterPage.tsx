@@ -8,8 +8,8 @@ import { RootState } from '../store/store';
 
 const RegisterPage = () => {
     return (
-        <Container fluid className='mt-5'>
-            <Row className='mb-3 justify-content-center align-items-center'>
+        <Container fluid className='mt-5 p-3 mb-md-5 mt-md-0'>
+            <Row className='mb-3 align-items-md-center vh-100'>
                 <Col xs={{ span: 12, order: 0 }} md={{ span: 6, order: 1 }} className='mb-3'>
                     <h1 className='text-primary mb-2'>Welcome</h1>
                     <h2 className='text-secondary small mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem ut dicta sequi omnis sint, impedit voluptatum aspernatur nobis officiis corporis placeat laboriosam nisi dolorum optio veritatis explicabo aperiam eius in?</h2>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const TopBar = () => {
     return (
-        <Row className='fixed-top row row-cols-2 g-0 justify-content-around bg-primary'>
+        <Row className='fixed-top row row-cols-2 g-0 justify-content-around bg-primary d-md-none'>
             <Col className='d-flex justify-content-center'>
                 <Button className="d-flex align-items-center">
                     <Link to="/zenhub/me">

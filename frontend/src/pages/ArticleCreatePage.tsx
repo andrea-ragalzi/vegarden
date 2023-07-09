@@ -11,7 +11,7 @@ import { RootState } from '../store/store';
 const ArticleCreatePage = () => {
     const navigate = useNavigate();
     const { loggedIn } = useSelector((state: RootState) => state.login);
-    
+
     useEffect(() => {
         if (loggedIn) {
             return;
@@ -27,10 +27,10 @@ const ArticleCreatePage = () => {
                 <Col className='mb-5'>
                     <TopBar />
                 </Col>
-                <Col>
+                <Col md={8} xxl={6}>
                     <ArticleMaker />
                 </Col>
-                <Col>
+                <Col >
                     <BottomBar />
                 </Col>
             </Row>

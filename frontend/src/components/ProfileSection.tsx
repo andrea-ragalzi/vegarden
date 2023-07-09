@@ -4,7 +4,7 @@ import { RootState } from '../store/store';
 import { useEffect, useState } from 'react';
 import { Profile } from '../types/profileType';
 
-const ProfileSection = ({ username }: { username: string }) => {
+const ProfileSection = ({ username, blogSize }: { username: string, blogSize: number }) => {
     const myProfile = useSelector((state: RootState) => state.profile.myProfile);
     const selectedProfile = useSelector((state: RootState) => state.profile.selectedProfile);
     const [profile, setProfile] = useState<Profile | undefined>(undefined);
@@ -25,7 +25,7 @@ const ProfileSection = ({ username }: { username: string }) => {
                     <p className='ms-2'>{profile?.pronouns}</p>
                 </Col>
                 <Col xs={4} className='mt-4'>
-                    <p>10 Article</p>
+                    <p>{blogSize} Article</p>
                     <p>123 Zenyter</p>
                     <p>126 Zenyted</p>
                 </Col>

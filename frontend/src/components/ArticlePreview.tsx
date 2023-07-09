@@ -11,7 +11,7 @@ interface ArticlePreviewProps {
 
 const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
     return (
-        <Card className='articlePreview'>
+        <Card className='articlePreview px-sm-2'>
             <Row className="justify-content-center align-items-center px-2 mb-1">
                 <Col xs={2}>
                     <Image className='rounded-circle' src="https://picsum.photos/30/30" alt="Avatar"></Image>
@@ -34,7 +34,7 @@ const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                     {article.description}
                 </Card.Text>
                 <NavLink to="/home">
-                    <Button variant="link" className='text-success'>Read Article</Button>
+                    <Button variant="link" className='read-more'>Read Article</Button>
                 </NavLink>
             </Card.Body>
         </Card>

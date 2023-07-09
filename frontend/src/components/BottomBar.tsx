@@ -1,11 +1,11 @@
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { HomeOutline, ChatbubbleOutline, AddOutline, SearchOutline } from 'react-ionicons'
 import { useNavigate } from 'react-router-dom';
 
 const BottomBar = () => {
     const navigate = useNavigate();
     return (
-        <Row className='fixed-bottom row row-cols-4 g-0 p-0 justify-content-between bg-primary'>
+        <Row className='fixed-bottom row row-cols-4 g-0 p-0 justify-content-between bg-primary d-md-none'>
             <Col className='d-flex justify-content-center'>
                 <Button>
                     <HomeOutline
