@@ -7,6 +7,7 @@ import { RootState, store } from '../store/store';
 import { Container, Row, Col } from 'react-bootstrap';
 import { fecthTrendArticles } from '../actions/articleAction';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 const HomePage = () => {
     const dispatch = store.dispatch;
@@ -24,27 +25,36 @@ const HomePage = () => {
     }, []);
 
     return (
-        <Container fluid>
-            <Row className='row row-cols-1 justify-content-center align-items-center gx-0 mx-0 px-0 py-5'>
-                <Col className='mb-4'>
-                    <TopBar />
+        <Container fluid className='vh-100'>
+            <Row>
+                <Col xs={1}>
+                    <Sidebar />
                 </Col>
-                <Col>
-                    {loading ? (
-                        <p>Loading...</p>
-                    ) : (
-                        error ? (
-                            <p>{error}</p>
+                <Col xs={11}>
+                    <Row>
+                        <Col>
+                            <TopBar />
+                        </Col>
+                    </Row>
+                    <Col>
+                        {loading ? (
+                            <p>Loading...</p>
                         ) : (
-                            <Feed articles={trendArticles} />
-                        )
-                    )}
-                </Col>
-                <Col>
-                    <BottomBar />
+                            error ? (
+                                <p>{error}</p>
+                            ) : (
+                                <Feed articles={trendArticles} />
+                            )
+                        )}
+                    </Col>
+                    <Row>
+                        <Col>
+                            <BottomBar />
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
-        </Container>
+        </Container >
     );
 }
 
