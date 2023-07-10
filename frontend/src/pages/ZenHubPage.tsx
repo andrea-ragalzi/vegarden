@@ -11,15 +11,16 @@ import { RootState, store } from '../store/store';
 import { useSelector } from 'react-redux';
 import { fetchBlog } from '../actions/blogAction';
 import Sidebar from '../components/Sidebar';
+import { Blog } from '../types/blogType';
 
 const ZenHubPage = () => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
-    const blog = useSelector((state: RootState) => state.blog.myBlog);
+    const blogState = useSelector((state: RootState) => state.blog);
     const username = useParams().username?.replace(/-/g, '.');
-
     const [loading, setLoading] = useState(true);
+    const [blog, setBlog] = useState<Blog | undefined>(undefined);
 
     useEffect(() => {
         if (loggedIn) {
@@ -36,11 +37,12 @@ const ZenHubPage = () => {
                 if (username === 'me') {
                     await dispatch(fetchMyProfile(session.username, session.accessToken));
                     await dispatch(fetchBlog(session.username, session.accessToken));
+                    setBlog(blogState.myBlog);
                 } else {
                     await dispatch(fetchSelectedProfile(username!, session.accessToken));
                     await dispatch(fetchBlog(username!, session.accessToken));
+                    setBlog(blogState.selectedBlog);
                 }
-                // Imposta lo stato di caricamento su false quando i dati sono pronti
                 setLoading(false);
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -49,8 +51,12 @@ const ZenHubPage = () => {
             }
         };
         loadData();
+        if(blogState.error) {
+            navigate('/404');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [username]);
+
     return (
         <Container fluid className='vh-100'>
             <Row>
