@@ -49,7 +49,7 @@ body {
     }
 
     .read-more {
-        color: $secondary;
+        color: $success;
         text-decoration: none;
 
         &:hover {
@@ -104,10 +104,10 @@ body {
     display: inline-flex;
     padding: 10px;
     border-radius: 50%;
-    border: 2px solid $danger;
+    border: 2px solid $secondary;
     cursor: pointer;
     &:hover {
-        background-color: $danger;
-        border: 2px solid $warning;
+        background-color: $secondary;
+        border: 2px solid $secondary;
     }
   }
