@@ -38,24 +38,21 @@ export const updateBlogFailure = (error: string): BlogAction => ({
 });
 
 export const getBlogArticlesRequest = (): BlogAction => ({
-    type: BlogActionType.GET_BLOG_ARTICLES_REQUEST,
-    loading: true,
+    type: BlogActionType.GET_BLOG_ARTICLES_REQUEST
 });
 
 export const getBlogArticlesSuccess = (articles: Article[]): BlogAction => ({
     type: BlogActionType.GET_BLOG_ARTICLES_SUCCESS,
-    payload: articles,
-    loading: false,
+    payload: articles
 });
 
 export const getBlogArticlesFailure = (error: string): BlogAction => ({
     type: BlogActionType.GET_BLOG_ARTICLES_FAILURE,
     error: error,
-    loading: false,
 });
 
 
-export const fetchBlog = (username: string, token: string) => {
+export const readBlog = (username: string, token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(getBlogRequest());
         try {
@@ -80,7 +77,7 @@ export const fetchBlog = (username: string, token: string) => {
     };
 };
 
-export const fetcBloghArticles = (username: string, token: string) => {
+export const readBloghArticles = (username: string, token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(getBlogArticlesRequest());
         try {

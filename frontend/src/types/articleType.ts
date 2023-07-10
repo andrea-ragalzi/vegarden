@@ -44,7 +44,7 @@ export interface Article {
 export interface ArticleAction {
     type: ArticleActionType;
     payload?: any;
-    loading: boolean;
+    loading?: boolean;
     error?: string | null;
 }
 

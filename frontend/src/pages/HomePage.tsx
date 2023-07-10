@@ -5,7 +5,7 @@ import TopBar from '../components/TopBar';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../store/store';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
-import { fecthTrendArticles } from '../actions/articleAction';
+import { readTrendArticles } from '../actions/articleAction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Article } from '../types/articleType';
@@ -18,15 +18,18 @@ const HomePage = () => {
 
     useEffect(() => {
         const loadData = async () => {
-            await dispatch(fecthTrendArticles(session.accessToken));
+            await dispatch(readTrendArticles(session.accessToken));
         }
-        if (loggedIn) {
             loadData();
-        } else {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (!loggedIn) {
             navigate('/');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loggedIn]);
 
     return (
         <Container fluid className='vh-100'>

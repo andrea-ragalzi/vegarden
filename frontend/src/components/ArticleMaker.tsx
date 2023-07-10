@@ -1,12 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { postArticle } from "../actions/articleAction";
+import { createArticle } from "../actions/articleAction";
 import { RootState, store } from "../store/store";
 import { Article } from "../types/articleType";
 import { useNavigate } from "react-router-dom";
-import session from "redux-persist/es/storage/session";
-import { fetchBlog } from "../actions/blogAction";
 
 const ArticleMaker = () => {
     const navigate = useNavigate();
@@ -16,7 +14,7 @@ const ArticleMaker = () => {
     const [body, setBody] = useState("");
     const [coverImage, setCoverImage] = useState<File | null>(null);
     const accessToken = useSelector((state: RootState) => state.login.session.accessToken);
-    const myBlog = useSelector((state: RootState) => state.blog.myBlog);
+    const blog = useSelector((state: RootState) => state.blog.blog);
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -42,11 +40,10 @@ const ArticleMaker = () => {
             body: body,
             createdAt: '',
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            blog: myBlog!,
+            blog: blog!,
             collaborators: []
         };
-
-        dispatch(postArticle(accessToken, article));
+        dispatch(createArticle(accessToken, article));
         navigate("/zenhub/me");
     };
 

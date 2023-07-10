@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import ArticleDetail from '../components/ArticleDetail';
 import { Article } from '../types/articleType';
-import { getArticle } from '../actions/articleAction';
+import { readArticle } from '../actions/articleAction';
 
 
 const ArticlePage = () => {
@@ -25,7 +25,7 @@ const ArticlePage = () => {
         }
         const loadData = async () => {
             try {
-                await dispatch(getArticle(articleId!, session.accessToken,));
+                await dispatch(readArticle(articleId!, session.accessToken,));
                 setArticle(articleState.selectedArticle || undefined);
             } catch (error) {
                 console.error('Error loading data:', error);

@@ -4,58 +4,47 @@ import { AnyAction } from '@reduxjs/toolkit';
 
 const getArticleRequest = (): ArticleAction => ({
     type: ArticleActionType.GET_ARTICLE_REQUEST,
-    loading: true,
-    error: null
 });
 
 const getArticleSuccess = (article: Article): ArticleAction => ({
     type: ArticleActionType.GET_ARTICLE_SUCCESS,
     payload: article,
-    loading: false,
-    error: null
 })
 
 const getArticleFailure = (error: string): ArticleAction => ({
     type: ArticleActionType.GET_ARTICLE_FAILURE,
-    loading: false,
     error: error
 })
 
 const postArticleRequest = (): ArticleAction => ({
     type: ArticleActionType.POST_ARTICLE_SUCCESS,
-    loading: true
 })
 
 const postArticleSuccess = (article: Article): ArticleAction => ({
     type: ArticleActionType.POST_ARTICLE_SUCCESS,
     payload: article,
-    loading: false
 });
 
 const postArticleFailure = (error: string): ArticleAction => ({
     type: ArticleActionType.POST_ARTICLE_FAILURE,
-    loading: false,
-    error
+    error: error
 })
 
 const getTrendArticlesRequest = (): ArticleAction => ({
     type: ArticleActionType.GET_TREND_ARTICLES_REQUEST,
-    loading: true
 });
 
 const getTrendArticlesSuccess = (articles: Article[]): ArticleAction => ({
     type: ArticleActionType.GET_TREND_ARTICLES_SUCCESS,
     payload: articles,
-    loading: false
 })
 
 const getTrendArticlesFailure = (error: string): ArticleAction => ({
     type: ArticleActionType.GET_TREND_ARTICLES_FAILURE,
-    loading: false,
-    error
+    error: error
 });
 
-export const getArticle = (id: string, token: string) => {
+export const readArticle = (id: string, token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(getArticleRequest());
         try {
@@ -82,7 +71,7 @@ export const getArticle = (id: string, token: string) => {
 }
 
 
-export const postArticle = (token: string, article: Article) => {
+export const createArticle = (token: string, article: Article) => {
 
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(postArticleRequest());
@@ -114,7 +103,7 @@ export const postArticle = (token: string, article: Article) => {
 }
 
 
-export const fecthTrendArticles = (token: string) => {
+export const readTrendArticles = (token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(getTrendArticlesRequest());
         try {

@@ -6,7 +6,7 @@ import loginFetch from '../actions/loginAction';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { readMyZenyte } from '../actions/zenyteAction';
+import { readZenyte } from '../actions/zenyteAction';
 
 const LoginPage = () => {
     const dispatch = store.dispatch;
@@ -33,19 +33,19 @@ const LoginPage = () => {
     };
 
     useEffect(() => {
-        if (zenyte.my.id) {
+        if (zenyte.zenyte?.id) {
             navigate('/home');
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [zenyte]);
 
     useEffect(() => {
-        const loadMyZenyte = async () => {
+        const loadZenyte = async () => {
             await dispatch(
-                readMyZenyte(login.session.username, login.session.accessToken));
+                readZenyte(login.session.username, login.session.accessToken));
         }
         if (login.loggedIn) {
-            loadMyZenyte();
+            loadZenyte();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [login]);

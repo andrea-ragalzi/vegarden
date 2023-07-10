@@ -14,7 +14,7 @@ export interface LoginAction {
     type: LoginActionType;
     payload?: any;
     loading: boolean;
-    error?: string | null;
+    error?: string;
 }
 
 
@@ -22,5 +22,5 @@ export interface LoginState {
     session: Session;
     loggedIn: boolean;
     loading: boolean;
-    error?: string | null;
+    error?: string;
 }

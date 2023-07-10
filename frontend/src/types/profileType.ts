@@ -1,15 +1,9 @@
 import { Zenyte } from './zenyteType';
 
 export enum ProfileActionType {
-    GET_MY_PROFILE_REQUEST = "GET_MY_PROFILE_REQUEST",
-    GET_MY_PROFILE_SUCCESS = "GET_MY_PROFILE_SUCCESS",
-    GET_MY_PROFILE_FAILURE = "GET_MY_PROFILE_FAILURE",
-    PUT_MY_PROFILE_REQUEST = "PUT_MY_PROFILE_REQUEST",
-    PUT_MY_PROFILE_SUCCESS = "PUT_MY_PROFILE_SUCCESS",
-    PUT_MY_PROFILE_FAILURE = "PUT_MY_PROFILE_FAILURE",
-    GET_SELECTED_PROFILE_REQUEST = "GET_SELECTED_PROFILE_REQUEST",
-    GET_SELECTED_PROFILE_SUCCESS = "GET_SELECTED_PROFILE_SUCCESS",
-    GET_SELECTED_PROFILE_FAILURE = "GET_SELECTED_PROFILE_FAILURE"
+    GET_PROFILE_REQUEST = "GET_PROFILE_REQUEST",
+    GET_PROFILE_SUCCESS = "GET_PROFILE_SUCCESS",
+    GET_PROFILE_FAILURE = "GET_PROFILE_FAILURE"
 }
 
 export interface Profile {
@@ -23,20 +17,19 @@ export interface Profile {
     avatarImage?: string;
     coverImage?: string;
     createdAt: string;
-    updatedAt?: string | null;
+    updatedAt?: string;
     owner: Zenyte;
 }
 
 export interface ProfileAction {
     type: ProfileActionType;
-    payload?: Profile;
-    loading: boolean;
+    payload?: Profile | null;
+    loading?: boolean;
     error?: string | null;
 }
 
 export interface ProfileState {
-    myProfile?: Profile;
-    selectedProfile?: Profile;
+    profile: Profile | null;
     loading: boolean;
-    error?: string | null;
+    error: string | null;
 }

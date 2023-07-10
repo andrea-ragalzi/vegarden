@@ -1,24 +1,7 @@
 import { BlogActionType, BlogAction, BlogState } from './../types/blogType';
 
 const initialState: BlogState = {
-    myBlog: {
-        id: 0,
-        title: '',
-        description: '',
-        createdAt: '',
-        updatedAt: null,
-        owner: {
-            id: 0,
-            username: '',
-            email: '',
-            password: '',
-            roles: [],
-            createdAt: '',
-            updatedAt: null,
-        },
-        articles: []
-    },
-    selectedBlog: {
+    blog: {
         id: 0,
         title: '',
         description: '',
@@ -45,6 +28,7 @@ const blogReducer = (state = initialState, action: BlogAction): BlogState => {
         case BlogActionType.UPDATE_BLOG_REQUEST:
             return {
                 ...state,
+                blog: null,
                 loading: true,
                 error: null,
             };
@@ -52,7 +36,7 @@ const blogReducer = (state = initialState, action: BlogAction): BlogState => {
         case BlogActionType.UPDATE_BLOG_SUCCESS:
             return {
                 ...state,
-                myBlog: action.payload,
+                blog: action.payload,
                 loading: false,
                 error: null,
             };
@@ -61,7 +45,8 @@ const blogReducer = (state = initialState, action: BlogAction): BlogState => {
             return {
                 ...state,
                 loading: false,
-                error: action.error,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                error: action.error!,
             };
         default:
             return state;

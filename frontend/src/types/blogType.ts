@@ -1,9 +1,6 @@
 import { Article } from './articleType';
 import { Zenyte } from './zenyteType';
 
-
-
-
 export enum BlogActionType {
     GET_BLOG_REQUEST = "GET_BLOG_REQUEST",
     GET_BLOG_SUCCESS = "GET_BLOG_SUCCESS",
@@ -31,13 +28,12 @@ export interface Blog {
 export interface BlogAction {
     type: BlogActionType;
     payload?: any;
-    loading: boolean;
+    loading?: boolean;
     error?: string | null;
 }
 
 export interface BlogState {
-    myBlog?: Blog;
-    selectedBlog?: Blog;
+    blog: Blog | null;
     loading: boolean;
-    error?: string | null;
+    error: string | null;
 }
