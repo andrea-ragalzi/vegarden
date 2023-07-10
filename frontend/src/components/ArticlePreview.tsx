@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Row, Col, Image, Button } from 'react-bootstrap/';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { BookmarkOutline } from 'react-ionicons';
 import { Article } from "../types/articleType";
 
-interface ArticlePreviewProps {
-    article: Article;
-}
-
-const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
+const ArticlePreview = ({ article }: { article: Article }) => {
+    useEffect(() => {
+        console.log(article);
+    }, []);
     return (
         <Card className='articlePreview px-sm-2'>
             <Row className="justify-content-center align-items-center px-2 mb-1">
                 <Col xs={2}>
-                    <Image className='rounded-circle' src="https://picsum.photos/30/30" alt="Avatar"></Image>
+                    <Link to={`/zenhub/${article.blog?.owner.username}`}>
+                        <Image className='rounded-circle' src="https://picsum.photos/30/30" alt="Avatar"></Image>
+                    </Link>
                 </Col>
                 <Col xs={8}>
                     <Card.Header className='border-0 bg-white'>{article.title}</Card.Header>
@@ -33,7 +34,7 @@ const ArticlePreview: React.FC<ArticlePreviewProps> = ({ article }) => {
                 <Card.Text>
                     {article.description}
                 </Card.Text>
-                <NavLink to="/home">
+                <NavLink to={`/article/${article.id}`}>
                     <Button variant="link" className='read-more'>Read Article</Button>
                 </NavLink>
             </Card.Body>
