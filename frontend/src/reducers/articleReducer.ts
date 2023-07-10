@@ -10,6 +10,7 @@ const initialState: ArticleState = {
 const articleReducer = (state = initialState, action: ArticleAction): ArticleState => {
     switch (action.type) {
         case ArticleActionType.GET_TREND_ARTICLES_REQUEST:
+        case ArticleActionType.GET_ARTICLE_REQUEST:
         case ArticleActionType.POST_ARTICLE_REQUEST:
             return {
                 ...state,
@@ -23,6 +24,7 @@ const articleReducer = (state = initialState, action: ArticleAction): ArticleSta
                 loading: false,
                 error: null
             };
+        case ArticleActionType.GET_ARTICLE_SUCCESS:
         case ArticleActionType.POST_ARTICLE_SUCCESS:
             return {
                 ...state,
@@ -31,6 +33,7 @@ const articleReducer = (state = initialState, action: ArticleAction): ArticleSta
                 error: null
             };
         case ArticleActionType.GET_TREND_ARTICLES_FAILURE:
+        case ArticleActionType.GET_ARTICLE_FAILURE:
         case ArticleActionType.POST_ARTICLE_FAILURE:
             return {
                 ...state,
