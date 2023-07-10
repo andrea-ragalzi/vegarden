@@ -2,7 +2,7 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import TopBar from '../components/TopBar';
 import BottomBar from '../components/BottomBar';
 import Feed from '../components/Feed';
-import Profile from '../components/ProfileSection';
+import ProfileSection from '../components/ProfileSection';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -12,24 +12,19 @@ import { useSelector } from 'react-redux';
 import { fetchBlog } from '../actions/blogAction';
 import Sidebar from '../components/Sidebar';
 import { Blog } from '../types/blogType';
+import { Profile } from '../types/profileType';
 
 const ZenHubPage = () => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
+    const profileState = useSelector((state: RootState) => state.profile);
     const blogState = useSelector((state: RootState) => state.blog);
     const username = useParams().username?.replace(/-/g, '.');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [blog, setBlog] = useState<Blog | undefined>(undefined);
+    const [profile, setProfile] = useState<Profile | undefined>(undefined);
 
-    useEffect(() => {
-        if (loggedIn) {
-            dispatch(fetchBlog(session.username, session.accessToken));
-        } else {
-            navigate('/');
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     useEffect(() => {
         const loadData = async () => {
@@ -37,25 +32,25 @@ const ZenHubPage = () => {
                 if (username === 'me') {
                     await dispatch(fetchMyProfile(session.username, session.accessToken));
                     await dispatch(fetchBlog(session.username, session.accessToken));
+                    setProfile(profileState.myProfile);
                     setBlog(blogState.myBlog);
                 } else {
                     await dispatch(fetchSelectedProfile(username!, session.accessToken));
                     await dispatch(fetchBlog(username!, session.accessToken));
+                    setProfile(profileState.selectedProfile);
                     setBlog(blogState.selectedBlog);
                 }
-                setLoading(false);
             } catch (error) {
                 console.error('Error loading data:', error);
-                // Imposta lo stato di caricamento su false in caso di errore
-                setLoading(false);
             }
         };
-        loadData();
-        if(blogState.error) {
-            navigate('/404');
+        if (loggedIn) {
+            loadData();
+        } else {
+            navigate('/');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [username]);
+    }, []);
 
     return (
         <Container fluid className='vh-100'>
@@ -64,7 +59,7 @@ const ZenHubPage = () => {
                     <Sidebar />
                 </Col>
                 <Col xs={11}>
-                    <Row>
+                    <Row className='mb-5'>
                         <Col>
                             <TopBar />
                         </Col>
@@ -79,7 +74,7 @@ const ZenHubPage = () => {
                         <>
                             <Row>
                                 <Col>
-                                    <Profile username={username || 'me'} blogSize={blog?.articles?.length || 0} />
+                                    <ProfileSection profile={profile!} blogSize={blog?.articles?.length || 0} />
                                 </Col>
                             </Row>
                             {username === 'me' && (
