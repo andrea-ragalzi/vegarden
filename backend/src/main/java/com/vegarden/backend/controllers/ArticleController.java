@@ -143,6 +143,7 @@ public class ArticleController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Article>> getTrendArticles() {
         List<Article> articles = articleService.getAllArticles();
+        System.out.println(articles);
         return ResponseEntity.ok(articles);
     }
 
