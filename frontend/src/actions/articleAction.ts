@@ -2,6 +2,25 @@ import { ArticleActionType, ArticleAction, Article } from './../types/articleTyp
 import { Dispatch } from 'redux';
 import { AnyAction } from '@reduxjs/toolkit';
 
+const getArticleRequest = (): ArticleAction => ({
+    type: ArticleActionType.GET_ARTICLE_REQUEST,
+    loading: true,
+    error: null
+});
+
+const getArticleSuccess = (article: Article): ArticleAction => ({
+    type: ArticleActionType.GET_ARTICLE_SUCCESS,
+    payload: article,
+    loading: false,
+    error: null
+})
+
+const getArticleFailure = (error: string): ArticleAction => ({
+    type: ArticleActionType.GET_ARTICLE_FAILURE,
+    loading: false,
+    error: error
+})
+
 const postArticleRequest = (): ArticleAction => ({
     type: ArticleActionType.POST_ARTICLE_SUCCESS,
     loading: true
@@ -35,6 +54,33 @@ const getTrendArticlesFailure = (error: string): ArticleAction => ({
     loading: false,
     error
 });
+
+export const getArticle = (id: string, token: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        dispatch(getArticleRequest());
+        try {
+            const response = await fetch(`http://localhost:8080/api/articles/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(getArticleSuccess(data));
+                return data;
+            } else {
+                throw new Error("Failed to get article");
+            }
+        } catch (error: unknown | Error) {
+            if (error instanceof Error) {
+                dispatch(getArticleFailure(error.message));
+            } else {
+                dispatch(getArticleFailure("An unknown error occurred while getting the article."));
+            }
+        }
+    }
+}
+
 
 export const postArticle = (token: string, article: Article) => {
 
