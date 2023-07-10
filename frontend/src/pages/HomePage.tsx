@@ -4,7 +4,7 @@ import Feed from '../components/Feed';
 import TopBar from '../components/TopBar';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../store/store';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { fecthTrendArticles } from '../actions/articleAction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
@@ -14,19 +14,11 @@ const HomePage = () => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
-    const trendArticlesState = useSelector((state: RootState) => state.article);
-    const [trendArticles, setTrendArticles] = useState<Article[] | undefined>(undefined);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    
+    const article = useSelector((state: RootState) => state.article);
+
     useEffect(() => {
         const loadData = async () => {
-            try {
-                await dispatch(fecthTrendArticles(session.accessToken));
-                setTrendArticles(trendArticlesState.trendArticles);
-            } catch (error) {
-                console.error('Error loading data:', error);
-            }
+            await dispatch(fecthTrendArticles(session.accessToken));
         }
         if (loggedIn) {
             loadData();
@@ -48,14 +40,14 @@ const HomePage = () => {
                             <TopBar />
                         </Col>
                     </Row>
-                    <Col>
-                        {loading ? (
-                            <p>Loading...</p>
+                    <Col className='d-flex justify-content-center align-items-center'>
+                        {article.loading ? (
+                            <Spinner variant='primary' animation='border' />
                         ) : (
-                            error ? (
-                                <p>{error}</p>
+                            article.error ? (
+                                <p>{article.error}</p>
                             ) : (
-                                <Feed articles={trendArticles || []} />
+                                <Feed articles={article.trendArticles || []} />
                             )
                         )}
                     </Col>

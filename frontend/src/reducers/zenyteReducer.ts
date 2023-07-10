@@ -1,7 +1,16 @@
 import { ZenyteActionType, ZenyteAction, ZenyteState } from "../types/zenyteType";
 
 const initialState: ZenyteState = {
-    zenyte: {
+    my: {
+        id: 0,
+        username: '',
+        email: '',
+        password: '',
+        roles: [],
+        createdAt: '',
+        updatedAt: null
+    },
+    selected: {
         id: 0,
         username: '',
         email: '',
@@ -16,19 +25,28 @@ const initialState: ZenyteState = {
 
 const zenyteReducer = (state: ZenyteState = initialState, action: ZenyteAction): ZenyteState => {
     switch (action.type) {
+        case ZenyteActionType.GET_MY_ZENYTE_REQUEST:
         case ZenyteActionType.GET_ZENYTE_REQUEST:
             return {
                 ...state,
                 loading: true,
                 error: null,
             }
-        case ZenyteActionType.GET_ZENYTE_SUCCESS:
+        case ZenyteActionType.GET_MY_ZENYTE_SUCCESS:
             return {
                 ...state,
-                zenyte: action.payload,
+                my: action.payload,
                 loading: false,
                 error: null,
             }
+        case ZenyteActionType.GET_ZENYTE_SUCCESS:
+            return {
+                ...state,
+                selected: action.payload,
+                loading: false,
+                error: null,
+            }
+        case ZenyteActionType.GET_MY_ZENYTE_FAILURE:
         case ZenyteActionType.GET_ZENYTE_FAILURE:
             return {
                 ...state,

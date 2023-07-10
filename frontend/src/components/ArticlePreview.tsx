@@ -6,9 +6,6 @@ import { BookmarkOutline } from 'react-ionicons';
 import { Article } from "../types/articleType";
 
 const ArticlePreview = ({ article }: { article: Article }) => {
-    useEffect(() => {
-        console.log(article);
-    }, []);
     return (
         <Card className='articlePreview px-sm-2'>
             <Row className="justify-content-center align-items-center px-2 mb-1">

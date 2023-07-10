@@ -1,4 +1,4 @@
-import { CombinedState, combineReducers } from "redux";
+import { combineReducers } from "redux";
 import loginReducer from "../reducers/loginReducer";
 import zenyteReducer from "../reducers/zenyteReducer";
 import { persistStore, persistReducer } from "redux-persist";
@@ -11,8 +11,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
   login: loginReducer,
-  myZenyte: zenyteReducer,
-  selectedZenyte: zenyteReducer,
+  zenyte: zenyteReducer,
   profile: profileReducer,
   blog: blogReducer,
   article: articleReducer,
@@ -33,7 +32,6 @@ const resettableReducer = (state: any, action: any) => {
 const persistConfig = {
   key: "root",
   storage,
-  // Puoi specificare qui il whitelist o il blacklist dei reducer
 };
 
 const persistedReducer = persistReducer(persistConfig, resettableReducer);

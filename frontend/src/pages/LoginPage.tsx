@@ -6,11 +6,13 @@ import loginFetch from '../actions/loginAction';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { readMyZenyte } from '../actions/zenyteAction';
 
 const LoginPage = () => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
     const login = useSelector((state: RootState) => state.login);
+    const zenyte = useSelector((state: RootState) => state.zenyte);
     const formRef = useRef<HTMLFormElement>(null);
     const [formValues, setFormValues] = useState({
         username: '',
@@ -25,13 +27,28 @@ const LoginPage = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         const loadData = async () => {
             await dispatch(loginFetch(formValues.username, formValues.password));
-            if (login.loggedIn) {
-                navigate('/home');
-            }
         }
         e.preventDefault();
         loadData();
     };
+
+    useEffect(() => {
+        if (zenyte.my.id) {
+            navigate('/home');
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [zenyte]);
+
+    useEffect(() => {
+        const loadMyZenyte = async () => {
+            await dispatch(
+                readMyZenyte(login.session.username, login.session.accessToken));
+        }
+        if (login.loggedIn) {
+            loadMyZenyte();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [login]);
 
     useEffect(() => {
         dispatch(resetStoreAction);

@@ -1,6 +1,9 @@
 import RoleType from './roleType';
 
 export enum ZenyteActionType {
+    GET_MY_ZENYTE_REQUEST = "GET_MY_ZENYTE_REQUEST",
+    GET_MY_ZENYTE_SUCCESS = "GET_MY_ZENYTE_SUCCESS",
+    GET_MY_ZENYTE_FAILURE = "GET_MY_ZENYTE_FAILURE",
     GET_ZENYTE_REQUEST = "GET_ZENYTE_REQUEST",
     GET_ZENYTE_SUCCESS = "GET_ZENYTE_SUCCESS",
     GET_ZENYTE_FAILURE = "GET_ZENYTE_FAILURE"
@@ -24,7 +27,8 @@ export interface ZenyteAction {
 }
 
 export interface ZenyteState {
-    zenyte: Zenyte;
+    my: Zenyte;
+    selected: Zenyte;
     loading: boolean;
     error?: string | null;
 }
