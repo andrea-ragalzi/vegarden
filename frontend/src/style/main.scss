@@ -11,8 +11,36 @@ body {
     background-color: $light;
 }
 
+.bottom-bar {
+    background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
+    padding: 1em;
+    box-shadow: 0 0 10px $secondary;
+    height: 3em;
+    padding: 1px;
+}
+
+.top-bar {
+    background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
+    padding: 1em;
+    box-shadow: 0 0 10px $primary;
+    height: 3em;
+    padding: 1px;
+}
+
+.side-bar {
+    background: linear-gradient(to bottom, $primary, $secondary); // Cambia il gradient come preferisci
+    padding: 1em;
+    box-shadow: 0 0 10px $primary;
+    width: 4em;
+    padding: 1px;
+    .col {
+        @include side-bar-element;
+    }
+}
+
 .vegarden-text {
     font-size: 1.5em;
+    color: black;
 }
 
 .feed-tab {
@@ -27,6 +55,7 @@ body {
     padding: 1.25em;
     margin-bottom: 1.25em;
     transition: transform 0.3s ease-in-out;
+    height: 25em;
 
     @include media-breakpoint-up(md) {
         &:hover {

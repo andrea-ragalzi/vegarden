@@ -46,13 +46,13 @@ const ZenHubPage = () => {
     }, [loggedIn]);
 
     return (
-        <Container fluid className='vh-100'>
+        <Container fluid className='vh-100 m-0 p-0'>
             <Row>
                 <Col xs={1}>
                     <Sidebar />
                 </Col>
                 <Col xs={11}>
-                    <Row className='mb-5'>
+                    <Row>
                         <Col>
                             <TopBar />
                         </Col>

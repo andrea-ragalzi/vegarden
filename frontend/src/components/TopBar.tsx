@@ -4,38 +4,32 @@ import { Link } from 'react-router-dom';
 
 const TopBar = () => {
     return (
-        <Row className='fixed-top row row-cols-2 g-0 justify-content-around bg-primary d-md-none'>
+        <Row className='fixed-top row row-cols-2 g-0 justify-content-around align-items-center bg-primary d-md-none top-bar'>
             <Col className='d-flex justify-content-center'>
-                <Button className="d-flex align-items-center">
-                    <Link to="/zenhub/me">
-                        <PersonCircleOutline
-                            color={'#000000'}
-                            height="35px"
-                            width={'35px'}
-                        />
-                    </Link>
-                    <Link to="/home">
-                        <span className="vegarden-text text-black ms-3">Vegarden</span>
-                    </Link>
-                </Button>
+                <Link to="/zenhub/me">
+                    <PersonCircleOutline
+                        color={'#000000'}
+                        height="35px"
+                        width={'35px'}
+                    />
+                </Link>
+                <Link to="/home">
+                    <span className="vegarden-text text-black ms-3">Vegarden</span>
+                </Link>
             </Col>
             <Col className='d-flex justify-content-end'>
-                <Button>
-                    <FilterOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                        onClick={() => alert('Hi!')}
-                    />
-                </Button>
-                <Button>
-                    <NotificationsOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                        onClick={() => alert('Hi!')}
-                    />
-                </Button>
+                <FilterOutline
+                    color={'#000000'}
+                    height="35px"
+                    width={'35px'}
+                    onClick={() => alert('Hi!')}
+                />
+                <NotificationsOutline
+                    color={'#000000'}
+                    height="35px"
+                    width={'35px'}
+                    onClick={() => alert('Hi!')}
+                />
             </Col>
         </Row>
     );

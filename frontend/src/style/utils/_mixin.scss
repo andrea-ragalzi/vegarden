@@ -11,3 +11,10 @@
     }
 
 }
+
+@mixin side-bar-element{
+    @extend .d-flex;
+    @extend .justify-content-center;
+    @extend .mb-3;
+    @extend .ps-4;
+}

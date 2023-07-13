@@ -5,46 +5,38 @@ import { useNavigate } from 'react-router-dom';
 const BottomBar = () => {
     const navigate = useNavigate();
     return (
-        <Row className='fixed-bottom row row-cols-4 g-0 p-0 justify-content-between bg-primary d-md-none'>
+        <Row className='fixed-bottom row row-cols-4 g-0 justify-content-between bg-primary d-md-none bottom-bar'>
             <Col className='d-flex justify-content-center'>
-                <Button>
-                    <HomeOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                        onClick={() => navigate('/home')}
-                    />
-                </Button>
+                <HomeOutline
+                    color={'#000000'}
+                    height="35px"
+                    width={'35px'}
+                    onClick={() => navigate('/home')}
+                />
             </Col>
             <Col className='d-flex justify-content-center'>
-                <Button>
-                    <SearchOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                        onClick={() => alert('Work progress!')}
-                    />
-                </Button>
+                <SearchOutline
+                    color={'#000000'}
+                    height="35px"
+                    width={'35px'}
+                    onClick={() => alert('Work progress!')}
+                />
             </Col>
             <Col className='d-flex justify-content-center'>
-                <Button>
-                    <AddOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                        onClick={() => navigate('/article-create')}
-                    />
-                </Button>
+                <AddOutline
+                    color={'#000000'}
+                    height="35px"
+                    width={'35px'}
+                    onClick={() => navigate('/article-create')}
+                />
             </Col>
             <Col className='d-flex justify-content-center'>
-                <Button>
-                    <ChatbubbleOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                        onClick={() => alert('Work in progress!')}
-                    />
-                </Button>
+                <ChatbubbleOutline
+                    color={'#000000'}
+                    height="35px"
+                    width={'35px'}
+                    onClick={() => alert('Work in progress!')}
+                />
             </Col>
         </Row>
     );
