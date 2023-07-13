@@ -14,6 +14,7 @@ export enum ArticleActionType {
     DELETE_ARTICLE_REQUEST = "DELETE_ARTICLE_REQUEST",
     DELETE_ARTICLE_SUCCESS = "DELETE_ARTICLE_SUCCESS",
     DELETE_ARTICLE_FAILURE = "DELETE_ARTICLE_FAILURE",
+    SET_ARTICLE = "SET_ARTICLE",
     GET_SAVED_ARTICLES_REQUEST = "GET_SAVED_ARTICLES_REQUEST",
     GET_SAVED_ARTICLES_SUCCESS = "GET_SAVED_ARTICLES_SUCCESS",
     GET_SAVED_ARTICLES_FAILURE = "GET_SAVED_ARTICLES_FAILURE",
@@ -31,7 +32,8 @@ export enum ArticleActionType {
 export interface Article {
     id: number;
     title: string;
-    coverImage?: string;
+    coverImage?: File | null;
+    coverImageURL?: string | null;
     description?: string;
     body: string;
     bodyHtml?: string;
