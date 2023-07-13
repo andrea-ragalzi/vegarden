@@ -2,39 +2,78 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootswatch/dist/minty/bootswatch";
 @import "./utils/_mixin.scss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+// Resto del tuo codice SCSS
+
 
 html,
 body {
     height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: $light;
+    background: $light;
+    font-family: "Roboto", sans-serif;
 }
 
 .bottom-bar {
+    @extend .shadow-none;
+    @extend .p-0;
+    @extend .m-0;
     background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
     padding: 1em;
-    box-shadow: 0 0 10px $secondary;
+    box-shadow: 0 0 10px $secondary !important;
     height: 3em;
     padding: 1px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    span {
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .top-bar {
+    @extend .shadow-none;
+    @extend .p-0;
+    @extend .m-0;
     background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
     padding: 1em;
-    box-shadow: 0 0 10px $primary;
+    box-shadow: 0 0 10px $primary !important;
     height: 3em;
     padding: 1px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    span {
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .side-bar {
+    @extend .shadow-none;
+    @extend .p-0;
+    @extend .m-0;
     background: linear-gradient(to bottom, $primary, $secondary); // Cambia il gradient come preferisci
     padding: 1em;
-    box-shadow: 0 0 10px $primary;
-    width: 4em;
+    box-shadow: 0 0 10px $primary !important;
+    width: 3.5em;
     padding: 1px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
     .col {
         @include side-bar-element;
+    }
+
+    span {
+        &:hover {
+            cursor: pointer;
+        }
     }
 }
 
@@ -56,6 +95,7 @@ body {
     margin-bottom: 1.25em;
     transition: transform 0.3s ease-in-out;
     height: 25em;
+    width: 20em;
 
     @include media-breakpoint-up(md) {
         &:hover {

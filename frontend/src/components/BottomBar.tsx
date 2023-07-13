@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const BottomBar = () => {
     const navigate = useNavigate();
     return (
-        <Row className='fixed-bottom row row-cols-4 g-0 justify-content-between bg-primary d-md-none bottom-bar'>
+        <Row className='fixed-bottom row row-cols-4 g-0 justify-content-between align-items-center bg-primary d-md-none bottom-bar'>
             <Col className='d-flex justify-content-center'>
                 <HomeOutline
                     color={'#000000'}

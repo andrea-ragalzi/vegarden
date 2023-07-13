@@ -1,4 +1,4 @@
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import TopBar from '../components/TopBar';
 import BottomBar from '../components/BottomBar';
 import Feed from '../components/Feed';
@@ -20,7 +20,7 @@ const ZenHubPage = () => {
     const { profile, loading, error } = useSelector((state: RootState) => state.profile);
     const { blog } = useSelector((state: RootState) => state.blog);
 
-    
+
 
     useEffect(() => {
         const loadData = async () => {
@@ -47,12 +47,12 @@ const ZenHubPage = () => {
 
     return (
         <Container fluid className='vh-100 m-0 p-0'>
-            <Row>
+            <Row className='justify-content-center'>
                 <Col xs={1}>
                     <Sidebar />
                 </Col>
                 <Col xs={11}>
-                    <Row>
+                    <Row className='mb-5 mb-md-4'>
                         <Col>
                             <TopBar />
                         </Col>
@@ -73,7 +73,7 @@ const ZenHubPage = () => {
                     )}
                     {!loading && !error && profile && (
                         <>
-                            <Row>
+                            <Row className='justify-content-center'>
                                 <Col>
                                     <ProfileSection profile={profile!} blogSize={blog?.articles?.length || 0} />
                                 </Col>

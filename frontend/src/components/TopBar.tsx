@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 const TopBar = () => {
     return (
-        <Row className='fixed-top row row-cols-2 g-0 justify-content-around align-items-center bg-primary d-md-none top-bar'>
-            <Col className='d-flex justify-content-center'>
+        <Row className='fixed-top row row-cols-2 g-0 px-4 justify-content-between align-items-center d-md-none top-bar'>
+            <Col className='d-flex'>
                 <Link to="/zenhub/me">
                     <PersonCircleOutline
                         color={'#000000'}
@@ -14,22 +14,26 @@ const TopBar = () => {
                     />
                 </Link>
                 <Link to="/home">
-                    <span className="vegarden-text text-black ms-3">Vegarden</span>
+                    <span className="vegarden-text text-black ms-1">Vegarden</span>
                 </Link>
             </Col>
             <Col className='d-flex justify-content-end'>
-                <FilterOutline
-                    color={'#000000'}
-                    height="35px"
-                    width={'35px'}
-                    onClick={() => alert('Hi!')}
-                />
-                <NotificationsOutline
-                    color={'#000000'}
-                    height="35px"
-                    width={'35px'}
-                    onClick={() => alert('Hi!')}
-                />
+                <div className='me-3'>
+                    <FilterOutline
+                        color={'#000000'}
+                        height="35px"
+                        width={'35px'}
+                        onClick={() => alert('Hi!')}
+                    />
+                </div>
+                <div>
+                    <NotificationsOutline
+                        color={'#000000'}
+                        height="35px"
+                        width={'35px'}
+                        onClick={() => alert('Hi!')}
+                    />
+                </div>
             </Col>
         </Row>
     );
