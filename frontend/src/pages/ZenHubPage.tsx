@@ -5,7 +5,7 @@ import Feed from '../components/Feed';
 import ProfileSection from '../components/ProfileSection';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { readProfile } from '../actions/profileAction';
 import { RootState, store } from '../store/store';
 import { useSelector } from 'react-redux';
