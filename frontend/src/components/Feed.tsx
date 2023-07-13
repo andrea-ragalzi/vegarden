@@ -1,7 +1,6 @@
-import { useSelector } from "react-redux";
-import ArticlePreview from "./ArticlePreview";
 import { Row, Col } from "react-bootstrap";
 import { Article } from "../types/articleType";
+import ArticleDescription from "./ArticleDescription";
 
 const Feed = ({articles}: {articles: Article[]}) => {
     return (
@@ -10,7 +9,7 @@ const Feed = ({articles}: {articles: Article[]}) => {
                 {articles?.length ? (
                     [...articles].reverse().map((article) => (
                         <Col xs={12} sm={6} lg={4} xl={3} className="px-0 px-sm-2 py-2" key={article.id}>
-                            <ArticlePreview article={article} />
+                            <ArticleDescription article={article} />
                         </Col>
                     ))
                 ) : (
