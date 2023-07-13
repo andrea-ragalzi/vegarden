@@ -71,19 +71,19 @@ export const readArticle = (id: string, token: string) => {
 }
 
 
-export const createArticle = (token: string, article: Article) => {
-
+export const createArticle = (formData: FormData, token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(postArticleRequest());
         try {
+
             const response = await fetch('http://localhost:8080/api/articles', {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(article)
+                body: formData,
             });
+
             if (response.ok) {
                 const data = await response.json();
                 dispatch(postArticleSuccess(data));
@@ -101,6 +101,13 @@ export const createArticle = (token: string, article: Article) => {
         }
     }
 }
+
+
+
+export const setArticle = (article: Article): ArticleAction => ({
+    type: ArticleActionType.SET_ARTICLE,
+    payload: article
+})
 
 
 export const readTrendArticles = (token: string) => {
