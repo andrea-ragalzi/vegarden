@@ -19,6 +19,7 @@ const articleReducer = (state = initialState, action: ArticleAction): ArticleSta
             };
         case ArticleActionType.GET_ARTICLE_SUCCESS:
         case ArticleActionType.POST_ARTICLE_SUCCESS:
+        case ArticleActionType.SET_ARTICLE:
             return {
                 ...state,
                 selectedArticle: action.payload,
