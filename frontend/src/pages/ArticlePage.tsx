@@ -47,9 +47,11 @@ const ArticlePage = () => {
                             <TopBar />
                         </Col>
                     </Row>
-                    <Col>
-                        <ArticleDetail article={article!} />
-                    </Col>
+                    {article && (
+                        <Col>
+                            <ArticleDetail article={article} />
+                        </Col>
+                    )}
                     <Row>
                         <Col>
                             <BottomBar />
