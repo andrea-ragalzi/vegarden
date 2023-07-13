@@ -43,7 +43,7 @@ const HomePage = () => {
                             <TopBar />
                         </Col>
                     </Row>
-                    <Col className='d-flex justify-content-center align-items-center'>
+                    <Col xs={11} className='d-flex justify-content-center align-items-center'>
                         {article.loading ? (
                             <Spinner variant='primary' animation='border' />
                         ) : (
