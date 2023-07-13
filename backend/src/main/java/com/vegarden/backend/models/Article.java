@@ -32,6 +32,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -50,13 +51,13 @@ public class Article {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "cover_image")
-    private String coverImage;
+    @Column(name = "cover_image_url")
+    private String coverImageURL;
 
     @Column
     private String description;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String body;
 
     // @Column(nullable = false)
