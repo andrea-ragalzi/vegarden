@@ -58,7 +58,7 @@ body {
     @extend .shadow-none;
     @extend .p-0;
     @extend .m-0;
-    background: linear-gradient(to bottom, $primary, $secondary); // Cambia il gradient come preferisci
+    background: linear-gradient(to bottom, $primary, $secondary);
     padding: 1em;
     box-shadow: 0 0 10px $dark !important;
     width: 3.5em;
