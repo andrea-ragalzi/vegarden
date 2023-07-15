@@ -45,7 +45,7 @@ export const addImageAvatar = (userId: string, image: FormData) => {
         dispatch(addImageAvatarRequest());
         try {
             const response = await fetch(
-                `https://striveschool-api.herokuapp.com/api/profile/${userId}/picture`,
+                `https://striveschool-api.herokuapp.com/api/profile/${userId}/avatar`,
                 {
                     method: "POST",
                     body: image,

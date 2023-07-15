@@ -20,7 +20,7 @@ const HomePage = () => {
         const loadData = async () => {
             await dispatch(readTrendArticles(session.accessToken));
         }
-            loadData();
+        loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -33,29 +33,31 @@ const HomePage = () => {
 
     return (
         <Container fluid className='vh-100'>
-            <Row>
-                <Col xs={1}>
+            <Row className='justify-content-center m-0 p-0'>
+                <Col md={1} className='d-none d-md-block'>
                     <Sidebar />
                 </Col>
-                <Col xs={11}>
+                <Col xs={12} md={11}>
                     <Row className='mb-5'>
                         <Col>
                             <TopBar />
                         </Col>
                     </Row>
-                    <Col xs={11} className='d-flex justify-content-center align-items-center'>
-                        {article.loading ? (
-                            <Spinner variant='primary' animation='border' />
-                        ) : (
-                            article.error ? (
-                                <p>{article.error}</p>
-                            ) : (
-                                <Feed articles={article.trendArticles || []} />
-                            )
-                        )}
-                    </Col>
                     <Row>
-                        <Col>
+                        <Col xs={12}>
+                            {article.loading ? (
+                                <Spinner variant='primary' animation='border' />
+                            ) : (
+                                article.error ? (
+                                    <p>{article.error}</p>
+                                ) : (
+                                    <Feed articles={article.trendArticles || []} />
+                                )
+                            )}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={12}>
                             <BottomBar />
                         </Col>
                     </Row>

@@ -12,19 +12,6 @@ const ArticleDescription = ({ article }: { article: Article }) => {
     const loggedIn = useSelector((state: RootState) => state.login.loggedIn);
     const [coverImageURL, setCoverImageURL] = useState<string | undefined>(undefined);
 
-    useEffect(() => {
-        const getFileNameFromBlobURL = (blobURL: string) => {
-            const splitURL = blobURL.split('/');
-            return splitURL[splitURL.length - 1];
-        };
-        if (!loggedIn) {
-            navigate('/');
-        }
-        console.log('DETAIL');
-        console.log(article);
-        fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL!));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [article, loggedIn]);
 
     const fetchCoverImage = async (filename: string) => {
         console.log(filename);
@@ -41,8 +28,20 @@ const ArticleDescription = ({ article }: { article: Article }) => {
         }
     };
 
+    useEffect(() => {
+        const getFileNameFromBlobURL = (blobURL: string) => {
+            const splitURL = blobURL.split('/');
+            return splitURL[splitURL.length - 1];
+        };
+        if (!loggedIn) {
+            navigate('/');
+        }
+        fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL!));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [article, loggedIn]);
+
     return (
-        <Card className='articlePreview px-sm-2'>
+        <Card className='articlePreview'>
             <Row className="justify-content-center align-items-center px-2 mb-1">
                 <Col xs={2}>
                     <Link to={`/zenhub/${article.blog?.owner.username}`}>

@@ -45,7 +45,6 @@ public class Profile {
     @Column(nullable = false)
     private String lastname;
 
-
     @Column
     private String pronouns;
 
@@ -55,15 +54,16 @@ public class Profile {
     @Column
     private String location;
 
-    @Column
-    private String avatarImage;
+    @Column(name = "avatar_image_url")
+    private String avatarImageURL;
 
-    @Column
+    @Column(name = "cover_image_url")
     private String coverImage;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

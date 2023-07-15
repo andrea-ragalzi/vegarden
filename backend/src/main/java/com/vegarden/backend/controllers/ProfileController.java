@@ -1,10 +1,18 @@
 package com.vegarden.backend.controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,9 +21,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.vegarden.backend.models.Profile;
 import com.vegarden.backend.models.Zenyte;
@@ -23,9 +33,12 @@ import com.vegarden.backend.services.ProfileService;
 import com.vegarden.backend.services.ZenyteService;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RequestMapping("/api/profiles")
 public class ProfileController {
+
+    @Value("${spring.servlet.multipart.location}avatar_images")
+    private String uploadLocation;
 
     @Autowired
     private ProfileService profileService;
@@ -60,48 +73,57 @@ public class ProfileController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @PutMapping("/{username}")
+    @PutMapping("/{username:.+}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Profile> updateProfile(
-            @PathVariable String username, @RequestBody Profile updatedProfile,
-            @AuthenticationPrincipal UserDetails userDetails) {
+            @PathVariable String username,
+            @RequestPart("firstname") String firstname,
+            @RequestPart("lastname") String lastname,
+            @RequestPart("pronouns") String pronouns,
+            @RequestPart("bio") String bio,
+            @RequestPart("location") String location,
+            @RequestParam(value = "avatarImage", required = false) MultipartFile avatarImage,
+            @AuthenticationPrincipal UserDetails userDetails) throws IOException {
+
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
-        Zenyte owner = zenyteService.findZenyteByUsername(username);
+
         if (userDetails.getAuthorities().stream().anyMatch(
                 role -> role.getAuthority().equals("ROLE_ADMIN")) ||
                 userDetails.getUsername().equals(userDetails.getUsername())) {
+
             Timestamp now = new Timestamp(System.currentTimeMillis());
+            Zenyte owner = zenyteService.findZenyteByUsername(username);
             Profile profile = profileService.findProfileByOwner(owner);
-            if (updatedProfile.getFirstname() != null) {
-                profile.setFirstname(updatedProfile.getFirstname());
+            String oldAvatarImageURL = profile.getAvatarImageURL();
+
+            try {
+                if (avatarImage != null) {
+                    String avatarImageFileName = UUID.randomUUID().toString() + "-" + avatarImage.getOriginalFilename();
+                    String avatarImageFilePath = uploadLocation + File.separator + avatarImageFileName;
+                    Files.copy(avatarImage.getInputStream(), Path.of(avatarImageFilePath),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    profile.setAvatarImageURL(avatarImageFilePath);
+                }
+
+                profile.setFirstname(firstname);
+                profile.setLastname(lastname);
+                profile.setPronouns(pronouns);
+                profile.setBio(bio);
+                profile.setLocation(location);
+                profile.setUpdatedAt(now);
+                profileService.updateProfile(profile);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
-            if (updatedProfile.getMiddlename() != null) {
-                profile.setMiddlename(updatedProfile.getMiddlename());
+            if (oldAvatarImageURL != null) {
+                Files.delete(Path.of(oldAvatarImageURL));
             }
-            if (updatedProfile.getLastname() != null) {
-                profile.setLastname(updatedProfile.getLastname());
-            }
-            if (updatedProfile.getPronouns() != null) {
-                profile.setPronouns(updatedProfile.getPronouns());
-            }
-            if (updatedProfile.getBio() != null) {
-                profile.setBio(updatedProfile.getBio());
-            }
-            if (updatedProfile.getLocation() != null) {
-                profile.setLocation(updatedProfile.getLocation());
-            }
-            if (updatedProfile.getAvatarImage() != null) {
-                profile.setAvatarImage(updatedProfile.getAvatarImage());
-            }
-            profile.setUpdatedAt(now);
-            profileService.updateProfile(profile);
             return ResponseEntity.ok(profile);
         }
-        // Return an error or unauthorized response
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

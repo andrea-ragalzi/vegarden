@@ -47,11 +47,14 @@ const ArticleMaker = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        if (title && description && body) {
-            dispatch(createArticle(formData, session.accessToken,));
-            dispatch(readBlog(session.username, session.accessToken));
-            navigate("/zenhub/me");
+        const loadData = async () => {
+            if (title && description && body) {
+                await dispatch(createArticle(formData, session.accessToken));
+                await dispatch(readBlog(session.username, session.accessToken));
+                navigate("/zenhub/me");
+            }
         }
+        loadData();
     };
 
     return (
@@ -83,7 +86,8 @@ const ArticleMaker = () => {
                     <Form.Group controlId="formDescription" className="mb-2">
                         <Form.Label>Description</Form.Label>
                         <Form.Control
-                            type="text"
+                            as="textarea"
+                            rows={2}
                             placeholder="Enter description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
@@ -95,7 +99,7 @@ const ArticleMaker = () => {
                         <Form.Label>Body</Form.Label>
                         <Form.Control
                             as="textarea"
-                            rows={5}
+                            rows={10}
                             placeholder="Enter body"
                             value={body}
                             onChange={(e) => setBody(e.target.value)}

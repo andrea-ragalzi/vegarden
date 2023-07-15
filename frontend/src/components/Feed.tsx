@@ -5,10 +5,10 @@ import ArticleDescription from "./ArticleDescription";
 const Feed = ({articles}: {articles: Article[]}) => {
     return (
         <>
-            <Row className="row row-cols-1 justify-content-center align-items-center">
+            <Row className="row row-cols-1 justify-content-center align-items-center m-0">
                 {articles?.length ? (
                     [...articles].reverse().map((article) => (
-                        <Col xs={12} sm={6} lg={4} xl={3} className="px-0 px-sm-2 py-2" key={article.id}>
+                        <Col xs={12} sm={6} lg={4} xl={3} key={article.id} className="d-flex justify-content-center">
                             <ArticleDescription article={article} />
                         </Col>
                     ))

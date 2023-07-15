@@ -25,7 +25,7 @@ const initialState: BlogState = {
 const blogReducer = (state = initialState, action: BlogAction): BlogState => {
     switch (action.type) {
         case BlogActionType.GET_BLOG_REQUEST:
-        case BlogActionType.UPDATE_BLOG_REQUEST:
+        case BlogActionType.PUT_BLOG_REQUEST:
             return {
                 ...state,
                 blog: null,
@@ -33,7 +33,7 @@ const blogReducer = (state = initialState, action: BlogAction): BlogState => {
                 error: null,
             };
         case BlogActionType.GET_BLOG_SUCCESS:
-        case BlogActionType.UPDATE_BLOG_SUCCESS:
+        case BlogActionType.PUT_BLOG_SUCCESS:
             return {
                 ...state,
                 blog: action.payload,
@@ -41,7 +41,7 @@ const blogReducer = (state = initialState, action: BlogAction): BlogState => {
                 error: null,
             };
         case BlogActionType.GET_BLOG_FAILURE:
-        case BlogActionType.UPDATE_BLOG_FAILURE:
+        case BlogActionType.PUT_BLOG_FAILURE:
             return {
                 ...state,
                 loading: false,

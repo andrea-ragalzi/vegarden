@@ -13,7 +13,7 @@ body {
     margin: 0;
     padding: 0;
     background: $light;
-    font-family: "Roboto", sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 .bottom-bar {
@@ -22,7 +22,7 @@ body {
     @extend .m-0;
     background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
     padding: 1em;
-    box-shadow: 0 0 10px $secondary !important;
+    box-shadow: 0 0 10px $dark !important;
     height: 3em;
     padding: 1px;
     border-top-left-radius: 5px;
@@ -41,7 +41,7 @@ body {
     @extend .m-0;
     background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
     padding: 1em;
-    box-shadow: 0 0 10px $primary !important;
+    box-shadow: 0 0 10px $dark !important;
     height: 3em;
     padding: 1px;
     border-bottom-left-radius: 5px;
@@ -60,7 +60,7 @@ body {
     @extend .m-0;
     background: linear-gradient(to bottom, $primary, $secondary); // Cambia il gradient come preferisci
     padding: 1em;
-    box-shadow: 0 0 10px $primary !important;
+    box-shadow: 0 0 10px $dark !important;
     width: 3.5em;
     padding: 1px;
     border-top-right-radius: 5px;
@@ -91,10 +91,10 @@ body {
     color: $black;
     background-color: $white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    padding: 1.25em;
+    // padding: 1.25em;
     margin-bottom: 1.25em;
     transition: transform 0.3s ease-in-out;
-    height: 25em;
+    height: 30em;
     width: 20em;
 
     @include media-breakpoint-up(md) {
@@ -165,8 +165,7 @@ body {
         margin-top: 10px;
         font-size: 16px;
         line-height: 1.5;
-        white-space: pre-line;
-        overflow-wrap: break-word;
+        @include text-wrap;
     }
 }
 
@@ -188,3 +187,15 @@ body {
         border: 2px solid $secondary;
     }
 }
+
+.avatar {
+    width: 7.5em;
+    height: 7.5em;
+    border-radius: 50%;
+}
+
+.profile {
+    @include text-wrap;
+}
+
+

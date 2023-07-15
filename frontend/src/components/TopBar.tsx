@@ -7,11 +7,7 @@ const TopBar = () => {
         <Row className='fixed-top row row-cols-2 g-0 px-4 justify-content-between align-items-center d-md-none top-bar'>
             <Col className='d-flex'>
                 <Link to="/zenhub/me">
-                    <PersonCircleOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                    />
+                    <span className='vegarden-text'>Z</span>
                 </Link>
                 <Link to="/home">
                     <span className="vegarden-text text-black ms-1">Vegarden</span>

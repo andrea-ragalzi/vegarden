@@ -3,7 +3,10 @@ import { Zenyte } from './zenyteType';
 export enum ProfileActionType {
     GET_PROFILE_REQUEST = "GET_PROFILE_REQUEST",
     GET_PROFILE_SUCCESS = "GET_PROFILE_SUCCESS",
-    GET_PROFILE_FAILURE = "GET_PROFILE_FAILURE"
+    GET_PROFILE_FAILURE = "GET_PROFILE_FAILURE",
+    PUT_PROFILE_REQUEST = "PUT_PROFILE_REQUEST",
+    PUT_PROFILE_SUCCESS = "PUT_PROFILE_SUCCESS",
+    PUT_PROFILE_FAILURE = "PUT_PROFILE_FAILURE"
 }
 
 export interface Profile {
@@ -14,8 +17,10 @@ export interface Profile {
     pronouns?: string;
     bio?: string;
     location?: string;
-    avatarImage?: string;
-    coverImage?: string;
+    avatarImage?: File | null;
+    avatarImageURL?: string;
+    coverImage?: File | null;
+    coverImageURL?: string;
     createdAt: string;
     updatedAt?: string;
     owner: Zenyte;

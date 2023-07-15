@@ -5,6 +5,7 @@ import ZenHubPage from './pages/ZenHubPage'
 import RegisterPage from "./pages/RegisterPage";
 import ArticleCreatePage from "./pages/ArticleCreatePage"
 import ArticlePage from "./pages/ArticlePage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/zenhub/:username" element={<ZenHubPage />} />
           <Route path="/article/:articleId" element={<ArticlePage />}></Route>
           <Route path="/article-create" element={<ArticleCreatePage />}></Route>
+          <Route path="/edit-profile" element={<EditProfilePage />}></Route>
           <Route path="*" element={<div>404</div>}></Route>
         </Routes>
       </BrowserRouter>

@@ -1,0 +1,26 @@
+@function gradient-shadow($gradient) {
+  $stops: ();
+  $color-stops: str-index($gradient, ")");
+  $gradient-length: str-length($gradient);
+
+  @while $color-stops > 0 {
+    $stop: str-slice($gradient, 1, $color-stops);
+    $stops: append($stops, $stop);
+
+    $gradient: str-slice($gradient, $color-stops + 1, $gradient-length);
+    $color-stops: str-index($gradient, ")");
+    $gradient-length: str-length($gradient);
+  }
+
+  $shadow: ();
+  $stop-count: length($stops);
+
+  @for $i from 1 through $stop-count {
+    $stop: nth($stops, $i);
+    $color: str-slice($stop, str-index($stop, "#"));
+
+    $shadow: append($shadow, $color);
+  }
+
+  @return join($shadow, ",");
+}

@@ -20,8 +20,6 @@ const ZenHubPage = () => {
     const { profile, loading, error } = useSelector((state: RootState) => state.profile);
     const { blog } = useSelector((state: RootState) => state.blog);
 
-
-
     useEffect(() => {
         const loadData = async () => {
             if (username === 'me') {

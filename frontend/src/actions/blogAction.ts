@@ -20,21 +20,18 @@ export const getBlogFailure = (error: string): BlogAction => ({
     loading: false,
 });
 
-export const updateBlogRequest = (): BlogAction => ({
-    type: BlogActionType.UPDATE_BLOG_REQUEST,
-    loading: true,
+export const putBlogRequest = (): BlogAction => ({
+    type: BlogActionType.PUT_BLOG_REQUEST,
 });
 
-export const updateBlogSuccess = (blog: Blog): BlogAction => ({
-    type: BlogActionType.UPDATE_BLOG_SUCCESS,
+export const putBlogSuccess = (blog: Blog): BlogAction => ({
+    type: BlogActionType.PUT_BLOG_SUCCESS,
     payload: blog,
-    loading: false,
 });
 
-export const updateBlogFailure = (error: string): BlogAction => ({
-    type: BlogActionType.UPDATE_BLOG_FAILURE,
+export const putBlogFailure = (error: string): BlogAction => ({
+    type: BlogActionType.PUT_BLOG_FAILURE,
     error: error,
-    loading: false,
 });
 
 export const getBlogArticlesRequest = (): BlogAction => ({
@@ -60,6 +57,33 @@ export const readBlog = (username: string, token: string) => {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(getBlogSuccess(data));
+            } else {
+                throw new Error("Failed reading blog");
+            }
+        } catch (error: unknown | Error) {
+            if (error instanceof Error) {
+                dispatch(getBlogFailure(error.message));
+            } else {
+                dispatch(getBlogFailure("An unknown error occurred while reading the blog."));
+            }
+        }
+    };
+};
+
+export const updateBlog = (blog: Blog, username: string, token: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        dispatch(getBlogRequest());
+        try {
+            const response = await fetch(`http://localhost:8080/api/blogs/${username}`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(blog)
             });
             if (response.ok) {
                 const data = await response.json();

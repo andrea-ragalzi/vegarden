@@ -9,12 +9,8 @@ import com.vegarden.backend.services.ArticleService;
 import com.vegarden.backend.services.BlogService;
 import com.vegarden.backend.services.ZenyteService;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -24,16 +20,12 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RequestMapping("/api/articles")
 public class ArticleController {
+
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadLocation;
 
     @Autowired
     ArticleService articleService;
@@ -89,15 +84,9 @@ public class ArticleController {
         }
 
         try {
-            String uploadLocation = "/home/andrea/Workspace/vegarden/backend/src/main/resources/uploads/cover_images";
 
-            // Genera un nome univoco per il file dell'immagine di copertina
             String coverImageFileName = UUID.randomUUID().toString() + "-" + coverImageFile.getOriginalFilename();
-
-            // Crea il percorso completo del file dell'immagine
             String coverImageFilePath = uploadLocation + File.separator + coverImageFileName;
-
-            // Copia l'immagine sul disco
             Files.copy(coverImageFile.getInputStream(), Path.of(coverImageFilePath),
                     StandardCopyOption.REPLACE_EXISTING);
 

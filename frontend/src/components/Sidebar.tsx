@@ -63,11 +63,7 @@ const Sidebar = () => {
             </Col>
             <Col>
                 <NavLink to="/zenhub/me">
-                    <PersonCircleOutline
-                        color={'#000000'}
-                        height="35px"
-                        width={'35px'}
-                    />
+                    <span className='vegarden-text'>Z</span>
                 </NavLink>
             </Col>
         </Row>

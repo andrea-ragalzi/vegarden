@@ -12,22 +12,6 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     const currentRoute = useLocation().pathname;
     const [coverImageURL, setCoverImageURL] = useState<string | undefined>(undefined);
 
-    useEffect(() => {
-        const getFileNameFromBlobURL = (blobURL: string) => {
-            const splitURL = blobURL.split('/');
-            return splitURL[splitURL.length - 1];
-        };
-        if (!loggedIn) {
-            navigate('/');
-        }
-        console.log('DETAIL');
-        console.log(article);
-        if (currentRoute !== "/article-create") {
-            fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL!));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [article, loggedIn]);
-
     const fetchCoverImage = async (filename: string) => {
         console.log(filename);
         try {
@@ -42,6 +26,20 @@ const ArticleDetail = ({ article }: { article: Article }) => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        const getFileNameFromBlobURL = (blobURL: string) => {
+            const splitURL = blobURL.split('/');
+            return splitURL[splitURL.length - 1];
+        };
+        if (!loggedIn) {
+            navigate('/');
+        }
+        if (currentRoute !== "/article-create") {
+            fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL!));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [article, loggedIn]);
 
     return (
         <>

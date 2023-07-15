@@ -4,6 +4,8 @@
 @mixin input-border {
     border: 1px solid $secondary;
     color: $black;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
     &:focus {
         border: 2px solid $primary;
@@ -12,9 +14,14 @@
 
 }
 
-@mixin side-bar-element{
+@mixin side-bar-element {
     @extend .d-flex;
     @extend .justify-content-center;
     @extend .mb-3;
     @extend .px-1;
+}
+
+@mixin text-wrap {
+    white-space: pre-line;
+    overflow-wrap: break-word;
 }
