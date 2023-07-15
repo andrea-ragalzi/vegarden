@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 @RequestMapping("/api/articles")
 public class ArticleController {
 
-    @Value("${spring.servlet.multipart.location}")
+    @Value("${spring.servlet.uploads.location}")
     private String uploadLocation;
 
     @Autowired

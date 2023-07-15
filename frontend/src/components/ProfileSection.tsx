@@ -27,6 +27,7 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
             const splitURL = blobURL.split('/');
             return splitURL[splitURL.length - 1];
         };
+
         const loadData = async () => {
             if (profile.avatarImageURL && currentRoute !== '/edit-profile') {
                 await fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL));

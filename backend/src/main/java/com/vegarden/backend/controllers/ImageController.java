@@ -1,6 +1,10 @@
 package com.vegarden.backend.controllers;
 
+import java.io.File;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,9 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/uploads")
 public class ImageController {
 
+    @Value("${spring.servlet.uploads.location}")
+    private String uploadLocation;
+
     @GetMapping("/avatar_images/{filename:.+}")
     public ResponseEntity<Resource> getAvatarImage(@PathVariable String filename) {
-        Resource resource = new ClassPathResource("uploads/avatar_images/" + filename);
+        File imageFile = new File(uploadLocation + "avatar_images" + File.separator + filename);
+        Resource resource = new FileSystemResource(imageFile);
 
         if (resource.exists()) {
             HttpHeaders headers = new HttpHeaders();
@@ -32,7 +40,7 @@ public class ImageController {
 
     @GetMapping("/cover_images/{filename:.+}")
     public ResponseEntity<Resource> getCoverImage(@PathVariable String filename) {
-        Resource resource = new ClassPathResource("uploads/cover_images/" + filename);
+        Resource resource = new ClassPathResource(uploadLocation + "cover_images" + File.separator + filename);
 
         if (resource.exists()) {
             HttpHeaders headers = new HttpHeaders();

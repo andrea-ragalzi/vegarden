@@ -37,7 +37,7 @@ import com.vegarden.backend.services.ZenyteService;
 @RequestMapping("/api/profiles")
 public class ProfileController {
 
-    @Value("${spring.servlet.multipart.location}avatar_images")
+    @Value("${spring.servlet.uploads.location}")
     private String uploadLocation;
 
     @Autowired
@@ -101,7 +101,7 @@ public class ProfileController {
             try {
                 if (avatarImage != null) {
                     String avatarImageFileName = UUID.randomUUID().toString() + "-" + avatarImage.getOriginalFilename();
-                    String avatarImageFilePath = uploadLocation + File.separator + avatarImageFileName;
+                    String avatarImageFilePath = uploadLocation + "avatar_images" + File.separator + avatarImageFileName;
                     Files.copy(avatarImage.getInputStream(), Path.of(avatarImageFilePath),
                             StandardCopyOption.REPLACE_EXISTING);
                     profile.setAvatarImageURL(avatarImageFilePath);
