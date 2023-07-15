@@ -77,31 +77,29 @@ public class ArticleController {
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart("body") String body,
-            @RequestPart("coverImage") MultipartFile coverImageFile,
+            @RequestPart(value = "coverImage", required = false) MultipartFile coverImage,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        Blog blog = blogService.findBlogByOwner(
+                zenyteService.findZenyteByUsername(userDetails.getUsername()));
+        Article article = new Article();
         try {
-
-            String coverImageFileName = UUID.randomUUID().toString() + "-" + coverImageFile.getOriginalFilename();
-            String coverImageFilePath = uploadLocation + File.separator + coverImageFileName;
-            Files.copy(coverImageFile.getInputStream(), Path.of(coverImageFilePath),
-                    StandardCopyOption.REPLACE_EXISTING);
-
-            Timestamp now = new Timestamp(System.currentTimeMillis());
-            Blog blog = blogService.findBlogByOwner(
-                    zenyteService.findZenyteByUsername(userDetails.getUsername()));
-            Article article = new Article();
+            if (coverImage != null) {
+                String coverImageFileName = UUID.randomUUID().toString() + "-" + coverImage.getOriginalFilename();
+                String coverImageFilePath = uploadLocation + "cover_images" + File.separator + coverImageFileName;
+                Files.copy(coverImage.getInputStream(), Path.of(coverImageFilePath),
+                        StandardCopyOption.REPLACE_EXISTING);
+                article.setCoverImageURL(coverImageFilePath);
+            }
             article.setTitle(title);
-            article.setCoverImageURL(coverImageFilePath);
             article.setDescription(description);
             article.setBody(body);
             article.setBlog(blog);
             article.setCreatedAt(now);
             articleService.saveArticle(article);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(article);
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,39 +107,41 @@ public class ArticleController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Article> updateArticle(
-            @PathVariable Long id, @RequestBody Article updatedArticle,
+    public ResponseEntity<Article> putArticle(
+            @RequestPart("title") String title,
+            @RequestPart("description") String description,
+            @RequestPart("body") String body,
+            @RequestPart(value = "coverImage", required = false) MultipartFile coverImage,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
-        if (userDetails.getAuthorities().stream().anyMatch(
-                role -> role.getAuthority().equals("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(
-                        articleService.findArticleById(id).getBlog().getOwner().getUsername())) {
-            Timestamp now = new Timestamp(System.currentTimeMillis());
-            Article article = articleService.findArticleById(id);
-            if (updatedArticle.getTitle() != null) {
-                article.setTitle(updatedArticle.getTitle());
+        // TODO find article
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        Blog blog = blogService.findBlogByOwner(
+                zenyteService.findZenyteByUsername(userDetails.getUsername()));
+        Article article = new Article();
+        try {
+            if (coverImage != null) {
+                String coverImageFileName = UUID.randomUUID().toString() + "-" + coverImage.getOriginalFilename();
+                String coverImageFilePath = uploadLocation + "cover_images" + File.separator + coverImageFileName;
+                Files.copy(coverImage.getInputStream(), Path.of(coverImageFilePath),
+                        StandardCopyOption.REPLACE_EXISTING);
+                article.setCoverImageURL(coverImageFilePath);
             }
-            if (updatedArticle.getDescription() != null) {
-                article.setDescription(updatedArticle.getDescription());
-            }
-            if (updatedArticle.getBody() != null) {
-                article.setBody(updatedArticle.getBody());
-            }
-            if (updatedArticle.getBodyHtml() != null) {
-                article.setBodyHtml(updatedArticle.getBodyHtml());
-            }
-            article.setUpdatedAt(now);
-            return ResponseEntity.ok(article);
+            article.setTitle(title);
+            article.setDescription(description);
+            article.setBody(body);
+            article.setBlog(blog);
+            article.setCreatedAt(now);
+            articleService.saveArticle(article);
+            return ResponseEntity.status(HttpStatus.CREATED).body(article);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        // Return an error or unauthorized response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @DeleteMapping("/{id}")

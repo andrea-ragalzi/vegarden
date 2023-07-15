@@ -40,7 +40,8 @@ public class ImageController {
 
     @GetMapping("/cover_images/{filename:.+}")
     public ResponseEntity<Resource> getCoverImage(@PathVariable String filename) {
-        Resource resource = new ClassPathResource(uploadLocation + "cover_images" + File.separator + filename);
+        File imageFile = new File(uploadLocation + "cover_images" + File.separator + filename);
+        Resource resource = new FileSystemResource(imageFile);
 
         if (resource.exists()) {
             HttpHeaders headers = new HttpHeaders();

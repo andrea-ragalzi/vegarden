@@ -36,7 +36,9 @@ const ArticleDescription = ({ article }: { article: Article }) => {
         if (!loggedIn) {
             navigate('/');
         }
-        fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL!));
+        if (article.coverImageURL) {
+            fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL));
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [article, loggedIn]);
 

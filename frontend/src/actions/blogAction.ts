@@ -78,12 +78,14 @@ export const updateBlog = (blog: Blog, username: string, token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(getBlogRequest());
         try {
-            const response = await fetch(`http://localhost:8080/api/blogs/${username}`, {
+            const response = await fetch(
+                `http://localhost:8080/api/blogs/${username}`, {
                 method: 'PUT',
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(blog)
+                body: JSON.stringify(blog) // Serializza l'oggetto blog in JSON
             });
             if (response.ok) {
                 const data = await response.json();
