@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: number }) => {
     const navigate = useNavigate();
     const currentRoute = useLocation().pathname;
-    const [avatarImageURL, setAvatarImageURL] = useState<string | undefined>(undefined);
+    const [avatarImageURL, setAvatarImageURL] = useState<string | undefined>('');
 
     const fetchAvatarImage = async (filename: string) => {
         try {
@@ -21,6 +21,13 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        return () => {
+            URL.revokeObjectURL(avatarImageURL!);
+        };
+    }, [avatarImageURL]);
+
 
     useEffect(() => {
         const getFileNameFromBlobURL = (blobURL: string) => {

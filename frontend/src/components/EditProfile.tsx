@@ -3,10 +3,9 @@ import { useSelector } from "react-redux";
 import { RootState, store } from "../store/store";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import ProfileSection from "./ProfileSection";
-import { readBlog, updateBlog } from "../actions/blogAction";
+import { updateBlog } from "../actions/blogAction";
 import { useNavigate } from "react-router-dom";
-import { readProfile, updateProfile } from "../actions/profileAction";
-import { Blog } from "../types/blogType";
+import { updateProfile } from "../actions/profileAction";
 
 const EditProfile = () => {
 
@@ -25,10 +24,10 @@ const EditProfile = () => {
     const navigate = useNavigate();
     const dispatch = store.dispatch;
     const [avatarImage, setAvatarImage] = useState<File | null>(null);
-    const { session, loggedIn } = useSelector((state: RootState) => state.login);
+    const { session } = useSelector((state: RootState) => state.login);
     const formData = new FormData();
     const profile = useSelector((state: RootState) => state.profile.profile);
-    const blog = useSelector((state: RootState) => state.blog.blog) as Blog;
+    const blog = useSelector((state: RootState) => state.blog.blog);
     const [tmpProfile, setTmpProfile] = useState(profile);
     const [tmpBlog, setTmpBlog] = useState(blog);
 
@@ -58,9 +57,6 @@ const EditProfile = () => {
             if (tmpProfile?.firstname && tmpProfile?.lastname && tmpBlog?.title) {
                 await dispatch(updateProfile(formData, session.username, session.accessToken));
                 await dispatch(updateBlog(tmpBlog, session.username, session.accessToken));
-                await dispatch(readProfile(session.username, session.accessToken));
-                /* await dispatch(readProfile(session.username, session.accessToken));
-                await dispatch(readBlog(session.username, session.accessToken)); */
                 navigate("/zenhub/me");
             }
         }
@@ -74,10 +70,10 @@ const EditProfile = () => {
                 <h2 className='text-secondary text-center'>{tmpBlog?.title}</h2>
             </Col>
             <Col xs={12} md={{ span: 6, order: 1 }} className='mt-5'>
-                <h1 className="mb-3 text-center text-secondary">Edit Zenyte</h1>
+                <h1 className="mb-3 text-center text-secondary">Edit ZenHub</h1>
                 <Form className="text-center text-dark" onSubmit={handleSubmit}>
 
-                    <Form.Group controlId="formCoverImage" className="mb-2">
+                    <Form.Group controlId="formAvatarImage" className="mb-2">
                         <Form.Label>Avatar</Form.Label>
                         <Form.Control
                             type="file"
@@ -135,15 +131,15 @@ const EditProfile = () => {
                         />
                     </Form.Group>
 
-                    <Form.Group controlId="formBio" className="mb-3">
+                    <Form.Group controlId="formBlogTitle" className="mb-3">
                         <Form.Label>Blog Title</Form.Label>
                         <Form.Control
                             as="textarea"
                             rows={5}
-                            placeholder="Enter bio"
+                            placeholder="Enter Blog Title"
                             className="my-input"
                             defaultValue={blog?.title}
-                            maxLength={30}
+                            maxLength={40}
                             onChange={(e) => setTmpBlog({ ...tmpBlog!, title: e.target.value })}
                         />
                     </Form.Group>
