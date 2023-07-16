@@ -65,9 +65,12 @@ const ArticleDetail = ({ article }: { article: Article }) => {
             await dispatch(getArticleReaction(articleReaction, session.accessToken));
         };
         loadData();
-        setLiked(articleReactionState.exists);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        setLiked(articleReactionState.exists ? articleReactionState.exists : false);
+    }, [articleReactionState.exists]);
 
 
     return (
