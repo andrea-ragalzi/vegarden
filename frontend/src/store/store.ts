@@ -8,6 +8,7 @@ import blogReducer from "../reducers/blogReducer";
 import articleReducer from "../reducers/articleReducer";
 import registerReducer from "../reducers/registerReducer";
 import { configureStore } from "@reduxjs/toolkit";
+import articleReactionReducer from "../reducers/articleReactionReducer";
 
 const rootReducer = combineReducers({
   login: loginReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   blog: blogReducer,
   article: articleReducer,
   register: registerReducer,
+  articleReaction: articleReactionReducer
 });
 
 const RESET_STORE = "RESET_STORE";
