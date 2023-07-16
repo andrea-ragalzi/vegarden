@@ -17,23 +17,37 @@ const ArticlePage = () => {
     const articleId = useParams().articleId;
     const articleState = useSelector((state: RootState) => state.article);
     const [article, setArticle] = useState<Article | undefined>(undefined);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
 
     useEffect(() => {
         if (!loggedIn) {
             navigate('/');
         }
+
         const loadData = async () => {
             try {
-                await dispatch(readArticle(articleId!, session.accessToken,));
-                setArticle(articleState.selectedArticle || undefined);
+                setLoading(true);
+                setError(null);
+
+                await dispatch(readArticle(articleId!, session.accessToken));
             } catch (error) {
                 console.error('Error loading data:', error);
+                setError('Error loading data. Please try again.');
+            } finally {
+                setLoading(false);
             }
-        }
+        };
+
         loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [article !== undefined]);
+    }, []);
+
+    useEffect(() => {
+        setArticle(articleState.selectedArticle || undefined);
+    }, [articleState.selectedArticle]);
+
 
     return (
         <Container fluid className='vh-100'>
@@ -47,19 +61,27 @@ const ArticlePage = () => {
                             <TopBar />
                         </Col>
                     </Row>
-                    {article && (
-                        <Col>
-                            <ArticleDetail article={article} />
-                        </Col>
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : error ? (
+                        <div>Error: {error}</div>
+                    ) : (
+                        <>
+                            {article && (
+                                <Col>
+                                    <ArticleDetail article={article} />
+                                </Col>
+                            )}
+                            <Row>
+                                <Col>
+                                    <BottomBar />
+                                </Col>
+                            </Row>
+                        </>
                     )}
-                    <Row>
-                        <Col>
-                            <BottomBar />
-                        </Col>
-                    </Row>
                 </Col>
             </Row>
-        </Container >
+        </Container>
     );
 }
 
