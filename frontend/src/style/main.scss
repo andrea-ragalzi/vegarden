@@ -188,6 +188,12 @@ body {
     }
 }
 
+.liked {
+    background-color: $secondary;
+    border: 2px solid $warning;
+}
+
+
 .avatar {
     width: 7.5em;
     height: 7.5em;
@@ -197,5 +203,3 @@ body {
 .profile {
     @include text-wrap;
 }
-
-
