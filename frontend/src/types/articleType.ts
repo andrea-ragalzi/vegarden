@@ -40,6 +40,7 @@ export interface Article {
     createdAt: string;
     updatedAt?: string;
     blog: Blog;
+    author: Zenyte;
     collaborators: Zenyte[];
 }
 

@@ -62,14 +62,8 @@ public class ProfileController {
         // Check if the authenticated user has the admin role or if the ID matches the
         // authenticated user
         Zenyte owner = zenyteService.findZenyteByUsername(username);
-        if (userDetails.getAuthorities().stream().anyMatch(
-                role -> role.getAuthority().equals("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(userDetails.getUsername())) {
-            Profile profile = profileService.findProfileByOwner(owner);
-            return ResponseEntity.ok(profile);
-        }
-        // Return an error or unauthorized response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        Profile profile = profileService.findProfileByOwner(owner);
+        return ResponseEntity.ok(profile);
     }
 
     @PutMapping("/{username:.+}")
@@ -100,7 +94,8 @@ public class ProfileController {
             try {
                 if (avatarImage != null) {
                     String avatarImageFileName = UUID.randomUUID().toString() + "-" + avatarImage.getOriginalFilename();
-                    String avatarImageFilePath = uploadLocation + "avatar_images" + File.separator + avatarImageFileName;
+                    String avatarImageFilePath = uploadLocation + "avatar_images" + File.separator
+                            + avatarImageFileName;
                     Files.copy(avatarImage.getInputStream(), Path.of(avatarImageFilePath),
                             StandardCopyOption.REPLACE_EXISTING);
                     profile.setAvatarImageURL(avatarImageFilePath);

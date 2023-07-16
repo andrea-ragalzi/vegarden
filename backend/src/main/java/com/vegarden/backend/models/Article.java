@@ -73,6 +73,10 @@ public class Article {
     @JoinColumn(name = "blog_id", nullable = false)
     private Blog blog;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id", nullable = false)
+    private Zenyte author;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "article_collaborators", joinColumns = @JoinColumn(name = "article_id"), inverseJoinColumns = @JoinColumn(name = "zenyte_id"))
     private Set<Zenyte> collaborators = new HashSet<>();

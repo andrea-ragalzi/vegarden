@@ -98,6 +98,7 @@ public class ArticleController {
             article.setDescription(description);
             article.setBody(body);
             article.setBlog(blog);
+            article.setAuthor(blog.getOwner());
             article.setCreatedAt(now);
             articleService.saveArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(article);
