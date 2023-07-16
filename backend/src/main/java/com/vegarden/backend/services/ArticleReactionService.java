@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vegarden.backend.models.Article;
 import com.vegarden.backend.models.ArticleReaction;
+import com.vegarden.backend.models.Zenyte;
 import com.vegarden.backend.repositories.ArticleReactionRepository;
 
 @Service
@@ -27,7 +29,10 @@ public class ArticleReactionService {
     }
 
     public void saveArticleReaction(ArticleReaction articleReaction) {
-        articleReactionRepository.save(articleReaction);
+        if (!articleReactionRepository.existsByArticleAndAuthor(
+                articleReaction.getArticle(), articleReaction.getAuthor())) {
+            articleReactionRepository.save(articleReaction);
+        }
     }
 
     public void updateArticleReaction(ArticleReaction articleReaction) {
@@ -48,12 +53,22 @@ public class ArticleReactionService {
         }
     }
 
+    public void deleteByArticleAndAuthor(Article article, Zenyte author) {
+        if (articleReactionRepository.existsByArticleAndAuthor(article, author)) {
+            articleReactionRepository.deleteByArticleAndAuthor(article, author);
+        }
+    }
+
     public List<ArticleReaction> getAllArticleReactions() {
         return articleReactionRepository.findAll();
     }
 
     public boolean existsById(Long id) {
         return articleReactionRepository.existsById(id);
+    }
+
+    public boolean existsByArticleAndAuthor(Article article, Zenyte author) {
+        return articleReactionRepository.existsByArticleAndAuthor(article, author);
     }
 
 }
