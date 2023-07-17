@@ -57,10 +57,15 @@ const ZenHubPage = () => {
                     </Row>
                     <Row className='justify-content-center'>
                         <Col>
-                            <ProfileSection profile={profile!} blogSize={blog?.articles?.length || 0} />
+                        {profile ?
+                            <ProfileSection profile={profile} blogSize={blog?.articles?.length || 0} />
+                            : (
+                                <Spinner animation="border" variant='primary' />
+                            )
+                        }
                         </Col>
                     </Row>
-                    {username === 'me' && (
+                    {(username === 'me' || username === session.username) && (
                         <Row>
                             <Col className='d-flex justify-content-evenly mb-2'>
                                 <NavLink className='text-decoration-none' to="/zenhub">My Blog</NavLink>

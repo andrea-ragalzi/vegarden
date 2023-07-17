@@ -2,13 +2,16 @@ import { Row, Col, Image, Button, Spinner } from 'react-bootstrap';
 import { Profile } from '../types/profileType';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: number }) => {
     const navigate = useNavigate();
     const currentRoute = useLocation().pathname;
-    const username = useParams().username?.replace(/-/g, '.');
+    const username = useParams().username;
     const [avatarImageURL, setAvatarImageURL] = useState<string | undefined>('');
     const [loading, setLoading] = useState(true);
+    const { session } = useSelector((state: RootState) => state.login);
 
     const fetchAvatarImage = async (filename: string) => {
         try {
@@ -37,14 +40,17 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
         };
 
         const loadData = async () => {
-            if (profile.avatarImageURL && currentRoute !== '/edit-profile') {
-                await fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL));
+            if (profile !== null) {
+                if (profile.avatarImageURL && currentRoute !== '/edit-profile') {
+                    await fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL));
+                }
             }
         }
+        setLoading(true);
         loadData();
         setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [profile]);
 
     if (loading) {
         return (
@@ -62,7 +68,7 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
                         {currentRoute === '/edit-profile' ?
                             <Image className='rounded-circle mb-1 avatar' src={profile?.avatarImage ? URL.createObjectURL(profile?.avatarImage) : "https://picsum.photos/120/120"} alt="Avatar"></Image>
                             :
-                            <Image className='rounded-circle mb-1 avatar' src={avatarImageURL ? avatarImageURL : "https://picsum.photos/120/120"} alt="Avatar"></Image>
+                            <Image className='rounded-circle mb-1 avatar' src={avatarImageURL} alt="Avatar"></Image>
                         }
                         <p className='mb-0 ms-2'>{profile?.firstname + ' ' + profile?.lastname}</p>
                         <p className='mb-0 ms-2'>@{profile?.owner.username}</p>
@@ -72,7 +78,7 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
                         <p>{blogSize} Article</p>
                         <p>123 Zenyter</p>
                         <p>126 Zenyted</p>
-                        {username === 'me' && (
+                        {(username === 'me' || username === session.username) && (
                             <Button className={currentRoute === '/edit-profile' ? 'disabled' : 'primary'} onClick={() => navigate('/edit-profile')}>
                                 Edit
                             </Button>
