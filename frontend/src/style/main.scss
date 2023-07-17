@@ -200,3 +200,9 @@ body {
 .profile {
     @include text-wrap;
 }
+
+.avatar-mini {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+}
