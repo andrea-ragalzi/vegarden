@@ -28,6 +28,7 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
 
     useEffect(() => {
         return () => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             URL.revokeObjectURL(avatarImageURL!);
         };
     }, [avatarImageURL]);

@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vegarden.backend.models.Article;
 import com.vegarden.backend.models.Blog;
+import com.vegarden.backend.models.Zenyte;
+import com.vegarden.backend.services.ArticleSavedService;
 import com.vegarden.backend.services.ArticleService;
 import com.vegarden.backend.services.BlogService;
 import com.vegarden.backend.services.ZenyteService;
@@ -32,7 +34,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 
@@ -52,6 +53,9 @@ public class ArticleController {
 
     @Autowired
     ZenyteService zenyteService;
+
+    @Autowired
+    ArticleSavedService articleSavedService;
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -170,8 +174,26 @@ public class ArticleController {
     @GetMapping("/trend")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Article>> getTrendArticles() {
-        List<Article> articles = articleService.findAllOrderByReactions();
-        return ResponseEntity.ok(articles);
+        try {
+            List<Article> articles = articleService.findAllOrderByReactions();
+            return ResponseEntity.ok(articles);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+    }
+
+    @GetMapping("/saved/{username}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Article>> getSavedArticles(
+            @PathVariable String username) {
+        try {
+            Zenyte zenyte = zenyteService.findZenyteByUsername(username);
+            List<Article> articlesSaved = articleSavedService.findSavedArticlesByAuthorOrderByCreatedAtAsc(zenyte);
+            return ResponseEntity.ok(articlesSaved);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
 }

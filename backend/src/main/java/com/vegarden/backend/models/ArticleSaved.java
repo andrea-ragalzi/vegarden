@@ -40,6 +40,6 @@ public class ArticleSaved {
     private Zenyte author;
 
     @Column(nullable = false)
-    private Timestamp savedAt;
+    private Timestamp createdAt;
 
 }

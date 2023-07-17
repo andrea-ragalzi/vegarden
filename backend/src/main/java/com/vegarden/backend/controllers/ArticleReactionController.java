@@ -100,11 +100,6 @@ public class ArticleReactionController {
             articleService.updateArticle(article);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(articleReaction);
         } catch (Exception e) {
-            System.out.println();
-            System.out.println();
-            System.out.println(e);
-            System.out.println();
-            System.out.println();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

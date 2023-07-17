@@ -1,6 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import { Row, Col, Image, Button, Spinner } from 'react-bootstrap/';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { BookmarkOutline } from 'react-ionicons';
 import { Article } from "../types/articleType";
 import { useState, useEffect } from 'react';
@@ -16,7 +16,6 @@ const ArticleDescription = ({ article }: { article: Article }) => {
     const [profile, setProfile] = useState<Profile | undefined>(undefined);
     const [avatarImageURL, setAvatarImageURL] = useState<string | undefined>(undefined);
     const [coverImageURL, setCoverImageURL] = useState<string | undefined>(undefined);
-    const [loading, setLoading] = useState(true);
 
     const getFileNameFromBlobURL = (blobURL: string) => {
         const splitURL = blobURL.split('/');
@@ -76,6 +75,7 @@ const ArticleDescription = ({ article }: { article: Article }) => {
 
     useEffect(() => {
         if(profile?.owner.username === article.author.username) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL!));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

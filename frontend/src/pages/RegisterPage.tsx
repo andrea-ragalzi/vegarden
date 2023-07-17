@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Image, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import RegisterForm from '../components/RegisterForm';
-import RegisterErrorModal from '../components/RegisterErrorModal';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/store';
 
 const RegisterPage = () => {
     return (
