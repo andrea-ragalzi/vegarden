@@ -59,8 +59,6 @@ public class ProfileController {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
         Zenyte owner = zenyteService.findZenyteByUsername(username);
         Profile profile = profileService.findProfileByOwner(owner);
         return ResponseEntity.ok(profile);
