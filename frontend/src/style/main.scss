@@ -20,13 +20,11 @@ body {
     @extend .shadow-none;
     @extend .p-0;
     @extend .m-0;
-    background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
+    background-color: $success !important;
     padding: 1em;
     box-shadow: 0 0 10px $dark !important;
     height: 3em;
     padding: 1px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
 
     span {
         &:hover {
@@ -39,13 +37,13 @@ body {
     @extend .shadow-none;
     @extend .p-0;
     @extend .m-0;
-    background: linear-gradient(to right, $primary, $secondary); // Cambia il gradient come preferisci
+    background: linear-gradient(to right, $success, $secondary); // Cambia il gradient come preferisci
     padding: 1em;
     box-shadow: 0 0 10px $dark !important;
     height: 3em;
     padding: 1px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 1.2em;
+    border-bottom-right-radius: 1.2em;
 
     span {
         &:hover {
@@ -58,13 +56,12 @@ body {
     @extend .shadow-none;
     @extend .p-0;
     @extend .m-0;
-    background: linear-gradient(to bottom, $primary, $secondary);
+    background: linear-gradient(to bottom, $success, $secondary);
     padding: 1em;
     box-shadow: 0 0 10px $dark !important;
     width: 3.5em;
     padding: 1px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 1.2em;
 
     .col {
         @include side-bar-element;
