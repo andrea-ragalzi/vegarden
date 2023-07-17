@@ -17,7 +17,7 @@ const ZenHubPage = () => {
     const navigate = useNavigate();
     const username = useParams().username?.replace(/-/g, '.');
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
-    const { profile, loading, error } = useSelector((state: RootState) => state.profile);
+    const { profile } = useSelector((state: RootState) => state.profile);
     const { blog } = useSelector((state: RootState) => state.blog);
 
     useEffect(() => {
@@ -55,42 +55,31 @@ const ZenHubPage = () => {
                             <TopBar />
                         </Col>
                     </Row>
-                    {loading && (
+                    <Row className='justify-content-center'>
+                        <Col>
+                            <ProfileSection profile={profile!} blogSize={blog?.articles?.length || 0} />
+                        </Col>
+                    </Row>
+                    {username === 'me' && (
                         <Row>
-                            <Col>
-                                <Spinner animation="border" variant='secondary' />
+                            <Col className='d-flex justify-content-evenly mb-2'>
+                                <NavLink className='text-decoration-none' to="/zenhub">My Blog</NavLink>
+                                <NavLink className='text-decoration-none' to="/zenhub">Saved</NavLink>
                             </Col>
                         </Row>
-                    )}
-                    {error && (
-                        <Row>
-                            <Col>
-                                <p>{error}</p>
-                            </Col>
-                        </Row>
-                    )}
-                    {!loading && !error && profile && (
-                        <>
-                            <Row className='justify-content-center'>
-                                <Col>
-                                    <ProfileSection profile={profile!} blogSize={blog?.articles?.length || 0} />
-                                </Col>
-                            </Row>
-                            {profile?.owner.username === session.username && (
-                                <Row>
-                                    <Col className='d-flex justify-content-evenly mb-2'>
-                                        <NavLink className='text-decoration-none' to="/zenhub">My Blog</NavLink>
-                                        <NavLink className='text-decoration-none' to="/zenhub">Saved</NavLink>
-                                    </Col>
-                                </Row>
-                            )}
-                        </>
                     )}
                     < Row >
-                        <Col className='text-center'>
-                            <h2 className='text-secondary mb-2'>{blog?.title}</h2>
-                            <Feed articles={blog?.articles || []} />
-                        </Col>
+                        {
+                            blog?.articles?.length ? (
+                                <Col className='text-center'>
+                                    <h2 className='text-secondary mb-2'>{blog?.title}</h2>
+                                    <Feed articles={blog?.articles || []} />
+                                </Col>
+                            ) :
+                                (
+                                    <Spinner variant='primary' />
+                                )
+                        }
                     </Row>
                     <Row>
                         <Col>

@@ -2,7 +2,8 @@ import { Row, Col } from "react-bootstrap";
 import { Article } from "../types/articleType";
 import ArticleDescription from "./ArticleDescription";
 
-const Feed = ({articles}: {articles: Article[]}) => {
+const Feed = ({ articles }: { articles: Article[] }) => {
+    
     return (
         <>
             <Row className="row row-cols-1 justify-content-center align-items-center m-0">
