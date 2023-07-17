@@ -1,10 +1,12 @@
 import { Row, Col } from 'react-bootstrap';
 import { HomeOutline, ChatbubbleOutline, AddOutline, SearchOutline, PersonCircleOutline, NotificationsOutline, FilterOutline } from 'react-ionicons'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { RootState } from '../store/store';
 
 const Sidebar = () => {
     const navigate = useNavigate();
-    const currentRoute = useLocation().pathname;
+    const { session } = useSelector((state: RootState) => state.login);
 
     return (
         <Row className='row row-cols-1 d-none d-md-block justify-content-center align-items-center vh-100 side-bar' style={{ position: 'fixed', left: 0 }}>
@@ -62,8 +64,8 @@ const Sidebar = () => {
                 />
             </Col>
             <Col>
-                <NavLink to="/zenhub/me">
-                    <span className='vegarden-text'>Z</span>
+                <NavLink to={'/zenhub/me'} className='vegarden-text'>
+                    <span>Z</span>
                 </NavLink>
             </Col>
         </Row>

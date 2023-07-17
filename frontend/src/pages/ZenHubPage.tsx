@@ -34,7 +34,7 @@ const ZenHubPage = () => {
         }
         loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [username]);
 
     useEffect(() => {
         if (!loggedIn) {
