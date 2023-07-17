@@ -64,6 +64,9 @@ public class ArticleReactionController {
     public ResponseEntity<ArticleReaction> postArticleReaction(
             @RequestBody ArticleReaction articleReaction,
             @AuthenticationPrincipal UserDetails userDetails) {
+        System.out.println();
+        System.out.println();
+        System.out.println(articleReaction);
         Timestamp now = new Timestamp(System.currentTimeMillis());
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -71,6 +74,9 @@ public class ArticleReactionController {
         try {
             articleReaction.setCreatedAt(now);
             articleReactionService.saveArticleReaction(articleReaction);
+            Article article = articleService.findArticleById(articleReaction.getArticle().getId());
+            article.setReactions(article.getReactions() + 1);
+            articleService.updateArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(articleReaction);
         } catch (Exception e) {
             System.out.println(e);
@@ -88,11 +94,17 @@ public class ArticleReactionController {
         }
         try {
             System.out.println();
-            System.out.println();
             articleReactionService.deleteByArticleAndAuthor(articleReaction.getArticle(), articleReaction.getAuthor());
+            Article article = articleService.findArticleById(articleReaction.getArticle().getId());
+            article.setReactions(article.getReactions() - 1);
+            articleService.updateArticle(article);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(articleReaction);
         } catch (Exception e) {
+            System.out.println();
+            System.out.println();
             System.out.println(e);
+            System.out.println();
+            System.out.println();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

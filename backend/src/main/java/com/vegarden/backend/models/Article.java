@@ -21,6 +21,8 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.Formula;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -59,8 +61,8 @@ public class Article {
     @Column(columnDefinition = "text", nullable = false)
     private String body;
 
-    // @Column(nullable = false)
-    private String bodyHtml;
+    @Column(nullable = false, columnDefinition = "bigint default 0")
+    private Long reactions;
 
     @Column(nullable = false)
     private Timestamp createdAt;

@@ -170,7 +170,7 @@ public class ArticleController {
     @GetMapping("/trend")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Article>> getTrendArticles() {
-        List<Article> articles = articleService.getAllArticles();
+        List<Article> articles = articleService.findAllOrderByReactions();
         return ResponseEntity.ok(articles);
     }
 

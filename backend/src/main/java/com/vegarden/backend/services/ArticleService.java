@@ -65,4 +65,8 @@ public class ArticleService {
         return articleRepository.findAllByOrderByIdDesc();
     }
 
+    public List<Article> findAllOrderByReactions() {
+        return articleRepository.findAllOrderByReactions();
+    }
+
 }
