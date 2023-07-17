@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vegarden.backend.models.Article;
 import com.vegarden.backend.models.ArticleSaved;
+import com.vegarden.backend.models.Zenyte;
 import com.vegarden.backend.repositories.ArticleSavedRepository;
 
 @Service
@@ -54,6 +56,18 @@ public class ArticleSavedService {
 
     public boolean existsById(Long id) {
         return articleSavedRepository.existsById(id);
+    }
+
+    public boolean existsByArticleAndAuthor(Article article, Zenyte author) {
+        return articleSavedRepository.existsByArticleAndAuthor(article, author);
+    }
+
+    public void deleteByArticleAndAuthor(Article article, Zenyte author) {
+        articleSavedRepository.deleteByArticleAndAuthor(article, author);
+    }
+
+    public List<Article> findSavedArticlesByAuthorOrderByCreatedAtAsc(Zenyte author) {
+        return articleSavedRepository.findSavedArticlesByAuthorOrderByCreatedAtAsc(author);
     }
 
 }

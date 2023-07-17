@@ -3,6 +3,7 @@ import { ArticleAction, ArticleState, ArticleActionType } from './../types/artic
 const initialState: ArticleState = {
     trendArticles: [],
     selectedArticle: null,
+    savedArticles: [],
     loading: false,
     error: null
 };
@@ -52,6 +53,25 @@ const articleReducer = (state = initialState, action: ArticleAction): ArticleSta
             return {
                 ...state,
                 trendArticles: [],
+                loading: false,
+                error: action.error
+            }
+        case ArticleActionType.GET_SAVED_ARTICLES_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null
+            }
+        case ArticleActionType.GET_SAVED_ARTICLES_SUCCESS:
+            return {
+                ...state,
+                savedArticles: action.payload,
+                loading: false,
+                error: null
+            }
+        case ArticleActionType.GET_SAVED_ARTICLES_FAILURE:
+            return {
+                ...state,
                 loading: false,
                 error: action.error
             }

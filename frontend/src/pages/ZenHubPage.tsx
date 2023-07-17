@@ -3,14 +3,15 @@ import TopBar from '../components/TopBar';
 import BottomBar from '../components/BottomBar';
 import Feed from '../components/Feed';
 import ProfileSection from '../components/ProfileSection';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { readProfile } from '../actions/profileAction';
 import { RootState, store } from '../store/store';
 import { useSelector } from 'react-redux';
 import { readBlog } from '../actions/blogAction';
 import Sidebar from '../components/Sidebar';
+import { readSavedArticles } from '../actions/articleAction';
 
 const ZenHubPage = () => {
     const dispatch = store.dispatch;
@@ -19,20 +20,57 @@ const ZenHubPage = () => {
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
     const { profile } = useSelector((state: RootState) => state.profile);
     const { blog } = useSelector((state: RootState) => state.blog);
+    const { savedArticles } = useSelector((state: RootState) => state.article);
+    const [showMyblog, setShowMyblog] = useState(true);
 
     useEffect(() => {
         const loadData = async () => {
             if (username === 'me') {
-                await dispatch(readProfile(session.username, session.accessToken));
-                await dispatch(readBlog(session.username, session.accessToken));
-            }
-            else {
+                dispatch(readProfile(session.username, session.accessToken));
+            } else {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                await dispatch(readProfile(username!, session.accessToken));
-                await dispatch(readBlog(username!, session.accessToken));
+                dispatch(readProfile(username!, session.accessToken));
             }
         }
         loadData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showMyblog]);
+
+    useEffect(() => {
+        const loadData = async () => {
+            if (username === 'me') {
+                await dispatch(readBlog(session.username, session.accessToken));
+                await dispatch(readSavedArticles(session.username, session.accessToken));
+                await dispatch(readProfile(session.username, session.accessToken));
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                await dispatch(readBlog(username!, session.accessToken));
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                await dispatch(readProfile(username!, session.accessToken));
+            }
+        }
+        loadData();
+        setShowMyblog(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [username]);
+
+    useEffect(() => {
+        const loadData = async () => {
+            if (username === 'me') {
+                await dispatch(readBlog(session.username, session.accessToken));
+                await dispatch(readSavedArticles(session.username, session.accessToken));
+                await dispatch(readProfile(session.username, session.accessToken));
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                await dispatch(readBlog(username!, session.accessToken));
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                await dispatch(readProfile(username!, session.accessToken));
+            }
+        }
+        loadData();
+        setShowMyblog(true);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -57,19 +95,19 @@ const ZenHubPage = () => {
                     </Row>
                     <Row className='justify-content-center'>
                         <Col>
-                        {profile ?
-                            <ProfileSection profile={profile} blogSize={blog?.articles?.length || 0} />
-                            : (
-                                <Spinner animation="border" variant='primary' />
-                            )
-                        }
+                            {profile ?
+                                <ProfileSection profile={profile} blogSize={blog?.articles?.length || 0} />
+                                : (
+                                    <Spinner animation="border" variant='primary' />
+                                )
+                            }
                         </Col>
                     </Row>
                     {(username === 'me' || username === session.username) && (
                         <Row>
                             <Col className='d-flex justify-content-evenly mb-2'>
-                                <NavLink className='text-decoration-none' to="/zenhub">My Blog</NavLink>
-                                <NavLink className='text-decoration-none' to="/zenhub">Saved</NavLink>
+                                <Button className='text-decoration-none' onClick={() => setShowMyblog(true)} >My Blog</Button>
+                                <Button className='text-decoration-none' onClick={() => setShowMyblog(false)} >Saved</Button>
                             </Col>
                         </Row>
                     )}
@@ -77,8 +115,8 @@ const ZenHubPage = () => {
                         {
                             blog?.articles?.length ? (
                                 <Col className='text-center'>
-                                    <h2 className='text-secondary mb-2'>{blog?.title}</h2>
-                                    <Feed articles={blog?.articles || []} />
+                                    <h2 className='text-secondary mb-2'>{showMyblog ? blog?.title : 'Saved Articles'}</h2>
+                                    <Feed articles={showMyblog ? blog?.articles || [] : savedArticles || []} />
                                 </Col>
                             ) :
                                 (

@@ -9,6 +9,8 @@ import { addArticleReaction, deleteArticleReaction, getArticleReaction } from ".
 import { ArticleReaction } from "../types/articleReactionType";
 import { Zenyte } from "../types/zenyteType";
 import classNames from 'classnames';
+import { addArticleSaved, deleteArticleSaved, getArticleSaved } from "../actions/articleSavedAction";
+import { ArticleSaved } from "../types/articleSavedType";
 
 const ArticleDetail = ({ article }: { article: Article }) => {
     const dispatch = store.dispatch;
@@ -17,15 +19,22 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     const [coverImageURL, setCoverImageURL] = useState<string | undefined>(undefined);
     const zenyte = useSelector((state: RootState) => state.zenyte.zenyte) as Zenyte;
     const articleReactionState = useSelector((state: RootState) => state.articleReaction);
+    const articleSavedState = useSelector((state: RootState) => state.articleSaved);
     const [liked, setLiked] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [saved, setSaved] = useState(false);
+    const [loadingLike, setLoadingLike] = useState(false);
+    const [loadingSave, setLoadingSave] = useState(false);
     const articleReaction: ArticleReaction = {
+        article: article,
+        author: zenyte
+    }
+    const articleSaved: ArticleSaved = {
         article: article,
         author: zenyte
     }
 
     const handleReaction = async () => {
-        setLoading(true);
+        setLoadingLike(true);
         if (liked) {
             await dispatch(deleteArticleReaction(articleReaction, session.accessToken));
             setLiked(false);
@@ -34,10 +43,21 @@ const ArticleDetail = ({ article }: { article: Article }) => {
             setLiked(true);
         }
         await dispatch(getArticleReaction(articleReaction, session.accessToken));
-        setLoading(false);
+        setLoadingLike(false);
     }
 
-
+    const handleSave = async () => {
+        setLoadingSave(true);
+        if (saved) {
+            await dispatch(deleteArticleSaved(articleSaved, session.accessToken));
+            setSaved(false);
+        } else {
+            await dispatch(addArticleSaved(articleSaved, session.accessToken));
+            setSaved(true);
+        }
+        await dispatch(getArticleSaved(articleSaved, session.accessToken));
+        setLoadingSave(false);
+    }
 
     const fetchCoverImage = async (filename: string) => {
         try {
@@ -63,6 +83,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                 await fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL));
             }
             await dispatch(getArticleReaction(articleReaction, session.accessToken));
+            await dispatch(getArticleSaved(articleSaved, session.accessToken));
         };
         loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,6 +92,10 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     useEffect(() => {
         setLiked(articleReactionState.exists ? articleReactionState.exists : false);
     }, [articleReactionState.exists]);
+
+    useEffect(() => {
+        setSaved(articleSavedState.exists ? articleSavedState.exists : false);
+    }, [articleSavedState.exists]);
 
 
     return (
@@ -114,7 +139,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
             {currentRoute !== "/article-create" && (
                 <Row>
                     <Col className='d-flex justify-content-center'>
-                        <Button className={classNames('reaction', { 'liked': liked })} disabled={loading} onClick={handleReaction}>
+                        <Button className={classNames('reaction', { 'liked': liked })} disabled={loadingLike} onClick={handleReaction}>
                             <FlowerOutline
                                 height="35px"
                                 width={'35px'}
@@ -132,12 +157,11 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                         </Button>
                     </Col>
                     <Col className='d-flex justify-content-center'>
-                        <Button className="reaction">
+                        <Button className={classNames('reaction', { 'liked': saved })} onClick={handleSave} disabled={loadingSave}>
                             <BookmarkOutline
                                 color={'#000000'}
                                 height="35px"
                                 width={'35px'}
-                                onClick={() => alert('Work in progress!')}
                             />
                         </Button>
                     </Col>

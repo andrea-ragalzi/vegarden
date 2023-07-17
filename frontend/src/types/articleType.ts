@@ -54,6 +54,7 @@ export interface ArticleAction {
 export interface ArticleState {
     selectedArticle: Article | null;
     trendArticles: Article[];
+    savedArticles: Article[];
     loading: boolean;
     error?: string | null;
 }

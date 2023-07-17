@@ -30,6 +30,20 @@ const postArticleFailure = (error: string): ArticleAction => ({
     error: error
 })
 
+const getSavedArticlesRequest = (): ArticleAction => ({
+    type: ArticleActionType.GET_SAVED_ARTICLES_REQUEST
+});
+
+const getSavedArticlesSuccess = (articles: Article[]): ArticleAction => ({
+    type: ArticleActionType.GET_SAVED_ARTICLES_SUCCESS,
+    payload: articles
+});
+
+const getSavedArticlesFailure = (error: string): ArticleAction => ({
+    type: ArticleActionType.GET_SAVED_ARTICLES_FAILURE,
+    error: error
+});
+
 const getTrendArticlesRequest = (): ArticleAction => ({
     type: ArticleActionType.GET_TREND_ARTICLES_REQUEST,
 });
@@ -136,3 +150,30 @@ export const readTrendArticles = (token: string) => {
         }
     }
 }
+
+export const readSavedArticles = (username: string, token: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        dispatch(getSavedArticlesRequest());
+        try {
+            const response = await fetch(`http://localhost:8080/api/articles/saved/${username}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(getSavedArticlesSuccess(data));
+                return data;
+            } else {
+                throw new Error("Failed reading saved articles");
+            }
+        } catch (error: unknown | Error) {
+            if (error instanceof Error) {
+                dispatch(getSavedArticlesFailure(error.message));
+            } else {
+                dispatch(getSavedArticlesFailure(
+                    "An unknown error occurred while reading the saved articles."));
+            }
+        }
+    };
+};
