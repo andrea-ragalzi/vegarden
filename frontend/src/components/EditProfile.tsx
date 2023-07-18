@@ -6,6 +6,8 @@ import ProfileSection from "./ProfileSection";
 import { updateBlog } from "../actions/blogAction";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "../actions/profileAction";
+import { Blog } from "../types/blogType";
+import { Profile } from "../types/profileType";
 
 const EditProfile = () => {
 
@@ -26,8 +28,7 @@ const EditProfile = () => {
     const [avatarImage, setAvatarImage] = useState<File | null>(null);
     const { session } = useSelector((state: RootState) => state.login);
     const formData = new FormData();
-    const profile = useSelector((state: RootState) => state.profile.profile);
-    const blog = useSelector((state: RootState) => state.blog.blog);
+    const { profile, blog }: { profile: Profile, blog: Blog } = useSelector((state: RootState) => state.zenHub);
     const [tmpProfile, setTmpProfile] = useState(profile);
     const [tmpBlog, setTmpBlog] = useState(blog);
 
