@@ -1,4 +1,4 @@
-import { Col, Row, Image, Button } from "react-bootstrap";
+import { Col, Row, Image, Button, Spinner } from "react-bootstrap";
 import { Article } from "../types/articleType";
 import { BookmarkOutline, ChatbubblesOutline, FlowerOutline, ShareSocialOutline } from "react-ionicons";
 import { useEffect, useState } from "react";
@@ -101,40 +101,38 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     return (
         <>
             <Row className='row-cols-1 justify-content-center align-items-center article-detail text-center'>
-                {article && (
-                    <>
-                        <Col>
-                            <h1>{article?.title}</h1>
-                        </Col>
-                        <Col>
-                            <p>{article?.createdAt}</p>
-                        </Col>
-                        {article?.coverImageURL && (
-                            <Col>
-                                <Image
-                                    className="cover"
-                                    src={coverImageURL}
-                                    alt={article.title}
-                                />
-                            </Col>
-                        )}
-                        {article?.coverImage && currentRoute === "/article-create" && (
-                            <Col>
-                                <Image
-                                    className="cover"
-                                    src={URL.createObjectURL(article.coverImage)}
-                                    alt={article.title}
-                                />
-                            </Col>
-                        )}
-                        <Col>
-                            <p className="body">{article?.body}</p>
-                        </Col>
-                        <Col>
-                            <p>{article?.collaborators.map((collaborator) => collaborator.username).join(", ")}</p>
-                        </Col>
-                    </>
+                <Col>
+                    <h1>{article?.title}</h1>
+                </Col>
+                <Col>
+                    <p>{article?.createdAt}</p>
+                </Col>
+                <Col>
+                    {coverImageURL ? (
+                        <Image
+                            className="cover"
+                            src={coverImageURL}
+                            alt={article.title}
+                        />
+                    ) : (
+                        <Spinner variant="primary" animation="border" />
+                    )}
+                </Col>
+                {article?.coverImage && currentRoute === "/article-create" && (
+                    <Col>
+                        <Image
+                            className="cover"
+                            src={URL.createObjectURL(article.coverImage)}
+                            alt={article.title}
+                        />
+                    </Col>
                 )}
+                <Col>
+                    <p className="body">{article?.body}</p>
+                </Col>
+                <Col>
+                    <p>{article?.collaborators.map((collaborator) => collaborator.username).join(", ")}</p>
+                </Col>
             </Row>
             {currentRoute !== "/article-create" && (
                 <Row>

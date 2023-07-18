@@ -3,7 +3,7 @@ import BottomBar from '../components/BottomBar';
 import TopBar from '../components/TopBar';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../store/store';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import ArticleDetail from '../components/ArticleDetail';
@@ -62,7 +62,9 @@ const ArticlePage = () => {
                         </Col>
                     </Row>
                     {loading ? (
-                        <div>Loading...</div>
+                        <div className='d-flex justify-content-center align-items-center'>
+                            <Spinner animation="border" variant='primary' />
+                        </div>
                     ) : error ? (
                         <div>Error: {error}</div>
                     ) : (

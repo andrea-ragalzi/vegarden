@@ -23,7 +23,6 @@ const ArticleDescription = ({ article }: { article: Article }) => {
     };
 
     const fetchCoverImage = async (filename: string) => {
-        console.log(filename);
         try {
             const response = await fetch(`http://localhost:8080/api/uploads/cover_images/${filename}`);
             if (response.ok) {
@@ -37,7 +36,6 @@ const ArticleDescription = ({ article }: { article: Article }) => {
     };
 
     const fetchAvatarImage = async (filename: string) => {
-        console.log(filename);
         try {
             const response = await fetch(`http://localhost:8080/api/uploads/avatar_images/${filename}`);
             if (response.ok) {
@@ -54,7 +52,6 @@ const ArticleDescription = ({ article }: { article: Article }) => {
 
         const fetchData = async () => {
             if (article?.author) {
-                console.log("Username:", article.author.username);
                 await dispatch(readProfile(article.author.username, session.accessToken));
             }
 
@@ -74,7 +71,7 @@ const ArticleDescription = ({ article }: { article: Article }) => {
     }, [profileState.profile?.owner.username]);
 
     useEffect(() => {
-        if(profile?.owner.username === article.author.username) {
+        if (profile?.owner.username === article.author.username) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL!));
         }
@@ -86,11 +83,11 @@ const ArticleDescription = ({ article }: { article: Article }) => {
             <Row className="justify-content-center align-items-center px-2 mb-1">
                 <Col xs={2}>
                     {avatarImageURL ? (
-                        <Link to={`/zenhub/${article.author.username}`}>
+                        <Link to={`/zenhub/${article.author.username.replace(/\./g, '-')}`}>
                             <Image className='rounded-circle avatar-mini' src={avatarImageURL} alt="A"></Image>
                         </Link>
                     ) : (
-                        <Spinner variant='primary' />
+                        <Spinner variant='secondary' />
                     )}
                 </Col>
                 <Col xs={8}>
@@ -105,7 +102,17 @@ const ArticleDescription = ({ article }: { article: Article }) => {
                     />
                 </Col>
             </Row>
-            <Card.Img className='rounded-0' src={coverImageURL} />
+            {
+                coverImageURL ? (
+                    <Card.Img variant="top" src={coverImageURL} />
+                ) : (
+                    (
+                        <div className='d-flex justify-content-center align-items-center'>
+                            <Spinner variant='primary' />
+                        </div>
+                    )
+                )
+            }
             <Card.Body>
                 <Card.Text>
                     {article.description}
