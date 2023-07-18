@@ -106,8 +106,8 @@ const ZenHubPage = () => {
                     {(username === 'me' || username === session.username) && (
                         <Row>
                             <Col className='d-flex justify-content-evenly mb-2'>
-                                <Button className='text-decoration-none' onClick={() => setShowMyblog(true)} >My Blog</Button>
-                                <Button className='text-decoration-none' onClick={() => setShowMyblog(false)} >Saved</Button>
+                                <Button className='nav-button' onClick={() => setShowMyblog(true)} >My Blog</Button>
+                                <Button className='nav-button' onClick={() => setShowMyblog(false)} >Saved</Button>
                             </Col>
                         </Row>
                     )}
