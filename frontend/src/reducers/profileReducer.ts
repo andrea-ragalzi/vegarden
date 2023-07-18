@@ -9,8 +9,6 @@ const initialState: ProfileState = {
         pronouns: '',
         bio: '',
         location: '',
-        avatarImage: '',
-        coverImage: '',
         createdAt: '',
         owner: {
             id: 0,
