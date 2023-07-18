@@ -10,6 +10,7 @@ import registerReducer from "../reducers/registerReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import articleReactionReducer from "../reducers/articleReactionReducer";
 import articleSavedReducer from "../reducers/articleSavedReducer";
+import zenHubReducer from "../reducers/zenHubReducer";
 
 const rootReducer = combineReducers({
   login: loginReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   article: articleReducer,
   register: registerReducer,
   articleReaction: articleReactionReducer,
-  articleSaved: articleSavedReducer
+  articleSaved: articleSavedReducer,
+  zenHub: zenHubReducer
 });
 
 const RESET_STORE = "RESET_STORE";
