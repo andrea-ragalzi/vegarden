@@ -66,7 +66,7 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
             <>
                 <Row className='justify-content-center gx-0 mx-2 justify-content-center align-items-center text-black mt-4 mt-md-0'>
                     <Col xs={6} md={{ span: 2, order: 0 }}>
-                        {currentRoute === '/edit-profile' ?
+                        {currentRoute === '/edit-profile' && profile?.avatarImageURL ?
                             <Image className='rounded-circle mb-1 avatar' src={profile?.avatarImage ? URL.createObjectURL(profile?.avatarImage) : "https://picsum.photos/120/120"} alt="Avatar"></Image>
                             :
                             <Image className='rounded-circle mb-1 avatar' src={avatarImageURL} alt="Avatar"></Image>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import BottomBar from '../components/BottomBar';
 import Feed from '../components/Feed';
 import TopBar from '../components/TopBar';
@@ -8,7 +8,6 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { readTrendArticles } from '../actions/articleAction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import { Article } from '../types/articleType';
 
 const HomePage = () => {
     const dispatch = store.dispatch;
