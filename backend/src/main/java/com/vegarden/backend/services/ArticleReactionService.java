@@ -71,4 +71,8 @@ public class ArticleReactionService {
         return articleReactionRepository.existsByArticleAndAuthor(article, author);
     }
 
+    public void deleteByArticleId(Long articleId) {
+        articleReactionRepository.deleteByArticleId(articleId);
+    }
+
 }

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.vegarden.backend.models.Article;
 import com.vegarden.backend.models.Blog;
 import com.vegarden.backend.models.Zenyte;
+import com.vegarden.backend.services.ArticleReactionService;
 import com.vegarden.backend.services.ArticleSavedService;
 import com.vegarden.backend.services.ArticleService;
 import com.vegarden.backend.services.BlogService;
@@ -53,6 +54,9 @@ public class ArticleController {
 
     @Autowired
     ZenyteService zenyteService;
+
+    @Autowired
+    ArticleReactionService articleReactionService;
 
     @Autowired
     ArticleSavedService articleSavedService;
@@ -107,7 +111,6 @@ public class ArticleController {
             articleService.saveArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(article);
         } catch (IOException e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -156,19 +159,15 @@ public class ArticleController {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
-        if (userDetails.getAuthorities().stream().anyMatch(
-                role -> role.getAuthority().equals("ROLE_ADMIN") ||
-                        role.getAuthority().equals("ROLE_MODERATOR"))
-                ||
-                userDetails.getUsername().equals(
-                        articleService.findArticleById(id).getBlog().getOwner().getUsername())) {
+        try {
+            articleReactionService.deleteByArticleId(id);
+            articleSavedService.deleteByArticleId(id);
             articleService.deleteArticleById(id);
             return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        // Return an error or unauthorized response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @GetMapping("/trend")

@@ -70,4 +70,8 @@ public class ArticleSavedService {
         return articleSavedRepository.findSavedArticlesByAuthorOrderByCreatedAtAsc(author);
     }
 
+    public void deleteByArticleId(Long articleId) {
+        articleSavedRepository.deleteByArticleId(articleId);
+    }
+
 }

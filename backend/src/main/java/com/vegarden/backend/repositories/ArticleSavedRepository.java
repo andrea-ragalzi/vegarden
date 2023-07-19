@@ -3,6 +3,7 @@ package com.vegarden.backend.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,5 +24,10 @@ public interface ArticleSavedRepository extends JpaRepository<ArticleSaved, Long
 
     @Query("SELECT a FROM Article a JOIN ArticleSaved asv ON a.id = asv.article.id WHERE asv.author = :author")
     List<Article> findSavedArticlesByAuthorOrderByCreatedAtAsc(@Param("author") Zenyte author);
+
+    @Modifying
+    @Query("DELETE FROM ArticleSaved asv WHERE asv.article.id = :articleId")
+    @Transactional
+    void deleteByArticleId(@Param("articleId") Long articleId);
 
 }

@@ -12,6 +12,7 @@ const articleReducer = (state = initialState, action: ArticleAction): ArticleSta
     switch (action.type) {
         case ArticleActionType.GET_ARTICLE_REQUEST:
         case ArticleActionType.POST_ARTICLE_REQUEST:
+        case ArticleActionType.DELETE_ARTICLE_REQUEST:
             return {
                 ...state,
                 selectedArticle: null,
@@ -27,8 +28,16 @@ const articleReducer = (state = initialState, action: ArticleAction): ArticleSta
                 loading: false,
                 error: null
             };
+        case ArticleActionType.DELETE_ARTICLE_SUCCESS:
+            return {
+                ...state,
+                selectedArticle: null,
+                loading: false,
+                error: null
+            }
         case ArticleActionType.GET_ARTICLE_FAILURE:
         case ArticleActionType.POST_ARTICLE_FAILURE:
+        case ArticleActionType.DELETE_ARTICLE_FAILURE:
             return {
                 ...state,
                 selectedArticle: null,
