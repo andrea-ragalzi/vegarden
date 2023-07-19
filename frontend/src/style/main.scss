@@ -59,9 +59,9 @@ body {
     background: linear-gradient(to bottom, $success, $secondary);
     padding: 1em;
     box-shadow: 0 0 10px $dark !important;
-    width: 3.5em;
     padding: 1px;
     border-top-right-radius: 1.2em;
+    position: fixed;
 
     .col {
         @include side-bar-element;
@@ -71,6 +71,21 @@ body {
         &:hover {
             cursor: pointer;
         }
+    }
+
+    @include media-breakpoint-up(md) {
+        width: 3.5em;
+        left: 0;
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: 12em;
+        left: 0;
+    }
+
+    @include media-breakpoint-up(xl) {
+        width: 20em;
+        left: 0;
     }
 }
 
@@ -87,12 +102,12 @@ body {
     border-radius: 10px;
     color: $black;
     background-color: $white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     // padding: 1.25em;
     margin-bottom: 1.25em;
     transition: transform 0.3s ease-in-out;
     height: 30em;
-    width: 20em;
+    width: 25em;
 
     @include media-breakpoint-up(md) {
         &:hover {
@@ -129,19 +144,18 @@ body {
     }
 
     .card-header {
-        background-color: $primary;
-        color: $black;
+        color: $primary;
         padding: 0.625em;
         margin-bottom: 0.625em;
     }
 
     .card-text {
         padding: 0.625em;
-        color: $black;
+        color: $dark;
     }
 
     .rounded-circle {
-        border: 2px solid $secondary;
+        border: 3px solid $secondary;
     }
 }
 

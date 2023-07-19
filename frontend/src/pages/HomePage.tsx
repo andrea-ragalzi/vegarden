@@ -33,17 +33,17 @@ const HomePage = () => {
     return (
         <Container fluid className='vh-100'>
             <Row className='justify-content-center m-0 p-0'>
-                <Col md={1} className='d-none d-md-block'>
+                <Col md={1} lg={2} xl={3} className='d-none d-md-block'>
                     <Sidebar />
                 </Col>
-                <Col xs={12} md={11}>
+                <Col xs={12} md={6}>
                     <Row className='mb-5'>
                         <Col>
                             <TopBar />
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs={12}>
+                        <Col xs={12} md={11} lg={10} xl={9}>
                             {article.loading ? (
                                 <Spinner variant='primary' animation='border' />
                             ) : (

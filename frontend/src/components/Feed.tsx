@@ -3,13 +3,13 @@ import { Article } from "../types/articleType";
 import ArticleDescription from "./ArticleDescription";
 
 const Feed = ({ articles }: { articles: Article[] }) => {
-    
+
     return (
         <>
-            <Row className="row row-cols-1 justify-content-center align-items-center m-0">
+            <Row className="row row-cols-1 m-0 justify-content-center mt-5 mt-md-0">
                 {articles?.length ? (
                     [...articles].map((article) => (
-                        <Col xs={12} sm={6} lg={4} xl={3} key={article.id} className="d-flex justify-content-center">
+                        <Col key={article.id} className="d-flex justify-content-center">
                             <ArticleDescription article={article} />
                         </Col>
                     ))

@@ -79,49 +79,48 @@ const ArticleDescription = ({ article }: { article: Article }) => {
     }, [profile]);
 
     return (
-        <Card className='articlePreview'>
-            <Row className="justify-content-center align-items-center px-2 mb-1">
-                <Col xs={2}>
-                    {avatarImageURL ? (
-                        <Link to={`/zenhub/${article.author.username.replace(/\./g, '-')}`}>
-                            <Image className='rounded-circle avatar-mini' src={avatarImageURL} alt="A"></Image>
-                        </Link>
+        <NavLink to={`/article/${article.id}`}>
+            <Card className='articlePreview'>
+                <Row className="justify-content-center align-items-center px-5 mb-1 no-gutters">
+                    <Col xs={2}>
+                        {avatarImageURL ? (
+                            <Link to={`/zenhub/${article.author.username.replace(/\./g, '-')}`}>
+                                <Image className='rounded-circle avatar-mini' src={avatarImageURL} alt="A"></Image>
+                            </Link>
+                        ) : (
+                            <Spinner variant='secondary' />
+                        )}
+                    </Col>
+                    <Col xs={8}>
+                        <Card.Header className='border-0 bg-white'>{article.title}</Card.Header>
+                    </Col>
+                    <Col xs={2}>
+                        <BookmarkOutline
+                            color={'#000000'}
+                            height={'25px'}
+                            width={'25px'}
+                            onClick={() => alert('Hi!')}
+                        />
+                    </Col>
+                </Row>
+                {
+                    coverImageURL ? (
+                        <Card.Img variant="top" src={coverImageURL} />
                     ) : (
-                        <Spinner variant='secondary' />
-                    )}
-                </Col>
-                <Col xs={8}>
-                    <Card.Header className='border-0 bg-white'>{article.title}</Card.Header>
-                </Col>
-                <Col xs={2}>
-                    <BookmarkOutline
-                        color={'#000000'}
-                        height={'25px'}
-                        width={'25px'}
-                        onClick={() => alert('Hi!')}
-                    />
-                </Col>
-            </Row>
-            {
-                coverImageURL ? (
-                    <Card.Img variant="top" src={coverImageURL} />
-                ) : (
-                    (
-                        <div className='d-flex justify-content-center align-items-center'>
-                            <Spinner variant='primary' />
-                        </div>
+                        (
+                            <div className='d-flex justify-content-center align-items-center'>
+                                <Spinner variant='primary' />
+                            </div>
+                        )
                     )
-                )
-            }
-            <Card.Body>
-                <Card.Text>
-                    {article.description}
-                </Card.Text>
-                <NavLink to={`/article/${article.id}`}>
-                    <Button variant="link" className='read-more'>Read Article</Button>
-                </NavLink>
-            </Card.Body>
-        </Card>
+                }
+                <Card.Body>
+                    <Card.Text>
+                        {article.description}
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+        </NavLink>
     );
 }
 
