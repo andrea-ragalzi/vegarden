@@ -30,6 +30,19 @@ const postArticleFailure = (error: string): ArticleAction => ({
     error: error
 })
 
+const deleteArticleRequest = (): ArticleAction => ({
+    type: ArticleActionType.DELETE_ARTICLE_REQUEST
+});
+
+const deleteArticleSuccess = (): ArticleAction => ({
+    type: ArticleActionType.DELETE_ARTICLE_SUCCESS,
+});
+
+const deleteArticleFailure = (error: string): ArticleAction => ({
+    type: ArticleActionType.DELETE_ARTICLE_FAILURE,
+    error: error
+})
+
 const getSavedArticlesRequest = (): ArticleAction => ({
     type: ArticleActionType.GET_SAVED_ARTICLES_REQUEST
 });
@@ -116,7 +129,33 @@ export const createArticle = (formData: FormData, token: string) => {
     }
 }
 
-
+export const deleteArticle = (article: Article, token: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        dispatch(deleteArticleRequest());
+        try {
+            const response = await fetch(`http://localhost:8080/api/articles/${article.id}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(deleteArticleSuccess());
+                return data;
+            } else {
+                throw new Error("Failed to delete article");
+            }
+        } catch (error: unknown | Error) {
+            if (error instanceof Error) {
+                dispatch(deleteArticleFailure(error.message));
+            } else {
+                dispatch(deleteArticleFailure(
+                    "An unknown error occurred while deleting the article."));
+            }
+        }
+    };
+};
 
 export const setArticle = (article: Article): ArticleAction => ({
     type: ArticleActionType.SET_ARTICLE,
