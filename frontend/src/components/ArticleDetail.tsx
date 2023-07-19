@@ -1,6 +1,6 @@
 import { Col, Row, Image, Button, Spinner } from "react-bootstrap";
 import { Article } from "../types/articleType";
-import { BookmarkOutline, ChatbubblesOutline, FlowerOutline, ShareSocialOutline } from "react-ionicons";
+import { BookmarkOutline, ChatbubblesOutline, FlowerOutline, RoseOutline, ShareSocialOutline } from "react-ionicons";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -138,7 +138,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                 <Row>
                     <Col className='d-flex justify-content-center'>
                         <Button className={classNames('reaction', { 'liked': liked })} disabled={loadingLike} onClick={handleReaction}>
-                            <FlowerOutline
+                            <RoseOutline
                                 height="35px"
                                 width={'35px'}
                             />
