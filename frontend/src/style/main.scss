@@ -52,6 +52,10 @@ body {
     }
 }
 
+.side-bar-row {
+    background: linear-gradient(to bottom, $success, $secondary);
+}
+
 .side-bar {
     @extend .shadow-none;
     @extend .p-0;
@@ -62,6 +66,7 @@ body {
     padding: 1px;
     border-top-right-radius: 1.2em;
     position: fixed;
+    z-index: 1000;
 
     .col {
         @include side-bar-element;
@@ -84,9 +89,37 @@ body {
     }
 
     @include media-breakpoint-up(xl) {
-        width: 20em;
-        left: 0;
+        width: 12em;
+        left: 6em;
+
+        &::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 6em;
+            background: linear-gradient(to bottom, $success, $secondary);
+            box-shadow: 0 0 1px $dark !important;
+        }
     }
+
+    @include media-breakpoint-up(xl) {
+        width: 12em;
+        left: 12em;
+
+        &::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 12em;
+            background: linear-gradient(to bottom, $success, $secondary);
+            box-shadow: 0 0 1px $dark !important;
+        }
+    }
+
 }
 
 .vegarden-text {

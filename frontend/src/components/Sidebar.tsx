@@ -7,15 +7,15 @@ const Sidebar = () => {
 
     return (
         <Row className='row-cols-1 d-none d-md-block vh-100 side-bar'>
-            <Col className='d-flex justify-content-start align-items-center mx-0'>
+            <Col className='d-flex justify-content-center justify-content-lg-start align-items-center mx-0'>
                 <Link to="/home">
                     <span className="vegarden-text d-none d-lg-block text-center">Vegarden</span>
                     <span className="vegarden-text d-lg-none text-center">V</span>
                 </Link>
             </Col>
-            <Col className='d-flex justify-content-start align-items-center mx-0'>
+            <Col className='d-flex align-items-center mx-0'>
                 <Link to="/home" className='w-100'>
-                    <div className="d-flex justify-content-start align-items-center ms-3">
+                    <div className="d-flex justify-content-center justify-content-lg-start align-items-center ms-lg-3">
                         <HomeOutline
                             color={'#000000'}
                             height="35px"
@@ -28,7 +28,7 @@ const Sidebar = () => {
             </Col>
             <Col className='d-flex justify-content-start align-items-center mx-0'>
                 <Link to="/home" className='w-100'>
-                    <div className="d-flex justify-content-start align-items-center ms-3">
+                    <div className="d-flex justify-content-center justify-content-lg-start align-items-center ms-lg-3">
                         <SearchOutline
                             color={'#000000'}
                             height="35px"
@@ -41,7 +41,7 @@ const Sidebar = () => {
             </Col>
             <Col>
                 <Link to="/home" className='w-100'>
-                    <div className="d-flex justify-content-start align-items-center ms-3">
+                    <div className="d-flex justify-content-center justify-content-lg-start align-items-center ms-lg-3">
                         <FilterOutline
                             color={'#000000'}
                             height="35px"
@@ -54,7 +54,7 @@ const Sidebar = () => {
             </Col>
             <Col>
                 <Link to="/home" className='w-100'>
-                    <div className="d-flex justify-content-start align-items-center ms-3">
+                    <div className="d-flex justify-content-center justify-content-lg-start align-items-center ms-lg-3">
                         <NotificationsOutline
                             color={'#000000'}
                             height="35px"
@@ -67,7 +67,7 @@ const Sidebar = () => {
             </Col>
             <Col>
                 <Link to="/home" className='w-100'>
-                    <div className="d-flex justify-content-start align-items-center ms-3">
+                    <div className="d-flex justify-content-center justify-content-lg-start align-items-center ms-lg-3">
                         <PaperPlaneOutline
                             color={'#000000'}
                             height="35px"
@@ -80,7 +80,7 @@ const Sidebar = () => {
             </Col>
             <Col>
                 <Link to="/article-create" className='w-100'>
-                    <div className="d-flex justify-content-start align-items-center ms-3">
+                    <div className="d-flex justify-content-center justify-content-lg-start align-items-center ms-lg-3">
                         <AddOutline
                             color={'#000000'}
                             height="35px"
