@@ -115,9 +115,10 @@ public class ArticleController {
         }
     }
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value="/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Article> putArticle(
+            @PathVariable Long id,
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart("body") String body,
@@ -126,11 +127,10 @@ public class ArticleController {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // TODO find article
         Timestamp now = new Timestamp(System.currentTimeMillis());
         Blog blog = blogService.findBlogByOwner(
                 zenyteService.findZenyteByUsername(userDetails.getUsername()));
-        Article article = new Article();
+        Article article = articleService.findArticleById(id);
         try {
             if (coverImage != null) {
                 String coverImageFileName = UUID.randomUUID().toString() + "-" + coverImage.getOriginalFilename();
@@ -143,8 +143,8 @@ public class ArticleController {
             article.setDescription(description);
             article.setBody(body);
             article.setBlog(blog);
-            article.setCreatedAt(now);
-            articleService.saveArticle(article);
+            article.setUpdatedAt(now);
+            articleService.updateArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(article);
         } catch (IOException e) {
             e.printStackTrace();

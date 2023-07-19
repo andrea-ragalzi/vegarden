@@ -28,7 +28,21 @@ const postArticleSuccess = (article: Article): ArticleAction => ({
 const postArticleFailure = (error: string): ArticleAction => ({
     type: ArticleActionType.POST_ARTICLE_FAILURE,
     error: error
-})
+});
+
+const putArticleRequest = (): ArticleAction => ({
+    type: ArticleActionType.PUT_ARTICLE_SUCCESS
+});
+
+const putArticleSuccess = (article: Article): ArticleAction => ({
+    type: ArticleActionType.PUT_ARTICLE_SUCCESS,
+    payload: article
+});
+
+const putArticleFailure = (error: string): ArticleAction => ({
+    type: ArticleActionType.PUT_ARTICLE_FAILURE,
+    error: error
+});
 
 const deleteArticleRequest = (): ArticleAction => ({
     type: ArticleActionType.DELETE_ARTICLE_REQUEST
@@ -124,6 +138,35 @@ export const createArticle = (formData: FormData, token: string) => {
             } else {
                 dispatch(postArticleFailure(
                     "An unknown error occurred while posting the article."));
+            }
+        }
+    }
+}
+
+export const updateArticle = (article: Article, formData: FormData, token: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        dispatch(putArticleRequest());
+        try {
+            const response = await fetch(`http://localhost:8080/api/articles/${article.id}`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: formData,
+            });
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(putArticleSuccess(data));
+                return data;
+            } else {
+                throw new Error("Failed to update article");
+            }
+        } catch (error: unknown | Error) {
+            if (error instanceof Error) {
+                dispatch(putArticleFailure(error.message));
+            } else {
+                dispatch(putArticleFailure(
+                    "An unknown error occurred while updating the article."));
             }
         }
     }

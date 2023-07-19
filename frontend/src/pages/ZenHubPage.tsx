@@ -12,16 +12,26 @@ import Sidebar from '../components/Sidebar';
 import { readZBlog, readZProfile, readZSavedArticles } from '../actions/zenHubAction';
 import { Blog } from '../types/blogType';
 import { Profile } from '../types/profileType';
+import { Article } from '../types/articleType';
 
 const ZenHubPage = () => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
     const username = useParams().username?.replace(/-/g, '.');
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
-    const { profile, blog }: { profile: Profile, blog: Blog } = useSelector((state: RootState) => state.zenHub);
-    const { savedArticles } = useSelector((state: RootState) => state.article);
+    const { profile, blog, savedArticles }: { profile: Profile, blog: Blog, savedArticles: Article[] } = useSelector((state: RootState) => state.zenHub);
     const [showMyblog, setShowMyblog] = useState(true);
     const [loadingPage, setLoadingPage] = useState(true);
+    const [articles, setArticles] = useState<Article[]>([]);
+
+
+    useEffect(() => {
+        if (showMyblog) {
+            setArticles(blog?.articles || []);
+        } else {
+            setArticles(savedArticles || []);
+        }
+    }, [showMyblog, blog, savedArticles]);
 
     useEffect(() => {
         const loadData = async () => {
@@ -112,7 +122,7 @@ const ZenHubPage = () => {
                             < Row >
                                 <Col className='text-center'>
                                     <h2 className='text-secondary mb-2'>{showMyblog ? blog.title : 'Saved Articles'}</h2>
-                                    <Feed articles={showMyblog ? blog?.articles || [] : savedArticles || []} />
+                                    <Feed articles={articles} />
                                 </Col>
                             </Row>
                         </>

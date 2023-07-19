@@ -1,38 +1,33 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { createArticle } from "../actions/articleAction";
 import { RootState, store } from "../store/store";
-import { Article } from "../types/articleType";
 import { useNavigate } from "react-router-dom";
-import { readBlog } from "../actions/blogAction";
 import ArticleDetail from "./ArticleDetail";
+import { updateArticle } from "../actions/articleAction";
+import { readZBlog } from "../actions/zenHubAction";
 
 const EditArticle = () => {
     const navigate = useNavigate();
     const dispatch = store.dispatch;
     const [coverImage, setCoverImage] = useState<File | null>(null);
-    const { session } = useSelector((state: RootState) => state.login);
     const formData = new FormData();
     const { selectedArticle } = useSelector((state: RootState) => state.article);
     const [article, setArticle] = useState(null || selectedArticle);
+    const { session } = useSelector((state: RootState) => state.login);
 
     useEffect(() => {
         formData.append("title", article?.title || "");
         formData.append("description", article?.description || "");
         formData.append("body", article?.body || "");
-        if (coverImage) {
-            formData.append("coverImage", coverImage);
+        if (article?.coverImage) {
+            formData.append("coverImage", article?.coverImage);
         }
-    }, [article?.title, article?.description, article?.body, coverImage]);
-
-    useEffect(() => {
-        setArticle(selectedArticle || null);
-    }, [selectedArticle]);
+    }, [article?.title, article?.description, article?.body, article?.coverImage]);
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setCoverImage(e.target.files[0]);
+            setArticle({ ...article!, coverImage: e.target.files[0] });
         }
     };
 
@@ -40,12 +35,12 @@ const EditArticle = () => {
         e.preventDefault();
         const loadData = async () => {
             if (article?.title && article?.description && article?.body) {
-                /* await dispatch(createArticle(formData, session.accessToken));
-                await dispatch(readBlog(session.username, session.accessToken)); */
-                navigate("/zenhub/me");
+                await dispatch(updateArticle(article, formData, session.accessToken));
+                await dispatch(readZBlog(article.author.username, session.accessToken));
             }
         }
         loadData();
+        navigate("/zenhub/me");
     };
 
     return (

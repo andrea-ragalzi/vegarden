@@ -107,18 +107,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                 <Col>
                     <p>{article?.createdAt}</p>
                 </Col>
-                <Col>
-                    {coverImageURL ? (
-                        <Image
-                            className="cover"
-                            src={coverImageURL}
-                            alt={article.title}
-                        />
-                    ) : (
-                        <Spinner variant="primary" animation="border" />
-                    )}
-                </Col>
-                {article?.coverImage && currentRoute === "/article-create" && (
+                {article?.coverImage && (currentRoute === "/article-create" || currentRoute === "/edit-article") ? (
                     <Col>
                         <Image
                             className="cover"
@@ -126,7 +115,20 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                             alt={article.title}
                         />
                     </Col>
-                )}
+                ) : (
+                    <Col>
+                        {coverImageURL ? (
+                            <Image
+                                className="cover"
+                                src={coverImageURL}
+                                alt={article.title}
+                            />
+                        ) : (
+                            <Spinner variant="primary" animation="border" />
+                        )}
+                    </Col>
+                )
+                }
                 <Col>
                     <p className="body">{article?.body}</p>
                 </Col>

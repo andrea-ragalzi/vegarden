@@ -61,7 +61,7 @@ const ArticleDescription = ({ article }: { article: Article }) => {
         };
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [article]);
 
     useEffect(() => {
         if (profileState.profile?.owner.username === article.author.username) {
