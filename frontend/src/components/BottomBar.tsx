@@ -1,5 +1,5 @@
 import { Row, Col, Button } from 'react-bootstrap';
-import { HomeOutline, ChatbubbleOutline, AddOutline, SearchOutline } from 'react-ionicons'
+import { HomeOutline, ChatbubbleOutline, AddOutline, SearchOutline, PaperPlaneOutline } from 'react-ionicons'
 import { useNavigate } from 'react-router-dom';
 
 const BottomBar = () => {
@@ -31,7 +31,7 @@ const BottomBar = () => {
                 />
             </Col>
             <Col className='d-flex justify-content-center'>
-                <ChatbubbleOutline
+                <PaperPlaneOutline
                     color={'#000000'}
                     height="35px"
                     width={'35px'}
