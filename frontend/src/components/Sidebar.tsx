@@ -1,10 +1,9 @@
 import { Row, Col } from 'react-bootstrap';
-import { HomeOutline, ChatbubbleOutline, AddOutline, SearchOutline, PersonCircleOutline, NotificationsOutline, FilterOutline } from 'react-ionicons'
+import { HomeOutline, AddOutline, SearchOutline, PersonCircleOutline, NotificationsOutline, FilterOutline, PaperPlaneOutline } from 'react-ionicons'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
     const navigate = useNavigate();
-    const currentRoute = useLocation().pathname;
 
     return (
         <Row className='row row-cols-1 d-none d-md-block justify-content-center align-items-center vh-100 side-bar' style={{ position: 'fixed', left: 0 }}>
@@ -46,7 +45,7 @@ const Sidebar = () => {
                 />
             </Col>
             <Col>
-                <ChatbubbleOutline
+                <PaperPlaneOutline
                     color={'#000000'}
                     height="35px"
                     width={'35px'}
