@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { createArticle, setArticle } from "../actions/articleAction";
+import { createArticle } from "../actions/articleAction";
 import { RootState, store } from "../store/store";
 import { Article } from "../types/articleType";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,8 @@ const ArticleMaker = () => {
     const [description, setDescription] = useState("");
     const [body, setBody] = useState("");
     const [coverImage, setCoverImage] = useState<File | null>(null);
-    const { session, loggedIn } = useSelector((state: RootState) => state.login);
+    const { zenyte } = useSelector((state: RootState) => state.zenyte);
+    const { session } = useSelector((state: RootState) => state.login);
     const blog = useSelector((state: RootState) => state.blog.blog);
     const formData = new FormData();
     const article: Article = {
@@ -27,6 +28,8 @@ const ArticleMaker = () => {
         createdAt: '',
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         blog: blog!,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        author: zenyte!,
         collaborators: []
     };
 
@@ -50,7 +53,6 @@ const ArticleMaker = () => {
         const loadData = async () => {
             if (title && description && body) {
                 await dispatch(createArticle(formData, session.accessToken));
-                await dispatch(readBlog(session.username, session.accessToken));
                 navigate("/zenhub/me");
             }
         }
