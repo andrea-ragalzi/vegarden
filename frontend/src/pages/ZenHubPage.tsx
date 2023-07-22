@@ -138,6 +138,9 @@ const ZenHubPage = () => {
                         </Col>
                     </Row>
                 </Col>
+                <Col lg={3} className='ps-5'>
+                    <SidebarRight />
+                </Col>
             </Row>
         </Container >
     );
