@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import BottomBar from "../components/BottomBar";
-import Sidebar from "../components/Sidebar";
+import SidebarLeft from "../components/SidebarLeft";
 import TopBar from "../components/TopBar";
 import EditArticle from "../components/EditArticle";
 import { RootState } from "../store/store";
@@ -23,14 +23,20 @@ const EditArticlePage = () => {
     return (
         <Container fluid className='vh-100'>
             <Row className='justify-content-center'>
-                <Col xs={1}>
-                    <Sidebar />
+                <Col md={1} xl={3}>
+                    <SidebarLeft />
                 </Col>
-                <Col xs={11}>
-                    <TopBar />
-                </Col>
-                <Col xs={12} md={11} className='mx-5 mb-5 mb-md-5'>
-                    <EditArticle />
+                <Col xs={12} md={11} xl={9}>
+                    <Row className='mb-3 mb-md-0'>
+                        <Col>
+                            <TopBar />
+                        </Col>
+                    </Row>
+                    <Row className='mt-md-0 justify-content-center align-items-center'>
+                        <Col className='mb-5 mb-md-5'>
+                            <EditArticle />
+                        </Col>
+                    </Row>
                 </Col>
                 <Col xs={12} className="mt-5 mt-md-0">
                     <BottomBar />

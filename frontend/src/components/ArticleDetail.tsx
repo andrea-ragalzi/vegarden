@@ -1,8 +1,8 @@
-import { Col, Row, Image, Button, Spinner } from "react-bootstrap";
+import { Col, Row, Image, Button, Spinner, Modal } from "react-bootstrap";
 import { Article } from "../types/articleType";
-import { BookmarkOutline, ChatbubblesOutline, FlowerOutline, RoseOutline, ShareSocialOutline } from "react-ionicons";
+import { BookmarkOutline, ChatbubblesOutline, FlowerOutline, PencilOutline, RoseOutline, ShareSocialOutline, TrashOutline } from "react-ionicons";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, store } from "../store/store";
 import { addArticleReaction, deleteArticleReaction, getArticleReaction } from "../actions/articleReactionAction";
@@ -11,8 +11,12 @@ import { Zenyte } from "../types/zenyteType";
 import classNames from 'classnames';
 import { addArticleSaved, deleteArticleSaved, getArticleSaved } from "../actions/articleSavedAction";
 import { ArticleSaved } from "../types/articleSavedType";
+import { deleteArticle } from "../actions/articleAction";
+import defaultCoverImage from '../assets/default_cover.png';
+
 
 const ArticleDetail = ({ article }: { article: Article }) => {
+    const navigate = useNavigate();
     const dispatch = store.dispatch;
     const { session } = useSelector((state: RootState) => state.login);
     const currentRoute = useLocation().pathname;
@@ -24,6 +28,8 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     const [saved, setSaved] = useState(false);
     const [loadingLike, setLoadingLike] = useState(false);
     const [loadingSave, setLoadingSave] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
     const articleReaction: ArticleReaction = {
         article: article,
         author: zenyte
@@ -32,6 +38,20 @@ const ArticleDetail = ({ article }: { article: Article }) => {
         article: article,
         author: zenyte
     }
+
+    const handleDelete = () => {
+        setShowDeleteModal(true);
+    };
+
+    const handleConfirmDelete = () => {
+        dispatch(deleteArticle(article!, session.accessToken));
+        setShowDeleteModal(false);
+        navigate('/zenhub/me');
+    };
+
+    const handleCancelDelete = () => {
+        setShowDeleteModal(false);
+    };
 
     const handleReaction = async () => {
         setLoadingLike(true);
@@ -100,13 +120,42 @@ const ArticleDetail = ({ article }: { article: Article }) => {
 
     return (
         <>
-            <Row className='row-cols-1 justify-content-center align-items-center article-detail text-center'>
+            <Row className='row-cols-1 justify-content-center align-items-center article-detail'>
                 <Col>
-                    <h1>{article?.title}</h1>
+                    <Row>
+                        <Col xs={{ span: 12, order: 1 }} >
+                            <h1>{article?.title}</h1>
+                        </Col>
+                        <Col xs={{ span: 12, order: 0 }}>
+                            {(currentRoute === `/article/${article.id}` && article?.author.username === session.username) && (
+                                <div className='d-flex justify-content-end mb-3 px-4'>
+                                    <Button variant="danger" className='v-button'>
+                                        <TrashOutline
+                                            color={'#ffffff'}
+                                            height="35px"
+                                            width={'35px'}
+                                            onClick={handleDelete}
+                                        />
+                                    </Button>
+                                    <Button variant="primary" className='v-button'>
+                                        <PencilOutline
+                                            color={'#ffffff'}
+                                            height="35px"
+                                            width={'35px'}
+                                            style={{ marginLeft: '2px' }}
+                                            onClick={() => { navigate(`/edit-article`) }}
+                                        />
+                                    </Button>
+                                </div>
+                            )}
+                        </Col>
+                    </Row>
                 </Col>
-                <Col>
-                    <p>{article?.createdAt}</p>
+
+                <Col className="mb-1 text-center">
+                    <small>{article?.createdAt}</small>
                 </Col>
+
                 {article?.coverImage && (currentRoute === "/article-create" || currentRoute === "/edit-article") ? (
                     <Col>
                         <Image
@@ -116,7 +165,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                         />
                     </Col>
                 ) : (
-                    <Col>
+                    <Col className="text-center">
                         {coverImageURL ? (
                             <Image
                                 className="cover"
@@ -124,12 +173,16 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                                 alt={article.title}
                             />
                         ) : (
-                            <Spinner variant="primary" animation="border" />
+                            <Image
+                                className="cover"
+                                src={defaultCoverImage}
+                                alt={article.title}
+                            />
                         )}
                     </Col>
                 )
                 }
-                <Col>
+                <Col className="px-5">
                     <p className="body">{article?.body}</p>
                 </Col>
                 <Col>
@@ -137,10 +190,11 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                 </Col>
             </Row>
             {currentRoute !== "/article-create" && (
-                <Row>
+                <Row className="justify-content-evenly mx-1 mb-5">
                     <Col className='d-flex justify-content-center'>
                         <Button className={classNames('reaction', { 'liked': liked })} disabled={loadingLike} onClick={handleReaction}>
                             <RoseOutline
+                                color={'#ffffff'}
                                 height="35px"
                                 width={'35px'}
                             />
@@ -149,7 +203,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                     <Col className='d-flex justify-content-center'>
                         <Button className="reaction">
                             <ChatbubblesOutline
-                                color={'#000000'}
+                                color={'#ffffff'}
                                 height="35px"
                                 width={'35px'}
                                 onClick={() => alert('Work progress!')}
@@ -159,7 +213,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                     <Col className='d-flex justify-content-center'>
                         <Button className={classNames('reaction', { 'liked': saved })} onClick={handleSave} disabled={loadingSave}>
                             <BookmarkOutline
-                                color={'#000000'}
+                                color={'#ffffff'}
                                 height="35px"
                                 width={'35px'}
                             />
@@ -168,6 +222,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                     <Col className='d-flex justify-content-center'>
                         <Button className="reaction">
                             <ShareSocialOutline
+                                color={'#ffffff'}
                                 height="35px"
                                 width={'35px'}
                                 onClick={() => alert('Work in progress!')}
@@ -176,8 +231,24 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                     </Col>
                 </Row>
             )}
+            <Modal show={showDeleteModal} onHide={handleCancelDelete}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm deletion</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete the article?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="info" onClick={handleCancelDelete}>
+                        Cancel
+                    </Button>
+                    <Button variant="danger" onClick={handleConfirmDelete}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
-}
+};
 
 export default ArticleDetail;

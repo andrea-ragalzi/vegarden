@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState, store } from '../store/store';
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
+import SidebarLeft from '../components/SidebarLeft';
 import ArticleDetail from '../components/ArticleDetail';
 import { Article } from '../types/articleType';
 import { deleteArticle, readArticle } from '../actions/articleAction';
@@ -22,21 +22,6 @@ const ArticlePage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-    const handleDelete = () => {
-        setShowDeleteModal(true);
-    };
-
-    const handleConfirmDelete = () => {
-        dispatch(deleteArticle(article!, session.accessToken));
-        setShowDeleteModal(false);
-        navigate('/zenhub/me');
-    };
-
-    const handleCancelDelete = () => {
-        setShowDeleteModal(false);
-    };
 
     useEffect(() => {
 
@@ -72,77 +57,40 @@ const ArticlePage = () => {
 
     return (
         <Container fluid className='vh-100'>
-            <Row>
-                <Col xs={1}>
-                    <Sidebar />
+            <Row className='justify-content-center'>
+                <Col md={1} xl={3}>
+                    <SidebarLeft />
                 </Col>
-                <Col xs={11}>
+                <Col xs={12} md={11} xl={9} className='bg-light d-flex justify-content-center align-items-center'>
                     <Row className='mb-5'>
                         <Col>
                             <TopBar />
                         </Col>
                     </Row>
-                    {loading ? (
-                        <div className='d-flex justify-content-center align-items-center'>
-                            <Spinner animation="border" variant='primary' />
-                        </div>
-                    ) : error ? (
-                        <div>Error: {error}</div>
-                    ) : (
-                        <>
-                            {
-                                article?.author.username === session.username && (
-                                    <Row>
-                                        <Col xs={10} className='d-flex justify-content-end mt-3'>
-                                            <TrashOutline
-                                                color={'#000000'}
-                                                height="35px"
-                                                width={'35px'}
-                                                onClick={handleDelete}
-                                            />
-                                        </Col>
-                                        <Col xs={2} className='d-flex justify-content-end mt-3'>
-                                            <PencilOutline
-                                                color={'#000000'}
-                                                height="35px"
-                                                width={'35px'}
-                                                style={{ marginLeft: '1em' }}
-                                                onClick={() => { navigate(`/edit-article`) }}
-                                            />
-                                        </Col>
-                                    </Row>
-                                )
-                            }
-                            {article && (
-                                <Col>
-                                    <ArticleDetail article={article} />
-                                </Col>
+                    <Row className='mt-5 pt-3 mt-md-3 justify-content-center align-items-center'>
+                        <Col className='p-0'>
+                            {loading ? (
+                                <div className='d-flex justify-content-center align-items-center'>
+                                    <Spinner animation="border" variant='primary' />
+                                </div>
+                            ) : error ? (
+                                <div>Error: {error}</div>
+                            ) : (
+                                <>
+                                    {article && (
+                                        <ArticleDetail article={article} />
+                                    )}
+                                </>
                             )}
-                            <Row>
-                                <Col>
-                                    <BottomBar />
-                                </Col>
-                            </Row>
-                        </>
-                    )}
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
-            <Modal show={showDeleteModal} onHide={handleCancelDelete}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Confirm deletion</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to delete the article?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="info" onClick={handleCancelDelete}>
-                        Cancel
-                    </Button>
-                    <Button variant="danger" onClick={handleConfirmDelete}>
-                        Delete
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <Row className='mt-5'>
+                <Col xs={12}>
+                    <BottomBar />
+                </Col>
+            </Row>
         </Container>
     );
 }

@@ -60,15 +60,17 @@ const ArticleMaker = () => {
     };
 
     return (
-        <Row className='justify-content-center mx-5 text-black'>
-            <Col xs={12} md={{ span: 6, order: 1 }} className='mt-5'>
+        <Row className='justify-content-center text-black mt-4 mt-md-0'>
+            <Col xs={12} className='mt-5 px-5'>
                 <h1 className="mb-3 text-center text-secondary">Write Article</h1>
                 <Form onSubmit={handleSubmit} className="text-center text-dark">
                     <Form.Group controlId="formTitle" className="mb-2">
                         <Form.Label>Title</Form.Label>
                         <Form.Control
-                            type="text"
+                            as="textarea"
                             placeholder="Enter title"
+                            rows={2}
+                            maxLength={80}
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             className="my-input"
@@ -89,8 +91,9 @@ const ArticleMaker = () => {
                         <Form.Label>Description</Form.Label>
                         <Form.Control
                             as="textarea"
-                            rows={2}
+                            rows={5}
                             placeholder="Enter description"
+                            maxLength={180}
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             className="my-input"
@@ -115,7 +118,7 @@ const ArticleMaker = () => {
                 </Form>
             </Col>
             {(article.title || article.body || article.coverImage) && (
-                <Col xs={12} md={{ span: 6, order: 0 }} className="mt-5">
+                <Col xs={12} className="mt-5">
                     <ArticleDetail article={article} />
                 </Col>
             )}

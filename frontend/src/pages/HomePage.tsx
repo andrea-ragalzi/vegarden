@@ -7,7 +7,8 @@ import { RootState, store } from '../store/store';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { readTrendArticles } from '../actions/articleAction';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
+import SidebarLeft from '../components/SidebarLeft';
+import SidebarRight from '../components/SidebarRight';
 
 const HomePage = () => {
     const dispatch = store.dispatch;
@@ -31,19 +32,19 @@ const HomePage = () => {
     }, [loggedIn]);
 
     return (
-        <Container fluid className='vh-100'>
+        <Container fluid className='vh-100 p-0'>
             <Row className='justify-content-center m-0 p-0'>
-                <Col md={3}>
-                    <Sidebar />
+                <Col md={1} lg={1} xl={3}>
+                    <SidebarLeft />
                 </Col>
-                <Col xs={12} md={6} className='bg-light d-flex justify-content-center align-items-center'>
+                <Col xs={12} md={11} lg={8} xl={6} className='bg-light d-flex justify-content-center align-items-center'>
                     <Row className='mb-5'>
                         <Col>
                             <TopBar />
                         </Col>
                     </Row>
-                    <Row>
-                        <Col xs={12} md={11} lg={10} xl={8}>
+                    <Row className='mt-5 mt-md-3 justify-content-center align-items-center'>
+                        <Col className='p-0'>
                             {article.loading ? (
                                 <Spinner variant='primary' animation='border' />
                             ) : (
@@ -55,11 +56,14 @@ const HomePage = () => {
                             )}
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className='mt-5'>
                         <Col xs={12}>
                             <BottomBar />
                         </Col>
                     </Row>
+                </Col>
+                <Col lg={3} className='ps-5'>
+                    <SidebarRight />
                 </Col>
             </Row>
         </Container >

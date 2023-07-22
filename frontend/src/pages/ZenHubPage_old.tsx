@@ -84,7 +84,7 @@ const ZenHubPage = () => {
 
     return (
         <Container fluid className='vh-100 p-0'>
-            <Row className='justify-content-center m-0 p-0'>
+            <Row className='justify-content-center'>
                 <Col md={1} lg={1} xl={3}>
                     <SidebarLeft />
                 </Col>
@@ -94,17 +94,17 @@ const ZenHubPage = () => {
                             <TopBar />
                         </Col>
                     </Row>
-                    <Row className='mt-3 mt-md-4 justify-content-center align-items-center mb-5 pb-5'>
-                        <Col className='p-0'>
+                    <Row className='mt-md-0 justify-content-center align-items-center'>
+                        <Col className='mb-5 mb-md-5'>
                             {loadingPage ? (
-                                <Row className='mt-3 mb-5 pb-3'>
+                                <Row className=''>
                                     <Col>
                                         <Spinner animation="border" variant='danger' />
                                     </Col>
                                 </Row>
                             ) : (
                                 <>
-                                    <Row className='mt-3 mt-md-0'>
+                                    <Row className='w-50 mt-3 justify-content-center'>
                                         <Col>
                                             {profile ?
                                                 <ProfileSection profile={profile} blogSize={blog?.articles?.length || 0} />
@@ -137,6 +137,9 @@ const ZenHubPage = () => {
                             <BottomBar />
                         </Col>
                     </Row>
+                </Col>
+                <Col lg={3} className='ps-5'>
+                    <SidebarRight />
                 </Col>
             </Row>
         </Container >

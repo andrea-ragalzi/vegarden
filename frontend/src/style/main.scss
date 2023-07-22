@@ -1,11 +1,9 @@
 @import "bootswatch/dist/minty/variables";
+@import "./base/variables.scss";
 @import "bootstrap/scss/bootstrap";
 @import "bootswatch/dist/minty/bootswatch";
 @import "./utils/_mixin.scss";
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
-// Resto del tuo codice SCSS
-
 
 html,
 body {
@@ -14,6 +12,10 @@ body {
     padding: 0;
     background: $light;
     font-family: "Montserrat", sans-serif;
+}
+
+a {
+    text-decoration: none !important;
 }
 
 .bottom-bar {
@@ -52,11 +54,7 @@ body {
     }
 }
 
-.side-bar-row {
-    background: linear-gradient(to bottom, $success, $secondary);
-}
-
-.side-bar {
+.side-bar-left {
     @extend .shadow-none;
     @extend .p-0;
     @extend .m-0;
@@ -83,28 +81,12 @@ body {
         left: 0;
     }
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(xl) {
         width: 12em;
         left: 0;
     }
 
-    @include media-breakpoint-up(xl) {
-        width: 12em;
-        left: 6em;
-
-        &::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 6em;
-            background: linear-gradient(to bottom, $success, $secondary);
-            box-shadow: 0 0 1px $dark !important;
-        }
-    }
-
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(xxl) {
         width: 12em;
         left: 12em;
 
@@ -122,92 +104,186 @@ body {
 
 }
 
+.side-bar-right {
+    @extend .shadow-none;
+    @extend .p-0;
+    @extend .m-0;
+    position: fixed;
+    z-index: 1000;
+    color: $black;
+    padding: 1px;
+    height: 100%;
+    max-width: 15em;
+    display: none;
+
+    @include media-breakpoint-up(lg) {
+        display: block;
+    }
+
+    @include media-breakpoint-up(xl) {
+        display: block;
+        max-width: 18em;
+    }
+
+    @include media-breakpoint-up(xxl) {
+        display: block;
+        max-width: 20em;
+    }
+
+    .right-element {
+        box-shadow: 0 0 10px $dark !important;
+        border-radius: 1.2em;
+        margin: 1.2em 0;
+    }
+
+    .search-bar {
+        background-color: $success;
+        height: 3em;
+        padding: 5px;
+
+        form {
+            width: 100%;
+        }
+    }
+
+    .suggested {
+        background: linear-gradient($success , $secondary);
+        height: 40em;
+
+        :first-child {
+            font-size: 1.2em;
+        }
+    }
+
+    .footer {
+        background-color: $secondary;
+        color: $dark;
+        height: 10em;
+        padding-top: 10px;
+        padding-left: 1em;
+    }
+}
+
 .vegarden-text {
     font-size: 1.5em;
     color: black;
+    font-style: italic;
 }
 
 .feed-tab {
     font-size: 1.2em;
 }
 
-.articlePreview {
-    border-radius: 10px;
+.article-preview {
+    border-radius: 0;
     color: $black;
     background-color: $white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    // padding: 1.25em;
-    margin-bottom: 1.25em;
+    margin: 1em 0;
     transition: transform 0.3s ease-in-out;
-    height: 30em;
-    width: 25em;
+    height: 32em;
+    width: 100%;
+    border: 1px solid $secondary;
 
-    @include media-breakpoint-up(md) {
+    &:hover {
+        border: 1px solid $success;
+        box-shadow: 1px 1px 10px $success;
+    }
+
+    @include media-breakpoint-up(sm) {
+        width: 30em;
+
         &:hover {
-            transform: translateY(-0.3125em);
+            transform: translateX(-1.5em);
         }
     }
 
+    @include media-breakpoint-up(md) {
+        width: 40em;
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: 35em;
+    }
+
+    @include media-breakpoint-up(xl) {
+        width: 35em;
+    }
+
+    @include media-breakpoint-up(xxl) {
+        width: 35em;
+    }
+
+    @include media-breakpoint-up(xxxl) {
+        width: 50em;
+    }
+
+    .row {
+        height: 20%;
+    }
+
+    .card-image {
+        height: 50%;
+    }
+
+    .card-body {
+        height: 30%;
+        @include text-wrap;
+    }
+
+    .author {
+        border: 3px solid $secondary;
+        @include mini-avatar;
+    }
+
     .title {
-        font-size: 1.5em;
-        font-weight: bold;
-        margin-bottom: 0.625em;
+        background-color: $white !important;
+        border: 0;
+        text-align: center;
+        @include text-wrap;
     }
 
     .cover {
-        width: 75%;
-        height: auto;
+        height: 18em;
+        aspect-ratio: 4/3;
+        object-fit: contain;
+        object-position: center;
     }
 
     .description {
         margin-bottom: 0.625em;
-    }
-
-    .author {
+        text-decoration: none !important;
+        height: 100%;
         font-style: italic;
-    }
-
-    .read-more {
-        color: $success;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: none;
-        }
-    }
-
-    .card-header {
-        color: $primary;
-        padding: 0.625em;
-        margin-bottom: 0.625em;
-    }
-
-    .card-text {
-        padding: 0.625em;
-        color: $dark;
-    }
-
-    .rounded-circle {
-        border: 3px solid $secondary;
+        padding: 0 0.625em;
+        @include text-wrap;
     }
 }
 
+
 .article-detail {
-    color: $black;
 
     h1 {
-        font-size: 24px;
         color: $primary;
+        margin: 0 0.5em;
+        text-align: center;
+        @include text-wrap;
     }
 
     .cover {
-        max-width: 100%;
-        height: auto;
+        height: 18em;
+        aspect-ratio: 4/3;
+        object-fit: contain;
+        object-position: center;
+
+        @include media-breakpoint-up(lg) {
+            height: 36em;
+        }
     }
 
     .body {
+        color: $black;
         margin-top: 10px;
-        font-size: 16px;
+        font-size: 20px;
         line-height: 1.5;
         @include text-wrap;
     }
@@ -238,20 +314,18 @@ body {
 }
 
 
-.avatar {
+/* .avatar {
     width: 7.5em;
     height: 7.5em;
     border-radius: 50%;
-}
+} */
 
 .profile {
     @include text-wrap;
-}
 
-.avatar-mini {
-    width: 2.5em;
-    height: 2.5em;
-    border-radius: 50%;
+    @include media-breakpoint-up(xxl) {
+        padding: 0 1.5em;
+    }
 }
 
 .nav-button {
@@ -263,5 +337,70 @@ body {
 
     &:hover {
         color: $secondary !important;
+    }
+}
+
+.avatar {
+    @include maxi-avatar;
+}
+
+.profile {
+    margin: 2em 0.5em 0 0.5em;
+    padding-right: 10px;
+    color: $dark;
+
+    .info {
+        padding: 0 2em;
+        @include text-wrap;
+    }
+
+    .numbers {
+        height: 10em;
+        padding-left: 0;
+        padding-right: 1.5em;
+
+        button {
+            border: 2px solid $secondary;
+            width: 4em;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            margin-left: 1em;
+        }
+
+    }
+
+    .bio {
+        font-style: italic;
+        margin-top: 0.5em;
+    }
+
+    p {
+        margin: 0;
+        padding: 1px;
+    }
+}
+
+.v-button {
+    border: 2px solid $warning !important;
+    width: 4em;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: 0 0.2em;
+}
+
+.welcome-image {
+    height: 32em;
+    width: 100%;
+    object-fit: contain;
+    object-position: center;
+    margin: 0;
+    padding: 0;
+
+    @include media-breakpoint-up(sm) {
+        padding: 3em;
+    }
+
+    @include media-breakpoint-up(md) {
+        padding: 0;
     }
 }

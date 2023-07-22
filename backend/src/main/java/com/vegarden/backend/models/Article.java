@@ -60,7 +60,7 @@ public class Article {
     private String body;
 
     @Column(nullable = false, columnDefinition = "bigint default 0")
-    private Long reactions;
+    private Long reactions = 0L;
 
     @Column(nullable = false)
     private Timestamp createdAt;

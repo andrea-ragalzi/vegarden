@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../store/store';
-import Sidebar from '../components/Sidebar';
+import SidebarLeft from '../components/SidebarLeft';
 
 
 const ArticleCreatePage = () => {
@@ -25,16 +25,22 @@ const ArticleCreatePage = () => {
     return (
         <Container fluid className='vh-100'>
             <Row className='justify-content-center'>
-                <Col xs={1}>
-                    <Sidebar />
+                <Col md={1} xl={3}>
+                    <SidebarLeft />
                 </Col>
-                <Col xs={11}>
-                    <TopBar />
+                <Col xs={12} md={11} xl={9}>
+                    <Row className='mb-3 mb-md-0'>
+                        <Col>
+                            <TopBar />
+                        </Col>
+                    </Row>
+                    <Row className='mt-md-0 justify-content-center align-items-center'>
+                        <Col className='mb-5 mb-md-5'>
+                            <ArticleMaker />
+                        </Col>
+                    </Row>
                 </Col>
-                <Col xs={12} md={11} className='mx-5'>
-                    <ArticleMaker />
-                </Col>
-                <Col xs={1}>
+                <Col xs={12} className="mt-5 mt-md-0">
                     <BottomBar />
                 </Col>
             </Row>

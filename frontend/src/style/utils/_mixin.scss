@@ -25,3 +25,15 @@
     white-space: pre-line;
     overflow-wrap: break-word;
 }
+
+@mixin mini-avatar {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+}
+
+@mixin maxi-avatar {
+    width: 8em;
+    border-radius: 50%;
+    aspect-ratio: 1;
+}

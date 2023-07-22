@@ -8,8 +8,10 @@ import { useSelector } from 'react-redux';
 import { RootState, store } from '../store/store';
 import { readProfile } from '../actions/profileAction';
 import { Profile } from '../types/profileType';
+import defaultCoverImage from '../assets/default_cover.png';
 
-const ArticleDescription = ({ article }: { article: Article }) => {
+
+const ArticlePreview = ({ article }: { article: Article }) => {
     const dispatch = store.dispatch;
     const { session } = useSelector((state: RootState) => state.login);
     const profileState = useSelector((state: RootState) => state.profile);
@@ -80,19 +82,19 @@ const ArticleDescription = ({ article }: { article: Article }) => {
 
     return (
         <NavLink to={`/article/${article.id}`}>
-            <Card className='articlePreview'>
-                <Row className="justify-content-center align-items-center px-5 mb-1 no-gutters">
+            <Card className='article-preview'>
+                <Row className="justify-content-center align-items-center px-4">
                     <Col xs={2}>
                         {avatarImageURL ? (
                             <Link to={`/zenhub/${article.author.username.replace(/\./g, '-')}`}>
-                                <Image className='rounded-circle avatar-mini' src={avatarImageURL} alt="A"></Image>
+                                <Image className='author' src={avatarImageURL} alt="A"></Image>
                             </Link>
                         ) : (
                             <Spinner variant='secondary' />
                         )}
                     </Col>
                     <Col xs={8}>
-                        <Card.Header className='border-0 bg-white'>{article.title}</Card.Header>
+                        <Card.Header className='title'>{article.title}</Card.Header>
                     </Col>
                     <Col xs={2}>
                         <BookmarkOutline
@@ -104,18 +106,22 @@ const ArticleDescription = ({ article }: { article: Article }) => {
                     </Col>
                 </Row>
                 {
-                    coverImageURL ? (
-                        <Card.Img variant="top" src={coverImageURL} />
-                    ) : (
-                        (
+                    article.coverImageURL ? (
+                        coverImageURL ? (
+                            <Card.Img variant="top cover" src={coverImageURL} />
+                        ) : (
                             <div className='d-flex justify-content-center align-items-center'>
                                 <Spinner variant='primary' />
                             </div>
                         )
+                    ) : (
+                        (
+                            <Card.Img variant="top cover" src={defaultCoverImage} />
+                        )
                     )
                 }
                 <Card.Body>
-                    <Card.Text>
+                    <Card.Text className='description'>
                         {article.description}
                     </Card.Text>
                 </Card.Body>
@@ -124,4 +130,4 @@ const ArticleDescription = ({ article }: { article: Article }) => {
     );
 }
 
-export default ArticleDescription;
+export default ArticlePreview;

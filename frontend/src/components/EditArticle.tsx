@@ -44,15 +44,18 @@ const EditArticle = () => {
     };
 
     return (
-        <Row className='justify-content-center mx-5 text-black mt-4'>
-            <Col xs={12} md={{ span: 6, order: 1 }} className='mt-5'>
+        <Row className='justify-content-center text-black mt-4 mt-md-0'>
+            <Col xs={12} className='mt-5 px-5'>
                 <h1 className="mb-3 text-center text-secondary">Edit Article</h1>
                 <Form onSubmit={handleSubmit} className="text-center text-dark">
-                    <Form.Group controlId="formTitle" className="mb-2">
+                    <Form.Group controlId="fofrmTitle" className="mb-2">
                         <Form.Label>Title</Form.Label>
                         <Form.Control
-                            type="text"
+                            as="textarea"
                             placeholder="Enter title"
+                            rows={2}
+                            maxLength={80}
+                            value={article?.title}
                             defaultValue={article?.title}
                             onChange={(e) => setArticle(
                                 { ...article!, title: e.target.value })}
@@ -74,7 +77,8 @@ const EditArticle = () => {
                         <Form.Label>Description</Form.Label>
                         <Form.Control
                             as="textarea"
-                            rows={2}
+                            rows={5}
+                            maxLength={180}
                             placeholder="Enter description"
                             defaultValue={article?.description}
                             onChange={(e) => setArticle(
@@ -102,7 +106,7 @@ const EditArticle = () => {
                 </Form>
             </Col>
             {article && (
-                <Col xs={12} md={{ span: 6, order: 0 }} className="mt-5">
+                <Col xs={12} className="mt-5 p-0">
                     <ArticleDetail article={article} />
                 </Col>
             )}

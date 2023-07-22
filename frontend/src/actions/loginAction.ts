@@ -4,14 +4,12 @@ import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 const getLoginRequest = (): LoginAction => ({
     type: LoginActionType.LOGIN_REQUEST,
     loading: true,
-    error: null,
 });
 
 const getLoginSuccess = (payload: Session): LoginAction => ({
     type: LoginActionType.LOGIN_SUCCESS,
     payload: payload,
     loading: false,
-    error: null,
 });
 
 const getLoginFailure = (error: string): LoginAction => ({

@@ -67,12 +67,12 @@ const EditProfile = () => {
     return (
         <Row className='justify-content-center text-black mt-5'>
             <Col xs={12}>
-                <ProfileSection profile={tmpProfile!} blogSize={blog?.articles?.length ?? 0} />
-                <h2 className='text-secondary text-center'>{tmpBlog?.title}</h2>
+                <ProfileSection  profile={tmpProfile!} blogSize={blog?.articles?.length ?? 0} />
+                <h2 className='text-secondary text-center mt-3'>{tmpBlog?.title}</h2>
             </Col>
             <Col xs={12} md={{ span: 6, order: 1 }} className='mt-5'>
                 <h1 className="mb-3 text-center text-secondary">Edit ZenHub</h1>
-                <Form className="text-center text-dark" onSubmit={handleSubmit}>
+                <Form className="text-center text-dark mx-2" onSubmit={handleSubmit}>
 
                     <Form.Group controlId="formAvatarImage" className="mb-2">
                         <Form.Label>Avatar</Form.Label>

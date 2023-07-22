@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { readZenyte } from '../actions/zenyteAction';
+import welcomeImage from '../assets/login.jpg';
 
 const LoginPage = () => {
     const dispatch = store.dispatch;
@@ -36,7 +37,7 @@ const LoginPage = () => {
         if (zenyte.zenyte?.id) {
             navigate('/home');
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [zenyte]);
 
     useEffect(() => {
@@ -61,7 +62,7 @@ const LoginPage = () => {
     return (
         <Container fluid className='mt-5 p-3 mb-md-5 mt-md-0'>
             <Row className='mb-3 align-items-md-center vh-100'>
-                <Col xs={{ span: 12, order: 0 }} md={{ span: 6, order: 1 }} className='mb-3'>
+                <Col xs={{ span: 12, order: 0 }} md={{ span: 6, order: 1 }} className='mt-4 px-5'>
                     <h1 className='text-primary mb-2'>Welcome</h1>
                     <h2 className='text-secondary small mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem ut dicta sequi omnis sint, impedit voluptatum aspernatur nobis officiis corporis placeat laboriosam nisi dolorum optio veritatis explicabo aperiam eius in?</h2>
                     {login.loading ? (
@@ -105,8 +106,8 @@ const LoginPage = () => {
                         <p>Don't have an account? <Link to="/register" className='text-secondary'>Register</Link></p>
                     </div>
                 </Col>
-                <Col xs={{ span: 12, order: 1 }} md={{ span: 6, order: 0 }} className='d-flex justify-content-center'>
-                    <Image src="https://picsum.photos/600/600" alt="Placeholder" fluid />
+                <Col xs={{ span: 12, order: 1 }} md={{ span: 6, order: 0 }}>
+                    <Image src={welcomeImage} alt="Placeholder" fluid />
                 </Col>
             </Row>
         </Container>

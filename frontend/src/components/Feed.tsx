@@ -1,16 +1,16 @@
 import { Row, Col } from "react-bootstrap";
 import { Article } from "../types/articleType";
-import ArticleDescription from "./ArticleDescription";
+import ArticlePreview from "./ArticlePreview";
 
 const Feed = ({ articles }: { articles: Article[] }) => {
 
     return (
         <>
-            <Row className="row row-cols-1 m-0 justify-content-center mt-5 mt-md-0">
+            <Row className="row row-cols-1 m-0 justify-content-center mt-md-0 px-0">
                 {articles?.length ? (
                     [...articles].map((article) => (
-                        <Col key={article.id} className="d-flex justify-content-center">
-                            <ArticleDescription article={article} />
+                        <Col key={article.id} className="d-flex justify-content-center p-0">
+                            <ArticlePreview article={article} />
                         </Col>
                     ))
                 ) : (
