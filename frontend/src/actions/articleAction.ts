@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { AnyAction } from '@reduxjs/toolkit';
 
 const getArticleRequest = (): ArticleAction => ({
-    type: ArticleActionType.GET_ARTICLE_REQUEST,
+    type: ArticleActionType.GET_ARTICLE_REQUEST
 });
 
 const getArticleSuccess = (article: Article): ArticleAction => ({
@@ -17,7 +17,7 @@ const getArticleFailure = (error: string): ArticleAction => ({
 })
 
 const postArticleRequest = (): ArticleAction => ({
-    type: ArticleActionType.POST_ARTICLE_SUCCESS,
+    type: ArticleActionType.POST_ARTICLE_SUCCESS
 })
 
 const postArticleSuccess = (article: Article): ArticleAction => ({

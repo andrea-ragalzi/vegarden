@@ -21,6 +21,8 @@ export interface Profile {
     avatarImageURL?: string;
     coverImage?: File | null;
     coverImageURL?: string;
+    followers: number;
+    followeds: number;
     createdAt: string;
     updatedAt?: string;
     owner: Zenyte;

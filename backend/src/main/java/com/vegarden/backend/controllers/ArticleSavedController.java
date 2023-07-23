@@ -86,7 +86,6 @@ public class ArticleSavedController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         try {
-            System.out.println();
             articleSavedService.deleteByArticleAndAuthor(articleSaved.getArticle(), articleSaved.getAuthor());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(articleSaved);
         } catch (Exception e) {

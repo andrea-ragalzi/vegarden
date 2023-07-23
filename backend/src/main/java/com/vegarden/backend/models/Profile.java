@@ -60,6 +60,12 @@ public class Profile {
     @Column(name = "cover_image_url")
     private String coverImage;
 
+    @Column(nullable = false, columnDefinition = "bigint default 0")
+    private Long followers = 0L;
+
+    @Column(nullable = false, columnDefinition = "bigint default 0")
+    private Long followeds = 0L;
+
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
