@@ -15,15 +15,15 @@ import jakarta.transaction.Transactional;
 
 public interface ArticleReactionRepository extends JpaRepository<ArticleReaction, Long> {
 
-    List<ArticleReaction> findByArticleId(Long articleId);
+    public List<ArticleReaction> findByArticleId(Long articleId);
 
-    boolean existsByArticleAndAuthor(Article article, Zenyte author);
+    public boolean existsByArticleAndAuthor(Article article, Zenyte author);
 
     @Transactional
-    void deleteByArticleAndAuthor(Article article, Zenyte author);
+    public void deleteByArticleAndAuthor(Article article, Zenyte author);
 
     @Modifying
     @Query("DELETE FROM ArticleReaction asv WHERE asv.article.id = :articleId")
     @Transactional
-    void deleteByArticleId(@Param("articleId") Long articleId);
+    public void deleteByArticleId(@Param("articleId") Long articleId);
 }

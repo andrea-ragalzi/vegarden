@@ -65,4 +65,19 @@ public class FollowerService {
         return followerRepository.findByFollowed(followed);
     }
 
+    public boolean existsByFollowerAndFollowed(Zenyte follower, Zenyte followed) {
+        return followerRepository.existsByFollowerAndFollowed(follower, followed);
+    }
+
+    public void deleteByFollowerAndFollowed(Zenyte follower, Zenyte followed) {
+        followerRepository.deleteByFollowerAndFollowed(follower, followed);
+    }
+
+    public long countByFollower(Zenyte follower) {
+        return followerRepository.countByFollower(follower);
+    }
+
+    public long countByFollowed(Zenyte followed) {
+        return followerRepository.countByFollowed(followed);
+    }
 }

@@ -11,6 +11,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import articleReactionReducer from "../reducers/articleReactionReducer";
 import articleSavedReducer from "../reducers/articleSavedReducer";
 import zenHubReducer from "../reducers/zenHubReducer";
+import followerReducer from "../reducers/followerReducer.ts";
 
 const rootReducer = combineReducers({
   login: loginReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   register: registerReducer,
   articleReaction: articleReactionReducer,
   articleSaved: articleSavedReducer,
-  zenHub: zenHubReducer
+  zenHub: zenHubReducer,
+  follower: followerReducer
 });
 
 const RESET_STORE = "RESET_STORE";

@@ -64,9 +64,6 @@ public class ArticleReactionController {
     public ResponseEntity<ArticleReaction> postArticleReaction(
             @RequestBody ArticleReaction articleReaction,
             @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println();
-        System.out.println();
-        System.out.println(articleReaction);
         Timestamp now = new Timestamp(System.currentTimeMillis());
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
