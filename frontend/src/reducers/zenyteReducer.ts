@@ -17,6 +17,7 @@ const initialState: ZenyteState = {
 const zenyteReducer = (state: ZenyteState = initialState, action: ZenyteAction): ZenyteState => {
     switch (action.type) {
         case ZenyteActionType.GET_ZENYTE_REQUEST:
+        case ZenyteActionType.GET_ALL_ZENYTES_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -29,7 +30,15 @@ const zenyteReducer = (state: ZenyteState = initialState, action: ZenyteAction):
                 loading: false,
                 error: null,
             }
+        case ZenyteActionType.GET_ALL_ZENYTES_SUCCESS:
+            return {
+                ...state,
+                allZenytes: action.payload,
+                loading: false,
+                error: null,
+            }
         case ZenyteActionType.GET_ZENYTE_FAILURE:
+        case ZenyteActionType.GET_ALL_ZENYTES_FAILURE:
             return {
                 ...state,
                 loading: false,
