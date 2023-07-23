@@ -1,10 +1,36 @@
+import { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Image } from "react-bootstrap";
 import { HomeOutline, SearchOutline, FilterOutline, NotificationsOutline, PaperPlaneOutline, AddOutline } from "react-ionicons";
 import { Link, useNavigate } from "react-router-dom";
+import { Zenyte } from "../types/zenyteType";
+import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
+
 
 const SidebarRight = () => {
     const navigate = useNavigate();
-    const listTest = [0, 0, 0, 0, 0];
+    const [zenytes, setZenytes] = useState([]);
+    const username = useSelector((state: RootState) => state.zenyte.zenyte?.username as string);
+
+    async function getAllZenytes() {
+        try {
+            const response = await fetch('/api/zenytes');
+            if (response.ok) {
+                const data = await response.json();
+                const shuffledZenytes = data.sort(() => Math.random() /* - username?.length || 0.5 */);
+                setZenytes(shuffledZenytes);
+            } else {
+                throw new Error('Error during getting all zenytes');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getAllZenytes();
+    }, []);
+
     return (
         <>
             <Row className='row-cols-1 side-bar-right'>
@@ -27,13 +53,10 @@ const SidebarRight = () => {
                 </Col>
                 <Col className="right-element suggested">
                     <p>Suggested Zenytes</p>
-                    {listTest.map((item, index) => (
-                        <p>Zenyte</p>
+                    {zenytes.map((item, index) => (
+                        <p key={index}>{item}</p>
                     ))}
                 </Col>
-                {/* <Col className="right-element placeholder">
-
-                </Col> */}
                 <Col className="right-element footer">
                     <Row className="mb-4">
                         <Col className="d-flex flex-column">
