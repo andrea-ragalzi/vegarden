@@ -8,7 +8,7 @@ const Feed = ({ articles }: { articles: Article[] }) => {
         <>
             <Row className="row row-cols-1 m-0 justify-content-center mt-md-0 px-0">
                 {articles?.length ? (
-                    [...articles].map((article) => (
+                    [...articles].reverse().map((article) => (
                         <Col key={article.id} className="d-flex justify-content-center p-0">
                             <ArticlePreview article={article} />
                         </Col>

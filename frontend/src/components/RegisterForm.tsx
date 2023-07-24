@@ -2,13 +2,12 @@ import { useState, FormEvent, useEffect } from "react";
 import { Button, Form, Spinner } from "react-bootstrap"
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
-import registerFecth, { registerReset } from "../actions/registerAction";
+import { registerFecth, registerReset } from "../actions/registerAction";
 import { store, RootState } from "../store/store";
 import RegisterErrorModal from "./RegisterErrorModal";
 import RegisterSuccessModal from "./RegisterSuccessModal";
 
 const RegisterForm = () => {
-    const navigate = useNavigate();
     const dispatch = store.dispatch;
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -91,7 +90,6 @@ const RegisterForm = () => {
             setLoading(false);
             setError(false);
             dispatch(registerReset());
-            // navigate('/');
             return;
         }
         if (register.registered && !register.loading && register.error) {

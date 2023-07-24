@@ -74,11 +74,6 @@ public class FollowerController {
             profileService.updateProfile(zenytedProfile);
             return ResponseEntity.status(HttpStatus.CREATED).body(follower);
         } catch (Exception e) {
-            System.out.println();
-            System.out.println();
-            System.out.println(e);
-            System.out.println();
-            System.out.println();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

@@ -11,17 +11,16 @@ const RegisterPage = () => {
                     <h1 className='text-primary mb-2'>Welcome</h1>
                     <h2 className='text-secondary small mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem ut dicta sequi omnis sint, impedit voluptatum aspernatur nobis officiis corporis placeat laboriosam nisi dolorum optio veritatis explicabo aperiam eius in?</h2>
                     <RegisterForm />
-                    <div className='d-flex justify-content-end'>
+                    <div className='d-flex justify-content-center'>
                         <p>Do you already have an account? <Link to="/" className='text-secondary'>Login</Link></p>
                     </div>
                 </Col>
                 <Col xs={{ span: 12, order: 1 }} md={{ span: 6, order: 0 }}>
-                    <Image src={welcomeImage} alt="Placeholder" fluid />
+                    <div className='d-flex justify-content-center'>
+                        <Image src={welcomeImage} alt="Placeholder" fluid />
+                    </div>
                 </Col>
             </Row>
-            {/* {error && (
-                <RegisterErrorModal show={true} message={register.error || 'Something went wrong'} onClose={handleCloseErrorModal} />
-            )} */}
         </Container>
     );
 }

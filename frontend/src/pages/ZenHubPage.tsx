@@ -24,7 +24,23 @@ const ZenHubPage = () => {
     const [showMyblog, setShowMyblog] = useState(true);
     const [loadingPage, setLoadingPage] = useState(true);
     const [articles, setArticles] = useState<Article[]>([]);
+    const follower = useSelector((state: RootState) => state.follower);
 
+    useEffect(() => {
+        const loadData = async () => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            await dispatch(readZProfile(username!, session.accessToken));
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            await dispatch(readZBlog(username!, session.accessToken));
+        }
+        if(username !== 'me' && username !== session.username) {
+            setShowMyblog(true);
+            loadData();
+            setShowMyblog(true);
+            setLoadingPage(false);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [follower.exists]);
 
     useEffect(() => {
         if (showMyblog) {
@@ -54,26 +70,6 @@ const ZenHubPage = () => {
         setLoadingPage(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username]);
-
-    useEffect(() => {
-        const loadData = async () => {
-            if (username === 'me') {
-                await dispatch(readZProfile(session.username, session.accessToken));
-                await dispatch(readZBlog(session.username, session.accessToken));
-                await dispatch(readZSavedArticles(session.username, session.accessToken));
-            }
-            else {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                await dispatch(readZProfile(username!, session.accessToken));
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                await dispatch(readZBlog(username!, session.accessToken));
-            }
-        }
-        setLoadingPage(true);
-        loadData();
-        setLoadingPage(false);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     useEffect(() => {
         if (!loggedIn) {

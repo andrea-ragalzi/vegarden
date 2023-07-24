@@ -42,21 +42,13 @@ public class ZenyteController {
 
     @GetMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Zenyte> getZenyteById(
+    public ResponseEntity<Zenyte> getZenyteByUsername(
             @PathVariable String username, @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
-        if (userDetails.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(
-                        zenyteService.findZenyteByUsername(username).getUsername())) {
-            Zenyte zenyte = zenyteService.findZenyteByUsername(username);
-            return ResponseEntity.ok(zenyte);
-        }
-        // Return an error or unauthorized response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        Zenyte zenyte = zenyteService.findZenyteByUsername(username);
+        return ResponseEntity.ok(zenyte);
     }
 
     @PutMapping("/{username}")
@@ -67,27 +59,18 @@ public class ZenyteController {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
-        if (userDetails.getAuthorities().contains(
-                new SimpleGrantedAuthority("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(
-                        zenyteService.findZenyteByUsername(username).getUsername())) {
-            Timestamp now = new Timestamp(System.currentTimeMillis());
-            Zenyte zenyte = zenyteService.findZenyteByUsername(username);
-            if (updatedZenyte.getUsername() != null) {
-                zenyte.setUsername(updatedZenyte.getUsername());
-            }
-            if (updatedZenyte.getEmail() != null) {
-                zenyte.setEmail(updatedZenyte.getEmail());
-            }
-            // TODO: add password update
-            zenyte.setUpdatedAt(now);
-            zenyteService.updateZenyte(zenyte);
-            return ResponseEntity.ok(zenyte);
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        Zenyte zenyte = zenyteService.findZenyteByUsername(username);
+        if (updatedZenyte.getUsername() != null) {
+            zenyte.setUsername(updatedZenyte.getUsername());
         }
-        // Return an error or unauthorized response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (updatedZenyte.getEmail() != null) {
+            zenyte.setEmail(updatedZenyte.getEmail());
+        }
+        // TODO: add password update
+        zenyte.setUpdatedAt(now);
+        zenyteService.updateZenyte(zenyte);
+        return ResponseEntity.ok(zenyte);
     }
 
     @DeleteMapping("/{username}")
@@ -97,23 +80,14 @@ public class ZenyteController {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
-        if (userDetails.getAuthorities().contains(
-                new SimpleGrantedAuthority("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(
-                        zenyteService.findZenyteByUsername(username).getUsername())) {
-            Profile profile = profileService.findProfileByOwner(
-                    zenyteService.findZenyteByUsername(username));
-            Blog blog = blogService.findBlogByOwner(
-                    zenyteService.findZenyteByUsername(username));
-            Zenyte zenyte = zenyteService.findZenyteByUsername(username);
-            profileService.deleteProfileById(profile.getId());
-            blogService.deleteBlogById(blog.getId());
-            zenyteService.deleteZenyteById(zenyte.getId());
-            return ResponseEntity.noContent().build();
-        }
-        // Return an error or unauthorized response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        Profile profile = profileService.findProfileByOwner(
+                zenyteService.findZenyteByUsername(username));
+        Blog blog = blogService.findBlogByOwner(
+                zenyteService.findZenyteByUsername(username));
+        Zenyte zenyte = zenyteService.findZenyteByUsername(username);
+        profileService.deleteProfileById(profile.getId());
+        blogService.deleteBlogById(blog.getId());
+        zenyteService.deleteZenyteById(zenyte.getId());
+        return ResponseEntity.noContent().build();
     }
 }

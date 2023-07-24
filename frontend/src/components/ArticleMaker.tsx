@@ -118,7 +118,7 @@ const ArticleMaker = () => {
                 </Form>
             </Col>
             {(article.title || article.body || article.coverImage) && (
-                <Col xs={12} className="mt-5">
+                <Col xs={12} className="mt-5 p-0">
                     <ArticleDetail article={article} />
                 </Col>
             )}

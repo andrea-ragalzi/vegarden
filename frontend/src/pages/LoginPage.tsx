@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { readZenyte } from '../actions/zenyteAction';
 import welcomeImage from '../assets/login.jpg';
+import { readZBlog, readZProfile } from '../actions/zenHubAction';
 
 const LoginPage = () => {
     const dispatch = store.dispatch;
@@ -45,8 +46,14 @@ const LoginPage = () => {
             await dispatch(
                 readZenyte(login.session.username, login.session.accessToken));
         }
+        const loadZenHub = async () => {
+            await dispatch(
+                readZProfile(login.session.username, login.session.accessToken));
+            await dispatch(readZBlog(login.session.username, login.session.accessToken));
+        }
         if (login.loggedIn) {
             loadZenyte();
+            loadZenHub();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [login]);
@@ -60,7 +67,7 @@ const LoginPage = () => {
     }, []);
 
     return (
-        <Container fluid className='mt-5 p-3 mb-md-5 mt-md-0'>
+        <Container fluid className='p-3 mb-md-5 mt-md-0'>
             <Row className='mb-3 align-items-md-center vh-100'>
                 <Col xs={{ span: 12, order: 0 }} md={{ span: 6, order: 1 }} className='mt-4 px-5'>
                     <h1 className='text-primary mb-2'>Welcome</h1>
@@ -107,7 +114,9 @@ const LoginPage = () => {
                     </div>
                 </Col>
                 <Col xs={{ span: 12, order: 1 }} md={{ span: 6, order: 0 }}>
+                    <div className='d-flex justify-content-center'>
                     <Image src={welcomeImage} alt="Placeholder" fluid />
+                    </div>
                 </Col>
             </Row>
         </Container>

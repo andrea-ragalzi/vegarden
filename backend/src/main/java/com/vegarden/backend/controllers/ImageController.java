@@ -44,8 +44,7 @@ public class ImageController {
 
         if (resource.exists()) {
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); // Imposta il tipo di contenuto come immagine JPEG, adatta
-                                                          // il tipo in base al formato dell'immagine
+            headers.setContentType(MediaType.IMAGE_JPEG); 
             return ResponseEntity.ok().headers(headers).body(resource);
         } else {
             return ResponseEntity.notFound().build();

@@ -61,11 +61,6 @@ public class BlogController {
         }
         Blog blog = blogService.findBlogByOwner(
                 zenyteService.findZenyteByUsername(username));
-        // Check if the authenticated user has the admin role or if the ID matches the
-        // authenticated user
-        if (userDetails.getAuthorities().stream().anyMatch(
-                role -> role.getAuthority().equals("ROLE_ADMIN")) ||
-                userDetails.getUsername().equals(blog.getOwner().getUsername())) {
             Timestamp now = new Timestamp(System.currentTimeMillis());
             // Check if the updatedBlog contains the title field
             if (updatedBlog.getTitle() != null) {
@@ -78,10 +73,6 @@ public class BlogController {
             blog.setUpdatedAt(now);
             blogService.updateBlog(blog);
             return ResponseEntity.ok(blog);
-        }
-        // Return an error or unauthorized response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
     }
 
 }

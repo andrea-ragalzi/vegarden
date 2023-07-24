@@ -139,7 +139,7 @@ a {
     .search-bar {
         background-color: $success;
         height: 3em;
-        padding: 5px;
+        padding: 6px 10px;
 
         form {
             width: 100%;
@@ -152,6 +152,14 @@ a {
 
         :first-child {
             font-size: 1.2em;
+        }
+
+        a>p {
+            &:hover {
+                font-size: 1.5em;
+                cursor: pointer;
+                color: $black;
+            }
         }
     }
 
@@ -180,7 +188,7 @@ a {
     background-color: $white;
     margin: 1em 0;
     transition: transform 0.3s ease-in-out;
-    height: 32em;
+    height: 35em;
     width: 100%;
     border: 1px solid $secondary;
 
@@ -199,6 +207,8 @@ a {
 
     @include media-breakpoint-up(md) {
         width: 40em;
+
+
     }
 
     @include media-breakpoint-up(lg) {
@@ -402,5 +412,38 @@ a {
 
     @include media-breakpoint-up(md) {
         padding: 0;
+    }
+}
+
+.dropdown {
+    border: none;
+
+    &:hover {
+        cursor: pointer;
+        border: none !important;
+    }
+    .dropdown-menu {
+        margin-top: 0.8em;
+        box-shadow: 0 0 10px $dark !important;
+        backdrop-filter: blur(5px);
+        padding: 1em 0;
+    }
+
+    .dropdown-toggle {
+        border: none !important;
+
+        &::after {
+            content: none;
+        }
+    }
+
+    .dropdown-item {
+        font-weight: bold;
+        color: $black !important;
+        &:hover {
+            font-size: 1.5em;
+            background-color: transparent;
+            
+        }
     }
 }

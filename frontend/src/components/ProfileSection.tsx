@@ -9,12 +9,13 @@ import { Follower } from '../types/followerType';
 import { createFollower, deleteFollower, readFollower } from '../actions/followerAction';
 import { Zenyte } from '../types/zenyteType';
 import classNames from 'classnames';
+import defaultAvatarImage from '../assets/default_avatar.jpeg';
 
 const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: number }) => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
     const currentRoute = useLocation().pathname;
-    const username = useParams().username?.replace(/-/g, '.');
+    const username = useParams().username?.replace(/-/g, '.') as string;
     const [avatarImageURL, setAvatarImageURL] = useState<string | undefined>('');
     const [loading, setLoading] = useState(true);
     const { session } = useSelector((state: RootState) => state.login);
@@ -23,10 +24,13 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
     const [follower, setFollower] = useState<Follower>({ follower: zenyte, followed: zenyte });
     const [zenyted, setZenyted] = useState(false);
     const followerState = useSelector((state: RootState) => state.follower);
+    const isEditProfileRoute = location.pathname === "/edit-profile";
 
     const readZenyted = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/zenytes/${username}`, {
+            let usernameToSearch = '';
+            username === 'me' ? usernameToSearch = session.username : usernameToSearch = username;
+            const response = await fetch(`http://localhost:8080/api/zenytes/${usernameToSearch}`, {
                 headers: {
                     Authorization: `Bearer ${session.accessToken}`
                 }
@@ -92,13 +96,15 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
 
         const loadData = async () => {
             if (profile !== null) {
-                if (profile.avatarImageURL && currentRoute !== '/edit-profile') {
+                if (profile.avatarImageURL) {
                     await fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL));
+                } else {
+                    setAvatarImageURL(defaultAvatarImage);
                 }
             }
-            if (username !== session.username) {
+            if (username !== 'me' && username !== undefined) {
                 readZenyted();
-                await dispatch(readFollower(session.username, username || '', session.accessToken));
+                await dispatch(readFollower(session.username, username, session.accessToken));
             }
         }
         setLoading(true);
@@ -120,8 +126,8 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
             <>
                 <Row className='w-100 justify-content-center align-items-center mt-md-0 profile'>
                     <Col xs={8} className='d-flex flex-column justify-content-between info' /* lg={{ span: 2, order: 0 }} */>
-                        {currentRoute === '/edit-profile' && profile?.avatarImageURL ?
-                            <Image className='avatar' src={profile?.avatarImage ? URL.createObjectURL(profile?.avatarImage) : "https://picsum.photos/120/120"} alt="Avatar"></Image>
+                        {isEditProfileRoute ?
+                            <Image className='avatar' src={profile?.avatarImage ? URL.createObjectURL(profile.avatarImage) : avatarImageURL} alt="Avatar"></Image>
                             :
                             <Image className='avatar' src={avatarImageURL} alt="Avatar"></Image>
                         }
@@ -129,38 +135,61 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
                         <p>@{profile?.owner.username}</p>
                         <p>{profile?.pronouns}</p>
                     </Col>
-                    <Col xs={4} className='d-flex flex-column justify-content-evenly align-items-center numbers' /* lg={{ span: 2, order: 2 }} */>
-                        <p >{blogSize} Article</p>
-                        <p>{profile.followers}  Zenyter</p>
-                        <p>{profile.followeds}  Zenyted</p>
-                        {(username === 'me' || username === session.username) ? (
-                            <Button className={currentRoute === '/edit-profile' ? 'disabled' : 'primary'} onClick={() => navigate('/edit-profile')}>
+                    <Col xs={4} className="d-flex flex-column justify-content-evenly align-items-center numbers">
+                        <p>{blogSize} Article</p>
+                        <p>{profile.followers} Zenyter</p>
+                        <p>{profile.followeds} Zenyted</p>
+                        {isEditProfileRoute ? (
+                            <Button
+                                className={classNames("v-button", { disable: isEditProfileRoute })}
+                                onClick={() => navigate("/edit-profile")}
+                                disabled={isEditProfileRoute}
+                            >
                                 <PencilOutline
-                                    color={'#ffffff'}
+                                    color={"#ffffff"}
                                     height="35px"
-                                    width={'35px'}
-                                    onClick={() => { navigate(`/edit-article`) }}
+                                    width={"35px"}
                                 />
                             </Button>
                         ) : (
-                            (zenyted === true) ? (
-                                <Button className={classNames('v-button', { 'liked': zenyted })} onClick={handleFollower} disabled={loadingFollower}>
-                                    <PersonRemoveOutline
-                                        color={'#ffffff'}
+                            (username === "me" || username === session.username) ? (
+                                <Button
+                                    className={classNames("v-button", { disable: isEditProfileRoute })}
+                                    onClick={() => navigate("/edit-profile")}
+                                    disabled={isEditProfileRoute}
+                                >
+                                    <PencilOutline
+                                        color={"#ffffff"}
                                         height="35px"
-                                        width={'35px'}
-                                        onClick={() => { setZenyted(false) }}
+                                        width={"35px"}
                                     />
                                 </Button>
                             ) : (
-                                <Button className={classNames('v-button', { 'liked': zenyted })} onClick={handleFollower} disabled={loadingFollower}>
-                                    <PersonAddOutline
-                                        color={'#ffffff'}
-                                        height="35px"
-                                        width={'35px'}
-                                        onClick={() => { setZenyted(true) }}
-                                    />
-                                </Button>
+                                zenyted ? (
+                                    <Button
+                                        className={classNames("v-button", { liked: zenyted })}
+                                        onClick={handleFollower}
+                                        disabled={loadingFollower}
+                                    >
+                                        <PersonRemoveOutline
+                                            color={"#ffffff"}
+                                            height="35px"
+                                            width={"35px"}
+                                        />
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        className={classNames("v-button", { liked: zenyted })}
+                                        onClick={handleFollower}
+                                        disabled={loadingFollower}
+                                    >
+                                        <PersonAddOutline
+                                            color={"#ffffff"}
+                                            height="35px"
+                                            width={"35px"}
+                                        />
+                                    </Button>
+                                )
                             )
                         )}
                     </Col>

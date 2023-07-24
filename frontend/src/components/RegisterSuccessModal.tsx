@@ -15,8 +15,8 @@ const RegisterSuccessModal = ({ show }: SuccessModalProps) => {
                 Now you are a Zenyte!
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='secondary'>
-                    <Link to="/">Go to Login</Link>
+                <Button variant='primary'>
+                    <Link className='text-white' to="/">Go to Login</Link>
                 </Button>
             </Modal.Footer>
         </Modal>

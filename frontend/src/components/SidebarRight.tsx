@@ -22,20 +22,39 @@ const SidebarRight = () => {
         );
         setSearchResults(results || []);
         setIsSearching(searchTerm.length > 0);
-        console.log(results);
     };
+
+    useEffect(() => {
+        const hashCode = (str: string) => {
+            let hash = 0;
+            if (str.length === 0) {
+                return hash;
+            }
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash |= 0;
+            }
+            return hash;
+        };
+        const randomSort = (array: Zenyte[]) => {
+            const seed = hashCode(session.username); // custom order for the user
+            const sortedArray = [...array];
+            const slicedArray = sortedArray.sort(() => seed - Math.random()).slice(0, 10);
+            return slicedArray;
+        };
+
+        setSuggested(randomSort(allZenytes || []));
+    }, [allZenytes]);
 
     useEffect(() => {
         const loadData = async () => {
             await dispatch(readAllZenytes(session.accessToken));
         };
-        const randomSort = (array: Zenyte[]) => {
-            const seed = session.username.length;
-            return array.sort(() => seed - Math.random());
-        };
         loadData();
-        setSuggested(randomSort(allZenytes || []));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
 
     return (
         <>

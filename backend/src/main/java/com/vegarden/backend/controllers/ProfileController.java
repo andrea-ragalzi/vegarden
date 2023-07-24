@@ -68,11 +68,11 @@ public class ProfileController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Profile> updateProfile(
             @PathVariable String username,
-            @RequestPart("firstname") String firstname,
-            @RequestPart("lastname") String lastname,
-            @RequestPart("pronouns") String pronouns,
-            @RequestPart("bio") String bio,
-            @RequestPart("location") String location,
+            @RequestPart(value = "firstname", required = false) String firstname,
+            @RequestPart(value = "lastname", required = false) String lastname,
+            @RequestPart(value = "pronouns", required = false) String pronouns,
+            @RequestPart(value = "bio", required = false) String bio,
+            @RequestPart(value = "location", required = false) String location,
             @RequestParam(value = "avatarImage", required = false) MultipartFile avatarImage,
             @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
@@ -98,11 +98,21 @@ public class ProfileController {
                             StandardCopyOption.REPLACE_EXISTING);
                     profile.setAvatarImageURL(avatarImageFilePath);
                 }
-
-                profile.setFirstname(firstname);
-                profile.setLastname(lastname);
-                profile.setPronouns(pronouns);
-                profile.setBio(bio);
+                if(firstname != null) {
+                    profile.setFirstname(firstname);
+                }
+                if(lastname != null) {
+                    profile.setLastname(lastname);
+                }
+                if(pronouns != null) {
+                    profile.setPronouns(pronouns);
+                }
+                if(bio != null) {
+                    profile.setBio(bio);
+                }
+                if(location != null) {
+                    profile.setLocation(location);
+                }
                 profile.setLocation(location);
                 profile.setUpdatedAt(now);
                 profileService.updateProfile(profile);

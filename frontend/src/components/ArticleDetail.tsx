@@ -13,6 +13,7 @@ import { addArticleSaved, deleteArticleSaved, getArticleSaved } from "../actions
 import { ArticleSaved } from "../types/articleSavedType";
 import { deleteArticle } from "../actions/articleAction";
 import defaultCoverImage from '../assets/default_cover.png';
+import { readZSavedArticles } from "../actions/zenHubAction";
 
 
 const ArticleDetail = ({ article }: { article: Article }) => {
@@ -29,11 +30,13 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     const [loadingLike, setLoadingLike] = useState(false);
     const [loadingSave, setLoadingSave] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { savedArticles }: { savedArticles: Article[] } = useSelector((state: RootState) => state.zenHub);
 
     const articleReaction: ArticleReaction = {
         article: article,
         author: zenyte
     }
+
     const articleSaved: ArticleSaved = {
         article: article,
         author: zenyte
@@ -55,12 +58,12 @@ const ArticleDetail = ({ article }: { article: Article }) => {
 
     const handleReaction = async () => {
         setLoadingLike(true);
-        if (liked) {
-            await dispatch(deleteArticleReaction(articleReaction, session.accessToken));
-            setLiked(false);
+        if (savedArticles.some(savedArticle => savedArticle.id === article.id)) {
+            await dispatch(deleteArticleSaved(articleSaved, session.accessToken));
+            setSaved(false);
         } else {
-            await dispatch(addArticleReaction(articleReaction, session.accessToken));
-            setLiked(true);
+            await dispatch(addArticleSaved(articleSaved, session.accessToken));
+            setSaved(true);
         }
         await dispatch(getArticleReaction(articleReaction, session.accessToken));
         setLoadingLike(false);
@@ -76,6 +79,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
             setSaved(true);
         }
         await dispatch(getArticleSaved(articleSaved, session.accessToken));
+        await dispatch(readZSavedArticles(session.username, session.accessToken));
         setLoadingSave(false);
     }
 
@@ -108,15 +112,6 @@ const ArticleDetail = ({ article }: { article: Article }) => {
         loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-        setLiked(articleReactionState.exists ? articleReactionState.exists : false);
-    }, [articleReactionState.exists]);
-
-    useEffect(() => {
-        setSaved(articleSavedState.exists ? articleSavedState.exists : false);
-    }, [articleSavedState.exists]);
-
 
     return (
         <>
@@ -157,7 +152,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                 </Col>
 
                 {article?.coverImage && (currentRoute === "/article-create" || currentRoute === "/edit-article") ? (
-                    <Col>
+                    <Col className="d-flex justify-content-center">
                         <Image
                             className="cover"
                             src={URL.createObjectURL(article.coverImage)}

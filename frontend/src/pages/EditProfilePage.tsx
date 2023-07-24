@@ -19,7 +19,6 @@ import EditProfile from '../components/EditProfile';
 const EditProfilePage = () => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
-    const username = useParams().username?.replace(/-/g, '.');
     const { session, loggedIn } = useSelector((state: RootState) => state.login);
     const { profile, blog, savedArticles }: { profile: Profile, blog: Blog, savedArticles: Article[] } = useSelector((state: RootState) => state.zenHub);
     const [showMyblog, setShowMyblog] = useState(true);
@@ -37,41 +36,15 @@ const EditProfilePage = () => {
 
     useEffect(() => {
         const loadData = async () => {
-            if (username === 'me') {
-                await dispatch(readZProfile(session.username, session.accessToken));
-                await dispatch(readZBlog(session.username, session.accessToken));
-                await dispatch(readZSavedArticles(session.username, session.accessToken));
-            }
-            else {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                await dispatch(readZProfile(username!, session.accessToken));
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                await dispatch(readZBlog(username!, session.accessToken));
-            }
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            await dispatch(readZProfile(session.username!, session.accessToken));
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            await dispatch(readZBlog(session.username!, session.accessToken));
         }
         setLoadingPage(true);
         loadData();
         setShowMyblog(true);
-        setLoadingPage(false);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [username]);
-
-    useEffect(() => {
-        const loadData = async () => {
-            if (username === 'me') {
-                await dispatch(readZProfile(session.username, session.accessToken));
-                await dispatch(readZBlog(session.username, session.accessToken));
-                await dispatch(readZSavedArticles(session.username, session.accessToken));
-            }
-            else {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                await dispatch(readZProfile(username!, session.accessToken));
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                await dispatch(readZBlog(username!, session.accessToken));
-            }
-        }
-        setLoadingPage(true);
-        loadData();
         setLoadingPage(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

@@ -48,7 +48,7 @@ const EditArticle = () => {
             <Col xs={12} className='mt-5 px-5'>
                 <h1 className="mb-3 text-center text-secondary">Edit Article</h1>
                 <Form onSubmit={handleSubmit} className="text-center text-dark">
-                    <Form.Group controlId="fofrmTitle" className="mb-2">
+                    <Form.Group controlId="formTitle" className="mb-2">
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                             as="textarea"

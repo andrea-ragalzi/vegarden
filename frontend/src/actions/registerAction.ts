@@ -27,7 +27,7 @@ export const registerReset = (): RegisterAction => ({
     error: null
 })
 
-const registerFecth = (zenyteData: { username: string, email: string, password: string, firstname: string, lastname: string}) => {
+export const registerFecth = (zenyteData: { username: string, email: string, password: string, firstname: string, lastname: string}) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(registerRequest());
         try {
@@ -53,6 +53,4 @@ const registerFecth = (zenyteData: { username: string, email: string, password: 
         }
     };
 };
-
-export default registerFecth;
 
