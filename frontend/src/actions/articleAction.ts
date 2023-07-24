@@ -85,6 +85,20 @@ const getTrendArticlesFailure = (error: string): ArticleAction => ({
     error: error
 });
 
+const getFollowedArticlesRequest = (): ArticleAction => ({
+    type: ArticleActionType.GET_FOLLOWED_ARTICLES_REQUEST
+});
+
+const getFollowedArticlesSuccess = (articles: Article[]): ArticleAction => ({
+    type: ArticleActionType.GET_FOLLOWED_ARTICLES_SUCCESS,
+    payload: articles
+});
+
+const getFollowedArticlesFailure = (error: string): ArticleAction => ({
+    type: ArticleActionType.GET_FOLLOWED_ARTICLES_FAILURE,
+    error: error
+});
+
 export const readArticle = (id: string, token: string) => {
     return async (dispatch: Dispatch<AnyAction>) => {
         dispatch(getArticleRequest());
@@ -228,6 +242,33 @@ export const readTrendArticles = (token: string) => {
             } else {
                 dispatch(getTrendArticlesFailure(
                     "An unknown error occurred while reading the tren articles."));
+            }
+        }
+    }
+}
+
+export const readFollowedArticles = (username: string, token: string) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
+        dispatch(getFollowedArticlesRequest());
+        try {
+            const response = await fetch(`http://localhost:8080/api/articles/followed/${username}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(getFollowedArticlesSuccess(data));
+                return data;
+            } else {
+                throw new Error("Failed reading the followed articles");
+            }
+        } catch (error: unknown | Error) {
+            if (error instanceof Error) {
+                dispatch(getFollowedArticlesFailure(error.message));
+            } else {
+                dispatch(getFollowedArticlesFailure(
+                    "An unknown error occurred while reading the followed articles."));
             }
         }
     }

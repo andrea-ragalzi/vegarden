@@ -49,10 +49,6 @@ const ArticlePreview = ({ article }: { article: Article }) => {
         setLoadingSave(false);
     };
 
-    /*     useEffect(() => {
-            setSaved(articleSavedState.exists ? articleSavedState.exists : false);
-        }, [articleSavedState.exists]); */
-
     const getFileNameFromBlobURL = (blobURL: string) => {
         const splitURL = blobURL.split('/');
         return splitURL[splitURL.length - 1];

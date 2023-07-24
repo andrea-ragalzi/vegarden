@@ -10,6 +10,7 @@ import { createFollower, deleteFollower, readFollower } from '../actions/followe
 import { Zenyte } from '../types/zenyteType';
 import classNames from 'classnames';
 import defaultAvatarImage from '../assets/default_avatar.jpeg';
+import { readFollowedArticles } from '../actions/articleAction';
 
 const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: number }) => {
     const dispatch = store.dispatch;
@@ -60,6 +61,7 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
             setZenyted(true);
         }
         await dispatch(readFollower(session.username, username || '', session.accessToken));
+        await dispatch(readFollowedArticles(session.username, session.accessToken));
         setLoadingFollower(false);
     }
 

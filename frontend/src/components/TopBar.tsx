@@ -1,9 +1,9 @@
-import { Row, Col, Button, Dropdown } from 'react-bootstrap';
-import { PersonCircleOutline, FilterOutline, NotificationsOutline, MenuOutline, FunnelOutline } from 'react-ionicons';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Row, Col, Dropdown } from 'react-bootstrap';
+import {  NotificationsOutline, MenuOutline, FunnelOutline } from 'react-ionicons';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const TopBar = () => {
-    const isZenHub = useLocation().pathname.includes('/zenhub');
+    const isZenHub = useLocation().pathname.includes('/zenhub/me');
     const navigate = useNavigate();
 
     return (

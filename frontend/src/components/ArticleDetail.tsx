@@ -1,11 +1,11 @@
 import { Col, Row, Image, Button, Spinner, Modal } from "react-bootstrap";
 import { Article } from "../types/articleType";
 import { BookmarkOutline, ChatbubblesOutline, FlowerOutline, PencilOutline, RoseOutline, ShareSocialOutline, TrashOutline } from "react-ionicons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, store } from "../store/store";
-import { addArticleReaction, deleteArticleReaction, getArticleReaction } from "../actions/articleReactionAction";
+import {  addArticleReaction, deleteArticleReaction, getArticleReaction } from "../actions/articleReactionAction";
 import { ArticleReaction } from "../types/articleReactionType";
 import { Zenyte } from "../types/zenyteType";
 import classNames from 'classnames';
@@ -23,14 +23,12 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     const currentRoute = useLocation().pathname;
     const [coverImageURL, setCoverImageURL] = useState<string | undefined>(undefined);
     const zenyte = useSelector((state: RootState) => state.zenyte.zenyte) as Zenyte;
-    const articleReactionState = useSelector((state: RootState) => state.articleReaction);
-    const articleSavedState = useSelector((state: RootState) => state.articleSaved);
     const [liked, setLiked] = useState(false);
     const [saved, setSaved] = useState(false);
     const [loadingLike, setLoadingLike] = useState(false);
     const [loadingSave, setLoadingSave] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const { savedArticles }: { savedArticles: Article[] } = useSelector((state: RootState) => state.zenHub);
+    const articleReactionState = useSelector((state: RootState) => state.articleReaction);
 
     const articleReaction: ArticleReaction = {
         article: article,
@@ -58,12 +56,12 @@ const ArticleDetail = ({ article }: { article: Article }) => {
 
     const handleReaction = async () => {
         setLoadingLike(true);
-        if (savedArticles.some(savedArticle => savedArticle.id === article.id)) {
-            await dispatch(deleteArticleSaved(articleSaved, session.accessToken));
-            setSaved(false);
+        if (liked) {
+            await dispatch(deleteArticleReaction(articleSaved, session.accessToken));
+            setLiked(false);
         } else {
-            await dispatch(addArticleSaved(articleSaved, session.accessToken));
-            setSaved(true);
+            await dispatch(addArticleReaction(articleSaved, session.accessToken));
+            setLiked(true);
         }
         await dispatch(getArticleReaction(articleReaction, session.accessToken));
         setLoadingLike(false);
@@ -95,6 +93,10 @@ const ArticleDetail = ({ article }: { article: Article }) => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        setLiked(articleReactionState.exists ? true : false);
+    }, [articleReactionState.exists]);
 
     useEffect(() => {
         const getFileNameFromBlobURL = (blobURL: string) => {

@@ -69,4 +69,8 @@ public class ArticleService {
         return articleRepository.findAllOrderByReactions();
     }
 
+    public List<Article> findArticlesByFolloweds(Long followerId) {
+        return articleRepository.findArticlesByFolloweds(followerId);
+    }
+
 }

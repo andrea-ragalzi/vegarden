@@ -115,7 +115,7 @@ public class ArticleController {
         }
     }
 
-    @PutMapping(value="/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Article> putArticle(
             @PathVariable Long id,
@@ -177,6 +177,30 @@ public class ArticleController {
             List<Article> articles = articleService.findAllOrderByReactions();
             return ResponseEntity.ok(articles);
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+    }
+
+    @GetMapping("/followed/{username}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Article>> getFollowedArticles(
+            @PathVariable String username,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+            List<Article> articles = articleService.findArticlesByFolloweds(
+                    zenyteService.findZenyteByUsername(username).getId());
+            System.out.println(articles);
+            return ResponseEntity.ok(articles);
+        } catch (Exception e) {
+            System.out.println();
+            System.out.println();
+            System.out.println(e);
+            System.out.println();
+            System.out.println();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 

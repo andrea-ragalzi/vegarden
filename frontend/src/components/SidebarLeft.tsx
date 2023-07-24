@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 const SidebarLeft = () => {
     const navigate = useNavigate();
-    const isZenHub = useLocation().pathname.includes('/zenhub');
+    const isZenHub = useLocation().pathname.includes('/zenhub/me');
 
     return (
         <Row className='row-cols-1 d-none d-md-block vh-100 side-bar-left'>

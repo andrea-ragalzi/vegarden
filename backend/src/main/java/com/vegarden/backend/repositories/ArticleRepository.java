@@ -18,7 +18,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a ORDER BY a.reactions DESC")
     List<Article> findAllOrderByReactions();
 
-    /* @Query("SELECT a FROM Article a JOIN a.author.followers f WHERE f.id = :followerId")
-    List<Article> findArticlesByFolloweds(@Param("followerId") Long followerId); */
+    @Query("SELECT a FROM Article a JOIN Follower f ON a.author.id = f.followed.id WHERE f.follower.id = :followerId")
+    List<Article> findArticlesByFolloweds(@Param("followerId") Long followerId);
 
 }

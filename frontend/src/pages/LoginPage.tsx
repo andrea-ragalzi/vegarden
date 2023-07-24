@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { readZenyte } from '../actions/zenyteAction';
 import welcomeImage from '../assets/login.jpg';
 import { readZBlog, readZProfile } from '../actions/zenHubAction';
+import { readFollowedArticles, readTrendArticles } from '../actions/articleAction';
 
 const LoginPage = () => {
     const dispatch = store.dispatch;
@@ -45,6 +46,8 @@ const LoginPage = () => {
         const loadZenyte = async () => {
             await dispatch(
                 readZenyte(login.session.username, login.session.accessToken));
+            await dispatch(readTrendArticles(login.session.accessToken));
+            await dispatch(readFollowedArticles(login.session.username, login.session.accessToken));
         }
         const loadZenHub = async () => {
             await dispatch(
@@ -115,7 +118,7 @@ const LoginPage = () => {
                 </Col>
                 <Col xs={{ span: 12, order: 1 }} md={{ span: 6, order: 0 }}>
                     <div className='d-flex justify-content-center'>
-                    <Image src={welcomeImage} alt="Placeholder" fluid />
+                        <Image src={welcomeImage} alt="Placeholder" fluid />
                     </div>
                 </Col>
             </Row>
