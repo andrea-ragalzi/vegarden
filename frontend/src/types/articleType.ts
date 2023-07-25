@@ -1,4 +1,5 @@
 import { Blog } from "./blogType";
+import { Category } from "./categoryType";
 import { Zenyte } from "./zenyteType";
 
 export enum ArticleActionType {
@@ -36,8 +37,8 @@ export interface Article {
     coverImageURL?: string | null;
     description?: string;
     body: string;
-    bodyHtml?: string;
-    createdAt: string;
+    category: Category;
+    createdAt?: string;
     updatedAt?: string;
     blog: Blog;
     author: Zenyte;

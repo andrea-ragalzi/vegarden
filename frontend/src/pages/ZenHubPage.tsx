@@ -33,18 +33,20 @@ const ZenHubPage = () => {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             await dispatch(readZBlog(username!, session.accessToken));
         }
-        if(username !== 'me' && username !== session.username) {
+        if (username !== 'me' && username !== session.username) {
             setShowMyblog(true);
             loadData();
             setShowMyblog(true);
             setLoadingPage(false);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [follower.exists]);
 
     useEffect(() => {
         if (showMyblog) {
-            setArticles(blog?.articles || []);
+            const reversedArticles = (blog?.articles || []).slice().reverse();
+            setArticles(reversedArticles);
+
         } else {
             setArticles(savedArticles || []);
         }

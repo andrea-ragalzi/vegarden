@@ -22,8 +22,8 @@ public interface ArticleSavedRepository extends JpaRepository<ArticleSaved, Long
     @Transactional
     void deleteByArticleAndAuthor(Article article, Zenyte author);
 
-    @Query("SELECT a FROM Article a JOIN ArticleSaved asv ON a.id = asv.article.id WHERE asv.author = :author")
-    List<Article> findSavedArticlesByAuthorOrderByCreatedAtAsc(@Param("author") Zenyte author);
+    @Query("SELECT a FROM Article a JOIN ArticleSaved asv ON a.id = asv.article.id WHERE asv.author = :author ORDER BY a.createdAt DESC")
+    List<Article> findSavedArticlesByAuthorOrderByCreatedAtDesc(@Param("author") Zenyte author);
 
     @Modifying
     @Query("DELETE FROM ArticleSaved asv WHERE asv.article.id = :articleId")

@@ -14,6 +14,7 @@ import { ArticleSaved } from '../types/articleSavedType';
 import { Zenyte } from '../types/zenyteType';
 import classNames from 'classnames';
 import { readZSavedArticles } from '../actions/zenHubAction';
+import defaultAvatarImage from '../assets/default_avatar.jpeg';
 
 
 const ArticlePreview = ({ article }: { article: Article }) => {
@@ -50,9 +51,13 @@ const ArticlePreview = ({ article }: { article: Article }) => {
     };
 
     const getFileNameFromBlobURL = (blobURL: string) => {
-        const splitURL = blobURL.split('/');
-        return splitURL[splitURL.length - 1];
+        if (blobURL) {
+            const splitURL = blobURL.split('/');
+            return splitURL[splitURL.length - 1];
+        }
+        return '';
     };
+
 
     const fetchCoverImage = async (filename: string) => {
         try {
@@ -107,7 +112,12 @@ const ArticlePreview = ({ article }: { article: Article }) => {
     useEffect(() => {
         if (profile?.owner.username === article.author.username) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL!));
+            if(profile?.avatarImageURL) {
+                fetchAvatarImage(getFileNameFromBlobURL(profile.avatarImageURL));
+            }
+            else {
+                setAvatarImageURL(defaultAvatarImage);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profile]);

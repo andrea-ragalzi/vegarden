@@ -7,6 +7,7 @@ import { Article } from "../types/articleType";
 import { useNavigate } from "react-router-dom";
 import { readBlog } from "../actions/blogAction";
 import ArticleDetail from "./ArticleDetail";
+import { Category } from "../types/categoryType";
 
 const ArticleMaker = () => {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ const ArticleMaker = () => {
     const [description, setDescription] = useState("");
     const [body, setBody] = useState("");
     const [coverImage, setCoverImage] = useState<File | null>(null);
+    const [category, setCategory] = useState<Category>(Category.OTHER)
     const { zenyte } = useSelector((state: RootState) => state.zenyte);
     const { session } = useSelector((state: RootState) => state.login);
     const blog = useSelector((state: RootState) => state.blog.blog);
@@ -25,7 +27,7 @@ const ArticleMaker = () => {
         coverImage: coverImage,
         description: description,
         body: body,
-        createdAt: '',
+        category: Category.OTHER,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         blog: blog!,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -33,10 +35,15 @@ const ArticleMaker = () => {
         collaborators: []
     };
 
+    const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setCategory(e.target.value as Category);
+    };
+
     useEffect(() => {
         formData.append("title", title);
         formData.append("description", description);
         formData.append("body", body);
+        formData.append("category", category);
         if (coverImage) {
             formData.append("coverImage", coverImage);
         }
@@ -110,6 +117,53 @@ const ArticleMaker = () => {
                             onChange={(e) => setBody(e.target.value)}
                             className="my-input"
                         />
+                    </Form.Group>
+
+                    <Form.Group controlId="formCategory" className="mb-2">
+                        <Form.Label>Category</Form.Label>
+                        <div className="d-flex justify-content-evenly align-items-center">
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryScience"
+                                name="category"
+                                value={Category.ENVIRONMENT}
+                                checked={category === Category.ENVIRONMENT}
+                                onChange={handleCategoryChange}
+                                label="Environment"
+                            />
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryEthics"
+                                name="category"
+                                value={Category.ETHICS}
+                                checked={category === Category.ETHICS}
+                                onChange={handleCategoryChange}
+                                label="Ethics"
+                            />
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryHealthWellness"
+                                name="category"
+                                value={Category.HEALTH_WELLNESS}
+                                checked={category === Category.HEALTH_WELLNESS}
+                                onChange={handleCategoryChange}
+                                label="Health & Wellness"
+                            />
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryOther"
+                                name="category"
+                                value={Category.OTHER}
+                                checked={category === Category.OTHER}
+                                onChange={handleCategoryChange}
+                                label="Other"
+                            />
+
+                        </div>
                     </Form.Group>
 
                     <Button variant="secondary" size="lg" type="submit" className="w-100">

@@ -1,11 +1,11 @@
 import { Col, Row, Image, Button, Spinner, Modal } from "react-bootstrap";
 import { Article } from "../types/articleType";
 import { BookmarkOutline, ChatbubblesOutline, FlowerOutline, PencilOutline, RoseOutline, ShareSocialOutline, TrashOutline } from "react-ionicons";
-import { useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, store } from "../store/store";
-import {  addArticleReaction, deleteArticleReaction, getArticleReaction } from "../actions/articleReactionAction";
+import { addArticleReaction, deleteArticleReaction, getArticleReaction } from "../actions/articleReactionAction";
 import { ArticleReaction } from "../types/articleReactionType";
 import { Zenyte } from "../types/zenyteType";
 import classNames from 'classnames';
@@ -14,6 +14,7 @@ import { ArticleSaved } from "../types/articleSavedType";
 import { deleteArticle } from "../actions/articleAction";
 import defaultCoverImage from '../assets/default_cover.png';
 import { readZSavedArticles } from "../actions/zenHubAction";
+import { format } from 'date-fns';
 
 
 const ArticleDetail = ({ article }: { article: Article }) => {
@@ -29,6 +30,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     const [loadingSave, setLoadingSave] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const articleReactionState = useSelector((state: RootState) => state.articleReaction);
+    const { savedArticles }: { savedArticles: Article[] } = useSelector((state: RootState) => state.zenHub);
 
     const articleReaction: ArticleReaction = {
         article: article,
@@ -38,6 +40,11 @@ const ArticleDetail = ({ article }: { article: Article }) => {
     const articleSaved: ArticleSaved = {
         article: article,
         author: zenyte
+    }
+
+    const formatDateTime = (inputDateTime: string) => {
+        const formattedDateTime = format(new Date(inputDateTime), 'yyyy-MM-dd HH:mm:ss');
+        return formattedDateTime;
     }
 
     const handleDelete = () => {
@@ -67,9 +74,11 @@ const ArticleDetail = ({ article }: { article: Article }) => {
         setLoadingLike(false);
     }
 
-    const handleSave = async () => {
+    const handleSave: MouseEventHandler<HTMLButtonElement> = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         setLoadingSave(true);
-        if (saved) {
+        if (savedArticles.some(savedArticle => savedArticle.id === article.id)) {
             await dispatch(deleteArticleSaved(articleSaved, session.accessToken));
             setSaved(false);
         } else {
@@ -79,7 +88,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
         await dispatch(getArticleSaved(articleSaved, session.accessToken));
         await dispatch(readZSavedArticles(session.username, session.accessToken));
         setLoadingSave(false);
-    }
+    };
 
     const fetchCoverImage = async (filename: string) => {
         try {
@@ -109,7 +118,9 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                 await fetchCoverImage(getFileNameFromBlobURL(article.coverImageURL));
             }
             await dispatch(getArticleReaction(articleReaction, session.accessToken));
-            await dispatch(getArticleSaved(articleSaved, session.accessToken));
+            if (savedArticles.some(savedArticle => savedArticle.id === article.id)) {
+                setSaved(true);
+            }
         };
         loadData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,7 +161,11 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                 </Col>
 
                 <Col className="mb-1 text-center">
-                    <small>{article?.createdAt}</small>
+                    {
+                        article?.createdAt && (
+                            <p>{formatDateTime(article?.createdAt)}</p>
+                        )
+                    }
                 </Col>
 
                 {article?.coverImage && (currentRoute === "/article-create" || currentRoute === "/edit-article") ? (
@@ -169,16 +184,15 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                                 src={coverImageURL}
                                 alt={article.title}
                             />
-                        ) : (
+                        ) :
                             <Image
                                 className="cover"
                                 src={defaultCoverImage}
                                 alt={article.title}
                             />
-                        )}
+                        }
                     </Col>
-                )
-                }
+                )}
                 <Col className="px-5">
                     <p className="body">{article?.body}</p>
                 </Col>
@@ -186,7 +200,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                     <p>{article?.collaborators.map((collaborator) => collaborator.username).join(", ")}</p>
                 </Col>
             </Row>
-            {currentRoute !== "/article-create" && (
+            {currentRoute !== "/article-create" && currentRoute !== "/edit-article" && (
                 <Row className="justify-content-evenly mx-1 mb-5">
                     <Col className='d-flex justify-content-center'>
                         <Button className={classNames('reaction', { 'liked': liked })} disabled={loadingLike} onClick={handleReaction}>

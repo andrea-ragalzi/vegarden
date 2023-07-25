@@ -104,18 +104,18 @@ const SidebarRight = () => {
                     </Col>
                 )}
                 <Col className="right-element footer">
-                    <Row className="mb-4">
-                        <Col className="d-flex flex-column">
+                    <Row className="my-2">
+                        <Col className="d-flex flex-column justify-content-center align-items-center">
                             <p>About</p>
                             <p>Help</p>
                         </Col>
-                        <Col className="d-flex flex-column">
+                        <Col className="d-flex flex-column justify-content-center align-items-center">
                             <p>Privacy</p>
-                            <p> Terms</p>
+                            <p>Terms</p>
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="d-flex flex-column">
+                        <Col className="d-flex flex-column justify-content-center align-items-center">
                             <p>© 2023 Vegarden</p>
                         </Col>
                     </Row>

@@ -15,7 +15,6 @@ import { readFollowedArticles } from '../actions/articleAction';
 const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: number }) => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
-    const currentRoute = useLocation().pathname;
     const username = useParams().username?.replace(/-/g, '.') as string;
     const [avatarImageURL, setAvatarImageURL] = useState<string | undefined>('');
     const [loading, setLoading] = useState(true);
@@ -127,17 +126,17 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
         return (
             <>
                 <Row className='w-100 justify-content-center align-items-center mt-md-0 profile'>
-                    <Col xs={8} className='d-flex flex-column justify-content-between info' /* lg={{ span: 2, order: 0 }} */>
+                    <Col xs={8} xxl={{ span: 3, order: 0 }} className='d-flex flex-column justify-content-between align-items-start info' /* lg={{ span: 2, order: 0 }} */>
                         {isEditProfileRoute ?
                             <Image className='avatar' src={profile?.avatarImage ? URL.createObjectURL(profile.avatarImage) : avatarImageURL} alt="Avatar"></Image>
                             :
                             <Image className='avatar' src={avatarImageURL} alt="Avatar"></Image>
                         }
-                        <p>{profile?.firstname + ' ' + profile?.lastname}</p>
-                        <p>@{profile?.owner.username}</p>
-                        <p>{profile?.pronouns}</p>
+                        <p className='m-0'>{profile?.firstname + ' ' + profile?.lastname}</p>
+                        <p className='m-0'>@{profile?.owner.username}</p>
+                        <p className='m-0'>{profile?.pronouns}</p>
                     </Col>
-                    <Col xs={4} className="d-flex flex-column justify-content-evenly align-items-center numbers">
+                    <Col xs={4} xxl={{ span: 3, order: 2 }} className="d-flex flex-column justify-content-evenly align-items-center numbers">
                         <p>{blogSize} Article</p>
                         <p>{profile.followers} Zenyter</p>
                         <p>{profile.followeds} Zenyted</p>
@@ -195,7 +194,7 @@ const ProfileSection = ({ profile, blogSize }: { profile: Profile, blogSize: num
                             )
                         )}
                     </Col>
-                    <Col xs={12} className='bio' /* lg={{ span: 8, order: 1 }} */>
+                    <Col xs={12} className='bio' xxl={{ span: 6, order: 1 }} >
                         <p>{profile?.bio}</p>
                     </Col>
                 </Row>

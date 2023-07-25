@@ -12,6 +12,7 @@ import articleReactionReducer from "../reducers/articleReactionReducer";
 import articleSavedReducer from "../reducers/articleSavedReducer";
 import zenHubReducer from "../reducers/zenHubReducer";
 import followerReducer from "../reducers/followerReducer.ts";
+import categoryReducer from "../reducers/categoryReducer.ts";
 
 const rootReducer = combineReducers({
   login: loginReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   articleReaction: articleReactionReducer,
   articleSaved: articleSavedReducer,
   zenHub: zenHubReducer,
-  follower: followerReducer
+  follower: followerReducer,
+  category: categoryReducer
 });
 
 const RESET_STORE = "RESET_STORE";

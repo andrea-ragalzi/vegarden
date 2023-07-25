@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.vegarden.backend.models.Article;
@@ -58,11 +59,12 @@ public class ArticleService {
     }
 
     public List<Article> findArticlesByBlog(Blog blog) {
-        return articleRepository.findByBlog(blog);
+        List<Article> articles = articleRepository.findByBlog(blog, Sort.by("createdAt").descending());
+        return articles;
     }
 
     public List<Article> getTrendArticles() {
-        return articleRepository.findAllByOrderByIdDesc();
+        return articleRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public List<Article> findAllOrderByReactions() {

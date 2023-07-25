@@ -14,7 +14,9 @@ const Feed = ({ articles }: { articles: Article[] }) => {
                         </Col>
                     ))
                 ) : (
-                    <Col className="text-center">There is nothing blooming here</Col>
+                    <Col className="text-dark text-center mt-5">
+                        <h1 className="text-secondary">There is nothing blooming here</h1>
+                    </Col>
                 )}
             </Row>
         </>

@@ -36,13 +36,6 @@ const LoginPage = () => {
     };
 
     useEffect(() => {
-        if (zenyte.zenyte?.id) {
-            navigate('/home');
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [zenyte]);
-
-    useEffect(() => {
         const loadZenyte = async () => {
             await dispatch(
                 readZenyte(login.session.username, login.session.accessToken));
@@ -57,6 +50,7 @@ const LoginPage = () => {
         if (login.loggedIn) {
             loadZenyte();
             loadZenHub();
+            navigate('/home')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [login]);
@@ -73,8 +67,8 @@ const LoginPage = () => {
         <Container fluid className='p-3 mb-md-5 mt-md-0'>
             <Row className='mb-3 align-items-md-center vh-100'>
                 <Col xs={{ span: 12, order: 0 }} md={{ span: 6, order: 1 }} className='mt-4 px-5'>
-                    <h1 className='text-primary mb-2'>Welcome</h1>
-                    <h2 className='text-secondary small mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem ut dicta sequi omnis sint, impedit voluptatum aspernatur nobis officiis corporis placeat laboriosam nisi dolorum optio veritatis explicabo aperiam eius in?</h2>
+                    <h1 className='text-primary mb-2 display-1'>Vegarden</h1>
+                    <h1 className='text-secondary small mb-3 display-6'>Join Vegarden, the Vegan-Themed Social Blogging Network.</h1>
                     {login.loading ? (
                         <div>
                             <Spinner variant='primary' animation='border' />

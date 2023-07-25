@@ -1,7 +1,6 @@
 import { useState, FormEvent, useEffect } from "react";
 import { Button, Form, Spinner } from "react-bootstrap"
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom"
 import { registerFecth, registerReset } from "../actions/registerAction";
 import { store, RootState } from "../store/store";
 import RegisterErrorModal from "./RegisterErrorModal";

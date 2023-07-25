@@ -3,6 +3,7 @@ package com.vegarden.backend.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vegarden.backend.enumerates.Category;
 import com.vegarden.backend.models.Article;
 import com.vegarden.backend.models.Blog;
 import com.vegarden.backend.models.Zenyte;
@@ -85,6 +86,7 @@ public class ArticleController {
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart("body") String body,
+            @RequestPart("category") String category,
             @RequestPart(value = "coverImage", required = false) MultipartFile coverImage,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
@@ -106,11 +108,17 @@ public class ArticleController {
             article.setDescription(description);
             article.setBody(body);
             article.setBlog(blog);
+            article.setCategory(Category.valueOf(category));
             article.setAuthor(blog.getOwner());
             article.setCreatedAt(now);
             articleService.saveArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(article);
         } catch (IOException e) {
+            System.out.println();
+            System.out.println();
+            System.out.println(e);
+            System.out.println();
+            System.out.println();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -122,6 +130,7 @@ public class ArticleController {
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart("body") String body,
+            @RequestPart("category") String category,
             @RequestPart(value = "coverImage", required = false) MultipartFile coverImage,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
@@ -143,11 +152,16 @@ public class ArticleController {
             article.setDescription(description);
             article.setBody(body);
             article.setBlog(blog);
+            article.setCategory(Category.valueOf(category));
             article.setUpdatedAt(now);
             articleService.updateArticle(article);
             return ResponseEntity.status(HttpStatus.CREATED).body(article);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println();
+            System.out.println();
+            System.out.println(e);
+            System.out.println();
+            System.out.println();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -212,7 +226,7 @@ public class ArticleController {
             @PathVariable String username) {
         try {
             Zenyte zenyte = zenyteService.findZenyteByUsername(username);
-            List<Article> articlesSaved = articleSavedService.findSavedArticlesByAuthorOrderByCreatedAtAsc(zenyte);
+            List<Article> articlesSaved = articleSavedService.findSavedArticlesByAuthorOrderByCreatedAtDesc(zenyte);
             return ResponseEntity.ok(articlesSaved);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

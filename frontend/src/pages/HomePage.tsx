@@ -18,6 +18,16 @@ const HomePage = () => {
     const article = useSelector((state: RootState) => state.article);
     const [isTrendArticles, setIsTrendArticles] = useState(true);
     const [articles, setArticles] = useState<Article[]>([]);
+    const categories = useSelector((state: RootState) => state.category.categories);
+
+    const filterArticles = () => {
+        if (categories) {
+            if (categories.length > 0) {
+                return articles.filter((article) => categories.includes(article.category));
+            }
+        }
+        return articles;
+    };
 
     useEffect(() => {
         const loadData = async () => {
@@ -35,11 +45,7 @@ const HomePage = () => {
     }, [isTrendArticles]);
 
     useEffect(() => {
-        const loadData = async () => {
-            await dispatch(readTrendArticles(session.accessToken));
-            setArticles(article.trendArticles);
-        }
-        loadData();
+        setArticles(article.trendArticles)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -74,7 +80,7 @@ const HomePage = () => {
                                 article.error ? (
                                     <p>{article.error}</p>
                                 ) : (
-                                    <Feed articles={articles} />
+                                    <Feed articles={filterArticles()} />
                                 )
                             )}
                         </Col>

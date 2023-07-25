@@ -66,8 +66,8 @@ public class ArticleSavedService {
         articleSavedRepository.deleteByArticleAndAuthor(article, author);
     }
 
-    public List<Article> findSavedArticlesByAuthorOrderByCreatedAtAsc(Zenyte author) {
-        return articleSavedRepository.findSavedArticlesByAuthorOrderByCreatedAtAsc(author);
+    public List<Article> findSavedArticlesByAuthorOrderByCreatedAtDesc(Zenyte author) {
+        return articleSavedRepository.findSavedArticlesByAuthorOrderByCreatedAtDesc(author);
     }
 
     public void deleteByArticleId(Long articleId) {
