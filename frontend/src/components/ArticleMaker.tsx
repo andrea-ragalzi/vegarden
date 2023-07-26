@@ -37,8 +37,6 @@ const ArticleMaker = () => {
 
     const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCategory(e.target.value as Category);
-        console.log(e.target.value);
-        console.log(category);
     };
 
     useEffect(() => {

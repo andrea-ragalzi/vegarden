@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ArticleDetail from "./ArticleDetail";
 import { updateArticle } from "../actions/articleAction";
 import { readZBlog } from "../actions/zenHubAction";
+import { Category } from "../types/categoryType";
 
 const EditArticle = () => {
     const navigate = useNavigate();
@@ -15,11 +16,17 @@ const EditArticle = () => {
     const { selectedArticle } = useSelector((state: RootState) => state.article);
     const [article, setArticle] = useState(null || selectedArticle);
     const { session } = useSelector((state: RootState) => state.login);
+    const [category, setCategory] = useState(selectedArticle?.category);
+
+    const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setCategory(e.target.value as Category);
+    };
 
     useEffect(() => {
         formData.append("title", article?.title || "");
         formData.append("description", article?.description || "");
         formData.append("body", article?.body || "");
+        formData.append("category", article?.category || "");
         if (article?.coverImage) {
             formData.append("coverImage", article?.coverImage);
         }
@@ -98,6 +105,53 @@ const EditArticle = () => {
                                 { ...article!, body: e.target.value })}
                             className="my-input"
                         />
+                    </Form.Group>
+
+                    <Form.Group controlId="formCategory" className="mb-2">
+                        <Form.Label>Category</Form.Label>
+                        <div className="d-flex justify-content-evenly align-items-center">
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryScience"
+                                name="category"
+                                value={Category.ENVIRONMENT}
+                                checked={category === Category.ENVIRONMENT}
+                                onChange={handleCategoryChange}
+                                label="Environment"
+                            />
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryEthics"
+                                name="category"
+                                value={Category.ETHICS}
+                                checked={category === Category.ETHICS}
+                                onChange={handleCategoryChange}
+                                label="Ethics"
+                            />
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryHealthWellness"
+                                name="category"
+                                value={Category.HEALTH_WELLNESS}
+                                checked={category === Category.HEALTH_WELLNESS}
+                                onChange={handleCategoryChange}
+                                label="Health & Wellness"
+                            />
+
+                            <Form.Check
+                                type="radio"
+                                id="categoryOther"
+                                name="category"
+                                value={Category.OTHER}
+                                checked={category === Category.OTHER}
+                                onChange={handleCategoryChange}
+                                label="Other"
+                            />
+
+                        </div>
                     </Form.Group>
 
                     <Button variant="secondary" size="lg" type="submit" className="w-100">
