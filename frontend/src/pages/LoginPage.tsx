@@ -15,8 +15,8 @@ const LoginPage = () => {
     const dispatch = store.dispatch;
     const navigate = useNavigate();
     const login = useSelector((state: RootState) => state.login);
-    const zenyte = useSelector((state: RootState) => state.zenyte);
     const formRef = useRef<HTMLFormElement>(null);
+    const { trendArticles } = useSelector((state: RootState) => state.article);
     const [formValues, setFormValues] = useState({
         username: '',
         password: ''
@@ -50,10 +50,16 @@ const LoginPage = () => {
         if (login.loggedIn) {
             loadZenyte();
             loadZenHub();
-            navigate('/home')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [login]);
+
+    useEffect(() => {
+        if(login.loggedIn) {
+            navigate('/home')
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [trendArticles]);
 
     useEffect(() => {
         dispatch(resetStoreAction);

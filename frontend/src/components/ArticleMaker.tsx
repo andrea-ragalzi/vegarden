@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { createArticle } from "../actions/articleAction";
+import { createArticle, readTrendArticles } from "../actions/articleAction";
 import { RootState, store } from "../store/store";
 import { Article } from "../types/articleType";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +37,8 @@ const ArticleMaker = () => {
 
     const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCategory(e.target.value as Category);
+        console.log(e.target.value);
+        console.log(category);
     };
 
     useEffect(() => {
@@ -47,7 +49,7 @@ const ArticleMaker = () => {
         if (coverImage) {
             formData.append("coverImage", coverImage);
         }
-    }, [title, body, description, coverImage]);
+    }, [title, body, category, description, coverImage]);
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -60,6 +62,7 @@ const ArticleMaker = () => {
         const loadData = async () => {
             if (title && description && body) {
                 await dispatch(createArticle(formData, session.accessToken));
+                await dispatch(readTrendArticles(session.accessToken));
                 navigate("/zenhub/me");
             }
         }
