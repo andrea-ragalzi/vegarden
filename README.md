@@ -74,6 +74,7 @@ This application, was developed as a capstone project for the Epicode bootcamp a
 You can reach me through the following channels:
 
 - Email: [andrea.ragalzi.code@gmail.com](mailto:andrea.ragalzi.code@gmail.com)
+- LinkedIn: [andrea-ragalzi](https://www.linkedin.com/in/andrea-ragalzi/)
 - Twitter: [@andrea_ragalzi](https://twitter.com/andrea_ragalzi)
 
 ### Contributions and Collaboration
