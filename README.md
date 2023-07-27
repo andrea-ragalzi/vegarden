@@ -33,7 +33,6 @@ This application, was developed as a capstone project for the Epicode bootcamp a
 - Email informations
 - Dedicated page for the blog
 - Collaborative article writing
-- Collaborative article writing
 - And other features typical of a social network 🙃
 
 ## Tech stack
