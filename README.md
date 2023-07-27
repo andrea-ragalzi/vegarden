@@ -24,9 +24,6 @@ git clone https://github.com/andrea-ragalzi/vegarden.git
 
 The application will be available at http://localhost:3000
 
-
-
-
 ## Features
 
 - Login, logout and registration
