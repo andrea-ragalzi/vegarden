@@ -10,6 +10,23 @@ vegan community through their personal blogs.
 
 This application, was developed as a capstone project for the Epicode bootcamp and has not been tested on a wide range of devices or environments. It has only been tested on my personal machine. Therefore, there may be some bugs or compatibility issues that may arise when the application is run on other devices or environments.
 
+## Getting Started
+
+git clone https://github.com/andrea-ragalzi/vegarden.git
+
+### Backend
+- Launch BackendApplication.java
+
+### Frontend
+- cd frontend
+- npm install
+- npm run dev
+
+The application will be available at http://localhost:3000
+
+
+
+
 ## Features
 
 - Login, logout and registration
@@ -74,7 +91,6 @@ This application, was developed as a capstone project for the Epicode bootcamp a
 You can reach me through the following channels:
 
 - Email: [andrea.ragalzi.code@gmail.com](mailto:andrea.ragalzi.code@gmail.com)
-- LinkedIn: [@andrea-ragalzi](https://www.linkedin.com/in/andrea-ragalzi/)
 - Twitter: [@andrea_ragalzi](https://twitter.com/andrea_ragalzi)
 
 ### Contributions and Collaboration
