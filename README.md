@@ -47,7 +47,6 @@ The application will be available at http://localhost:5173
 - Email informations
 - Dedicated page for the blog
 - Collaborative article writing
-- Collaborative article writing
 - And other features typical of a social network 🙃
 
 ## Tech stack
